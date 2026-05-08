@@ -3,9 +3,164 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PrimeDealZon</title>
+  <meta name="description" content="PrimeDealZon – Best Deals. Best Prices. Every Day. Shop top Amazon deals on Home & Kitchen, Coffee, Bedding, Cookware, Storage and Cleaning." />
+  <title>PrimeDealZon – Best Deals. Best Prices. Every Day.</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <h1>PrimeDealZon</h1>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">Prime<span class="logo-accent">Deal</span>Zon</span>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="index.html">Home</a>
+        <a href="#deals">Deals</a>
+        <a href="blog.html">Blog</a>
+        <a href="#categories">Categories</a>
+        <a href="#about">About</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-badge">🔥 Today's Top Deals</div>
+      <h1 class="hero-title">Best Deals.<br /><span class="accent">Best Prices.</span><br />Every Day.</h1>
+      <p class="hero-sub">Hand-picked Amazon deals on Home & Kitchen, Coffee, Bedding and more — updated daily with your affiliate savings.</p>
+      <a href="#deals" class="btn-primary">Shop Deals Now</a>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span>🔥 Up to 40% off Coffee Makers &nbsp;|&nbsp;</span>
+      <span>🏠 Best Kitchen Deals Today &nbsp;|&nbsp;</span>
+      <span>🛏️ Bedding Sale – Limited Time &nbsp;|&nbsp;</span>
+      <span>🍳 Top Cookware Picks &nbsp;|&nbsp;</span>
+      <span>📦 Storage & Organization Deals &nbsp;|&nbsp;</span>
+      <span>✨ Cleaning Essentials on Sale &nbsp;|&nbsp;</span>
+      <span>🔥 Up to 40% off Coffee Makers &nbsp;|&nbsp;</span>
+      <span>🏠 Best Kitchen Deals Today &nbsp;|&nbsp;</span>
+      <span>🛏️ Bedding Sale – Limited Time &nbsp;|&nbsp;</span>
+      <span>🍳 Top Cookware Picks &nbsp;|&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section class="section" id="categories">
+    <div class="container">
+      <h2 class="section-title">Shop by Category</h2>
+      <div class="categories-grid">
+        <a href="category.html?cat=home-kitchen" class="cat-card">🏠<span>Home & Kitchen</span></a>
+        <a href="category.html?cat=coffee" class="cat-card">☕<span>Coffee</span></a>
+        <a href="category.html?cat=bedding" class="cat-card">🛏️<span>Bedding</span></a>
+        <a href="category.html?cat=cookware" class="cat-card">🍳<span>Cookware</span></a>
+        <a href="category.html?cat=storage" class="cat-card">📦<span>Storage</span></a>
+        <a href="category.html?cat=cleaning" class="cat-card">🧹<span>Cleaning</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEALS GRID -->
+  <section class="section" id="deals">
+    <div class="container">
+      <h2 class="section-title">Today's Top Deals</h2>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="home-kitchen">Home & Kitchen</button>
+        <button class="filter-btn" data-filter="coffee">Coffee</button>
+        <button class="filter-btn" data-filter="bedding">Bedding</button>
+        <button class="filter-btn" data-filter="cookware">Cookware</button>
+        <button class="filter-btn" data-filter="storage">Storage</button>
+        <button class="filter-btn" data-filter="cleaning">Cleaning</button>
+      </div>
+      <div class="deals-grid" id="dealsGrid"></div>
+    </div>
+  </section>
+
+  <!-- DEAL OF THE DAY -->
+  <section class="section deal-of-day">
+    <div class="container dotd-inner">
+      <div class="dotd-text">
+        <div class="dotd-badge">⭐ Deal of the Day</div>
+        <h2>Keurig K-Classic Coffee Maker</h2>
+        <p>Brew any cup size in under a minute. Compatible with all K-Cup pods. Perfect for home or office.</p>
+        <div class="dotd-price"><span class="price-now">$79.99</span><span class="price-old">$119.99</span><span class="price-save">Save 33%</span></div>
+        <a href="https://www.amazon.com/dp/B018NOLO58?tag=primedealzo02-20" target="_blank" rel="nofollow" class="btn-primary">View on Amazon</a>
+      </div>
+      <div class="dotd-img">☕</div>
+    </div>
+  </section>
+
+  <!-- BLOG PREVIEW -->
+  <section class="section" id="blog">
+    <div class="container">
+      <h2 class="section-title">Latest from the Blog</h2>
+      <div class="blog-grid" id="blogGrid">
+        <article class="blog-card">
+          <div class="blog-cat">Coffee</div>
+          <h3><a href="blog-post.html?id=1">Best Coffee Makers Under $100 in 2026</a></h3>
+          <p>We tested the top 10 coffee makers under $100 to find the real winners for your morning routine.</p>
+          <a href="blog-post.html?id=1" class="read-more">Read More →</a>
+        </article>
+        <article class="blog-card">
+          <div class="blog-cat">Cookware</div>
+          <h3><a href="blog-post.html?id=2">Best Non-Stick Pans on Amazon 2026</a></h3>
+          <p>From budget picks to premium sets — here are the non-stick pans worth every penny this year.</p>
+          <a href="blog-post.html?id=2" class="read-more">Read More →</a>
+        </article>
+        <article class="blog-card">
+          <div class="blog-cat">Home & Kitchen</div>
+          <h3><a href="blog-post.html?id=3">Top 15 Kitchen Gadgets That Actually Work</a></h3>
+          <p>Skip the gimmicks — these are the kitchen gadgets that Amazon shoppers keep buying again and again.</p>
+          <a href="blog-post.html?id=3" class="read-more">Read More →</a>
+        </article>
+      </div>
+      <div style="text-align:center;margin-top:2rem;">
+        <a href="blog.html" class="btn-secondary">View All Posts</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about-section" id="about">
+    <div class="container about-inner">
+      <h2 class="section-title">Why PrimeDealZon?</h2>
+      <div class="about-grid">
+        <div class="about-card">🔍<h4>Hand-Picked</h4><p>Every deal is manually reviewed before it goes live.</p></div>
+        <div class="about-card">⚡<h4>Updated Daily</h4><p>Fresh deals every day so you never miss a sale.</p></div>
+        <div class="about-card">💰<h4>Best Prices</h4><p>We track prices 24/7 and only show real discounts.</p></div>
+        <div class="about-card">🛡️<h4>Trusted Links</h4><p>All links go directly to Amazon — safe and secure.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">⚡ Prime<span class="logo-accent">Deal</span>Zon</div>
+      <p class="footer-tagline">Best Deals. Best Prices. Every Day.</p>
+      <p class="footer-disclaimer">PrimeDealZon is a participant in the Amazon Services LLC Associates Program. As an Amazon Associate we earn from qualifying purchases.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
+      <p class="footer-copy">&copy; 2026 PrimeDealZon. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
