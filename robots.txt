@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arafattakey.github.io/primedealzon/sitemap.xml
