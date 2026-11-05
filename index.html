@@ -3,164 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="PrimeDealZon – Best Deals. Best Prices. Every Day. Shop top Amazon deals on Home & Kitchen, Coffee, Bedding, Cookware, Storage and Cleaning." />
-  <title>PrimeDealZon – Best Deals. Best Prices. Every Day.</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>PrimeDealZon – Hand-Picked Amazon Finds for Your Home</title>
+  <meta name="description" content="Hand-picked Amazon finds for Home & Kitchen, Coffee, Bedding, Cookware, Storage and Cleaning, plus honest buying guides. Check today's price on Amazon." />
+  <meta name="theme-color" content="#15161a" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="PrimeDealZon" />
+  <meta property="og:title" content="PrimeDealZon – Hand-Picked Amazon Finds for Your Home" />
+  <meta property="og:description" content="Hand-picked Amazon finds for Home & Kitchen, Coffee, Bedding, Cookware, Storage and Cleaning, plus honest buying guides. Check today's price on Amazon." />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body data-page="home">
+  <div class="disclosure-bar">We earn a commission from qualifying Amazon purchases made through our links, at no extra cost to you. <a href="disclaimer.html">Learn more</a></div>
+  <header class="site-header" id="site-header"></header>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="container header-inner">
-      <div class="logo">
-        <span class="logo-icon">⚡</span>
-        <span class="logo-text">Prime<span class="logo-accent">Deal</span>Zon</span>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Hand-picked Amazon finds</p>
+          <h1>Better stuff for your home, <em>without</em> the endless scrolling.</h1>
+          <p class="lede">We dig through Amazon's best sellers so you don't have to. Our picks cover the kitchen, coffee, bedding, cookware, storage and cleaning, and we tell you who each one is for.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#picks">See today's picks</a>
+            <a class="btn btn-ghost" href="blog.html">Read our guides</a>
+          </div>
+          <div class="hero-stats">
+            <div><strong id="statProducts">15</strong><span>Hand-picked products</span></div>
+            <div><strong>6</strong><span>Home categories</span></div>
+            <div><strong>$0</strong><span>Extra cost to you</span></div>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <a class="hero-tile art-coffee" href="category.html?cat=coffee" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8 3v3M12 3v3"/></svg><span>Coffee</span></a>
+          <a class="hero-tile art-cookware" href="category.html?cat=cookware" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="13" r="7"/><path d="M17 13h5"/><circle cx="10" cy="13" r="3.5" opacity=".5"/></svg><span>Cookware</span></a>
+          <a class="hero-tile art-home-kitchen" href="category.html?cat=home-kitchen" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-6Z"/><path d="M2 10h20M9 6V4M15 6V4M12 6V3"/></svg><span>Kitchen</span></a>
+          <a class="hero-tile art-bedding" href="category.html?cat=bedding" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18V7M3 13h18v5M21 18v-5a3 3 0 0 0-3-3h-7v3"/><circle cx="7" cy="10.5" r="1.8"/></svg><span>Bedding</span></a>
+        </div>
       </div>
-      <nav class="nav" id="nav">
-        <a href="index.html">Home</a>
-        <a href="#deals">Deals</a>
-        <a href="blog.html">Blog</a>
-        <a href="#categories">Categories</a>
-        <a href="#about">About</a>
-      </nav>
-      <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
-    </div>
-  </header>
+    </section>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-badge">🔥 Today's Top Deals</div>
-      <h1 class="hero-title">Best Deals.<br /><span class="accent">Best Prices.</span><br />Every Day.</h1>
-      <p class="hero-sub">Hand-picked Amazon deals on Home & Kitchen, Coffee, Bedding and more — updated daily with your affiliate savings.</p>
-      <a href="#deals" class="btn-primary">Shop Deals Now</a>
-    </div>
-  </section>
-
-  <!-- TICKER -->
-  <div class="ticker-wrap">
-    <div class="ticker">
-      <span>🔥 Up to 40% off Coffee Makers &nbsp;|&nbsp;</span>
-      <span>🏠 Best Kitchen Deals Today &nbsp;|&nbsp;</span>
-      <span>🛏️ Bedding Sale – Limited Time &nbsp;|&nbsp;</span>
-      <span>🍳 Top Cookware Picks &nbsp;|&nbsp;</span>
-      <span>📦 Storage & Organization Deals &nbsp;|&nbsp;</span>
-      <span>✨ Cleaning Essentials on Sale &nbsp;|&nbsp;</span>
-      <span>🔥 Up to 40% off Coffee Makers &nbsp;|&nbsp;</span>
-      <span>🏠 Best Kitchen Deals Today &nbsp;|&nbsp;</span>
-      <span>🛏️ Bedding Sale – Limited Time &nbsp;|&nbsp;</span>
-      <span>🍳 Top Cookware Picks &nbsp;|&nbsp;</span>
-    </div>
-  </div>
-
-  <!-- CATEGORIES -->
-  <section class="section" id="categories">
-    <div class="container">
-      <h2 class="section-title">Shop by Category</h2>
-      <div class="categories-grid">
-        <a href="category.html?cat=home-kitchen" class="cat-card">🏠<span>Home & Kitchen</span></a>
-        <a href="category.html?cat=coffee" class="cat-card">☕<span>Coffee</span></a>
-        <a href="category.html?cat=bedding" class="cat-card">🛏️<span>Bedding</span></a>
-        <a href="category.html?cat=cookware" class="cat-card">🍳<span>Cookware</span></a>
-        <a href="category.html?cat=storage" class="cat-card">📦<span>Storage</span></a>
-        <a href="category.html?cat=cleaning" class="cat-card">🧹<span>Cleaning</span></a>
+    <section class="trust" aria-label="Why shop with us">
+      <div class="container trust-inner">
+        <div class="trust-item"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8.5 7 10 4-1.5 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg><div><strong>Verified listings</strong><span>Every link goes to a real, in-stock Amazon product.</span></div></div>
+        <div class="trust-item"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8L3 12Z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg><div><strong>Live prices on Amazon</strong><span>You always see today's price, never an outdated one.</span></div></div>
+        <div class="trust-item"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><div><strong>Honest picks</strong><span>We tell you who each product is best for.</span></div></div>
+        <div class="trust-item"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6.5-8 11-8 11Z"/></svg><div><strong>Free to use</strong><span>Amazon pays us a small fee. You pay nothing extra.</span></div></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- DEALS GRID -->
-  <section class="section" id="deals">
-    <div class="container">
-      <h2 class="section-title">Today's Top Deals</h2>
-      <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="home-kitchen">Home & Kitchen</button>
-        <button class="filter-btn" data-filter="coffee">Coffee</button>
-        <button class="filter-btn" data-filter="bedding">Bedding</button>
-        <button class="filter-btn" data-filter="cookware">Cookware</button>
-        <button class="filter-btn" data-filter="storage">Storage</button>
-        <button class="filter-btn" data-filter="cleaning">Cleaning</button>
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Shop by room &amp; routine</h2><p>Six categories, each with a short list of products worth buying.</p></div>
+          <a class="link-arrow" href="category.html">All categories <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="grid grid-cats" id="catGrid"></div>
       </div>
-      <div class="deals-grid" id="dealsGrid"></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- DEAL OF THE DAY -->
-  <section class="section deal-of-day">
-    <div class="container dotd-inner">
-      <div class="dotd-text">
-        <div class="dotd-badge">⭐ Deal of the Day</div>
-        <h2>Keurig K-Classic Coffee Maker</h2>
-        <p>Brew any cup size in under a minute. Compatible with all K-Cup pods. Perfect for home or office.</p>
-        <div class="dotd-price"><span class="price-now">$79.99</span><span class="price-old">$119.99</span><span class="price-save">Save 33%</span></div>
-        <a href="https://www.amazon.com/dp/B018NOLO58?tag=primedealzo02-20" target="_blank" rel="nofollow" class="btn-primary">View on Amazon</a>
+    <section class="section" id="picks" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Today's top picks</h2><p>Click any product to see its current price and reviews on Amazon.</p></div>
+        </div>
+        <div class="chips" id="filterBar" role="group" aria-label="Filter by category"></div>
+        <div class="grid grid-products" id="picksGrid" aria-live="polite"></div>
       </div>
-      <div class="dotd-img">☕</div>
-    </div>
-  </section>
+    </section>
 
-  <!-- BLOG PREVIEW -->
-  <section class="section" id="blog">
-    <div class="container">
-      <h2 class="section-title">Latest from the Blog</h2>
-      <div class="blog-grid" id="blogGrid">
-        <article class="blog-card">
-          <div class="blog-cat">Coffee</div>
-          <h3><a href="blog-post.html?id=1">Best Coffee Makers Under $100 in 2026</a></h3>
-          <p>We tested the top 10 coffee makers under $100 to find the real winners for your morning routine.</p>
-          <a href="blog-post.html?id=1" class="read-more">Read More →</a>
-        </article>
-        <article class="blog-card">
-          <div class="blog-cat">Cookware</div>
-          <h3><a href="blog-post.html?id=2">Best Non-Stick Pans on Amazon 2026</a></h3>
-          <p>From budget picks to premium sets — here are the non-stick pans worth every penny this year.</p>
-          <a href="blog-post.html?id=2" class="read-more">Read More →</a>
-        </article>
-        <article class="blog-card">
-          <div class="blog-cat">Home & Kitchen</div>
-          <h3><a href="blog-post.html?id=3">Top 15 Kitchen Gadgets That Actually Work</a></h3>
-          <p>Skip the gimmicks — these are the kitchen gadgets that Amazon shoppers keep buying again and again.</p>
-          <a href="blog-post.html?id=3" class="read-more">Read More →</a>
-        </article>
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="spotlight">
+          <div style="position:relative;z-index:1">
+            <p class="eyebrow">Spotlight</p>
+            <h2>Instant Pot Duo 7-in-1, 6 Quart</h2>
+            <p>If you buy one kitchen appliance this year, make it this one. It cooks beans from dry, makes rice without a separate cooker, slow-cooks chili and even makes yogurt, all in one pot.</p>
+            <ul>
+              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>7 appliances in one: pressure, slow, rice, steam, sauté, yogurt, warm</li>
+              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>6-quart size serves up to 6 people</li>
+              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>Stainless steel inner pot is dishwasher safe</li>
+            </ul>
+            <a class="btn btn-amazon" id="spotlightCta" href="https://www.amazon.com/dp/B00FLYWNYQ?tag=primedealzo02-20" target="_blank" rel="nofollow sponsored noopener">Check price on Amazon</a>
+          </div>
+          <div class="spotlight-art art-home-kitchen" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-6Z"/><path d="M2 10h20M9 6V4M15 6V4M12 6V3"/></svg></div>
+        </div>
       </div>
-      <div style="text-align:center;margin-top:2rem;">
-        <a href="blog.html" class="btn-secondary">View All Posts</a>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ABOUT -->
-  <section class="section about-section" id="about">
-    <div class="container about-inner">
-      <h2 class="section-title">Why PrimeDealZon?</h2>
-      <div class="about-grid">
-        <div class="about-card">🔍<h4>Hand-Picked</h4><p>Every deal is manually reviewed before it goes live.</p></div>
-        <div class="about-card">⚡<h4>Updated Daily</h4><p>Fresh deals every day so you never miss a sale.</p></div>
-        <div class="about-card">💰<h4>Best Prices</h4><p>We track prices 24/7 and only show real discounts.</p></div>
-        <div class="about-card">🛡️<h4>Trusted Links</h4><p>All links go directly to Amazon — safe and secure.</p></div>
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Buying guides</h2><p>Short, practical guides to help you choose.</p></div>
+          <a class="link-arrow" href="blog.html">All guides <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="grid grid-posts" id="guideGrid"></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-logo">⚡ Prime<span class="logo-accent">Deal</span>Zon</div>
-      <p class="footer-tagline">Best Deals. Best Prices. Every Day.</p>
-      <p class="footer-disclaimer">PrimeDealZon is a participant in the Amazon Services LLC Associates Program. As an Amazon Associate we earn from qualifying purchases.</p>
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="blog.html">Blog</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="disclaimer.html">Disclaimer</a>
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band">
+          <div><h2>New to PrimeDealZon?</h2><p>Find out how we choose products and how the site makes money.</p></div>
+          <a class="btn btn-primary" href="about.html">How we pick</a>
+        </div>
       </div>
-      <p class="footer-copy">&copy; 2026 PrimeDealZon. All rights reserved.</p>
-    </div>
-  </footer>
+    </section>
+  </main>
 
-  <script src="js/products.js"></script>
-  <script src="js/main.js"></script>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="js/data.js"></script>
+  <script src="js/site.js"></script>
 </body>
 </html>

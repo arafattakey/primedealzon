@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 – PrimeDealZon</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found – PrimeDealZon</title>
+  <meta name="description" content="The page you were looking for could not be found." />
+  <meta name="theme-color" content="#15161a" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="PrimeDealZon" />
+  <meta property="og:title" content="Page Not Found – PrimeDealZon" />
+  <meta property="og:description" content="The page you were looking for could not be found." />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" />
   <link rel="stylesheet" href="css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
-<body>
-  <header class="header"><div class="container header-inner">
-    <div class="logo"><span class="logo-icon">⚡</span><span class="logo-text">Prime<span class="logo-accent">Deal</span>Zon</span></div>
-    <nav class="nav" id="nav"><a href="index.html">Home</a><a href="blog.html">Blog</a></nav>
-    <button class="hamburger" id="hamburger">&#9776;</button>
-  </div></header>
-  <section class="section" style="text-align:center;padding:8rem 0;">
-    <div class="container">
-      <div style="font-size:5rem;margin-bottom:1rem;">😕</div>
-      <h1 style="font-size:3rem;font-weight:800;margin-bottom:1rem;">404</h1>
-      <p style="color:var(--text-muted);margin-bottom:2rem;">Oops! That page doesn't exist.</p>
-      <a href="index.html" class="btn-primary">Back to Deals</a>
-    </div>
-  </section>
-  <script src="js/main.js"></script>
-</body></html>
+<body data-page="404">
+  <div class="disclosure-bar">We earn a commission from qualifying Amazon purchases made through our links, at no extra cost to you. <a href="disclaimer.html">Learn more</a></div>
+  <header class="site-header" id="site-header"></header>
+
+  <main class="container empty">
+    <p class="eyebrow">Error 404</p>
+    <h1>This deal has expired.</h1>
+    <p>The page you're looking for doesn't exist or has moved.</p>
+    <a class="btn btn-primary" href="index.html">Back to home</a>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="js/data.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>
