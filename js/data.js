@@ -52,6 +52,14 @@ const PRODUCTS = [
   { asin: "B07T1CH2HH", cat: "coffee", brand: "Cosori", title: "Cosori Gooseneck Electric Kettle with Temperature Control", blurb: "Five temperature presets, a 60-minute keep-warm and a slow, steady gooseneck pour.", badge: "Best kettle" },
   { asin: "B0D4617CLP", cat: "coffee", brand: "Chefman", title: "Chefman Gooseneck Electric Kettle, 0.8 L", blurb: "A no-frills gooseneck: one switch, fast boil and boil-dry protection.", badge: "Budget kettle" },
 
+  // Coffee: gifts and accessories
+  { asin: "B0047BIWSK", cat: "coffee", brand: "AeroPress", title: "AeroPress Original Coffee Press", blurb: "A cult-favorite single-cup brewer: about 2 minutes to brew and clean, and tough enough to travel.", badge: "Top gift" },
+  { asin: "B0000AN3QI", cat: "coffee", brand: "Bialetti", title: "Bialetti Moka Express Stovetop Espresso Maker, 3 Cup", blurb: "The original Italian moka pot, still made in Italy. Strong, espresso-style coffee on any stovetop.", badge: "Classic" },
+  { asin: "B07C36HVWK", cat: "coffee", brand: "Takeya", title: "Takeya Cold Brew Coffee Maker, 2 Quart", blurb: "Airtight Tritan pitcher with a fine-mesh filter that fits in most fridge doors.", badge: "Iced coffee pick" },
+  { asin: "B09B4CB7C1", cat: "coffee", brand: "Greater Goods", title: "Greater Goods Coffee Scale with Timer", blurb: "0.1 g precision, a built-in brew timer and a removable silicone cover.", badge: "Upgrade pick" },
+  { asin: "B0CYRDDQX7", cat: "coffee", brand: "Contigo", title: "Contigo West Loop 3.0 Insulated Travel Mug, 16 oz", blurb: "Autoseal lid that locks between sips. Keeps coffee hot for hours and fits most cupholders.", badge: "Commuter pick" },
+  { asin: "B0CLYV3B94", cat: "coffee", brand: "Zulay Kitchen", title: "Zulay Kitchen Handheld Milk Frother", blurb: "Battery-powered wand for foamy lattes, matcha and hot chocolate in seconds.", badge: "Stocking stuffer" },
+
   // Home & Kitchen
   { asin: "B00FLYWNYQ", cat: "home-kitchen", brand: "Instant Pot", title: "Instant Pot Duo 7-in-1 Electric Pressure Cooker, 6 Qt", blurb: "Pressure cooker, slow cooker, rice cooker, steamer, sauté pan, yogurt maker and warmer in one. The 6-quart size feeds up to six.", badge: "Editor's pick", featured: true },
   { asin: "B00004OCKR", cat: "home-kitchen", brand: "OXO", title: "OXO Good Grips Salad Spinner, 6.22 Qt", blurb: "One-handed pump, built-in brake and a bowl that doubles for serving. Dries greens and herbs in seconds.", badge: "Cult favorite" },
@@ -75,6 +83,48 @@ const PRODUCTS = [
 ];
 
 const POSTS = [
+  {
+    slug: "coffee-gifts-under-50",
+    cat: "coffee",
+    title: "The Best Coffee Gifts Under $50 (2026 Gift Guide)",
+    excerpt: "Nine gifts for coffee lovers that feel generous without the big price tag, from a cult-favorite brewer to the perfect stocking stuffer.",
+    date: "November 5, 2026",
+    read: "7 min read",
+    body: [
+      { p: "Coffee people are easy to shop for once you know what makes their morning better. The best gifts are things they'll use every day but probably wouldn't buy for themselves. Every pick below was under $50 on Amazon when we wrote this guide. Prices move a lot around Black Friday and the holidays, so check the current price before you order." },
+      { h: "For the coffee lover who has everything: AeroPress Original" },
+      { p: "The AeroPress is the gift coffee enthusiasts recommend to each other. It combines French press, pour-over and espresso-style brewing in one small plastic press. You add coffee and water, wait about 30 seconds and press. Brewing and cleanup take about two minutes, and it's tough enough to throw in a bag for travel or camping. Even people who own fancy machines tend to keep one." },
+      { product: "B0047BIWSK" },
+      { h: "For the espresso fan: Bialetti Moka Express" },
+      { p: "Bialetti invented the stovetop moka pot, and the Moka Express is still made in Italy. It makes strong, espresso-style coffee on the stove with no electricity and no pods. The 3-cup size makes about one mug's worth, which is perfect for one person. It's also a good-looking object on a stovetop, which helps for a gift." },
+      { product: "B0000AN3QI" },
+      { h: "For the iced coffee drinker: Takeya Cold Brew Maker" },
+      { p: "If someone you know buys iced coffee every day, this pays for itself quickly. Add coarse grounds and cold water, leave it in the fridge for 24 hours, and you have smooth, low-acid cold brew for the week. The pitcher is shatter-proof Tritan with an airtight lid, and it fits in most fridge doors." },
+      { product: "B07C36HVWK" },
+      { h: "For the budding home barista: Greater Goods Coffee Scale" },
+      { p: "A scale is the upgrade most home brewers don't know they need. Weighing coffee and water makes every cup repeatable. This one reads to 0.1 g, has a built-in brew timer for pour-over and espresso, and comes with a heat-resistant silicone cover that comes off for washing." },
+      { product: "B09B4CB7C1" },
+      { h: "For the commuter: Contigo West Loop Travel Mug" },
+      { p: "A good travel mug matters more than people think. The West Loop's Autoseal lid locks between sips, so it won't spill in a bag. Contigo says it keeps drinks hot for up to 11 hours. It fits most car cupholders and slides under most single-serve brewers." },
+      { product: "B0CYRDDQX7" },
+      { h: "For the pour-over curious: Hario V60" },
+      { p: "The V60 is how many coffee lovers discover how good black coffee can taste. The ceramic version is made in Japan and looks lovely on a counter. Pair it with a pack of V60 filters so it's ready to use out of the box." },
+      { product: "B000P4D5HG" },
+      { product: "B073S4XTKJ" },
+      { h: "For the French press loyalist: Veken French Press" },
+      { p: "A French press is a classic gift, and the Veken is one of the best-made ones at this price. It has a thick borosilicate glass carafe and a four-layer stainless steel filter, and no plastic touches the coffee." },
+      { product: "B0FDQJFRYS" },
+      { h: "For the pour-over hobbyist: Chefman Gooseneck Kettle" },
+      { p: "If they already brew pour-over with a regular kettle, a gooseneck is a real upgrade. The thin spout gives them control over every pour. The Chefman keeps things simple: one switch, fast boiling and boil-dry protection." },
+      { product: "B0D4617CLP" },
+      { h: "Stocking stuffer: Zulay Milk Frother" },
+      { p: "Small, cheap and genuinely useful. This battery-powered wand turns warm milk into latte foam in seconds and works for matcha and hot chocolate too. It's an easy add-on for any coffee drinker on your list." },
+      { product: "B0CLYV3B94" },
+      { h: "Quick gift-buying tips" },
+      { ul: ["Match the gift to how they already brew. A drip-machine person may not want a manual brewer.", "Add a bag of beans from a local roaster to make any of these feel more personal.", "Order early. Popular coffee gear sells out in December, and shipping slows down.", "Check that the item ships from Amazon or has free returns if you're not sure it's right."] },
+      { related: ["best-burr-coffee-grinders", "best-french-press", "pour-over-coffee-starter-kit"] },
+    ],
+  },
   {
     slug: "best-drip-coffee-makers",
     cat: "coffee",
