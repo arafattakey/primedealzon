@@ -44,6 +44,7 @@ function renderHeader() {
       </button>
       <nav class="nav" id="siteNav" aria-label="Main">
         ${link(`${ROOT}index.html`, "Home", "home")}
+        ${link(`${ROOT}category.html?cat=coffee`, "Coffee", "")}
         ${link(`${ROOT}index.html#picks`, "Top Picks", "")}
         ${link(`${ROOT}category.html`, "Categories", "category")}
         ${link(`${ROOT}blog.html`, "Guides", "blog")}
@@ -66,7 +67,7 @@ function renderFooter() {
     <div class="container footer-grid">
       <div class="footer-brand">
         <a class="logo" href="${ROOT}index.html"><span class="logo-mark">${icon("bolt")}</span><span>Prime<b>Deal</b>Zon</span></a>
-        <p>${SITE.tagline} Hand-picked Amazon finds for the home, explained in plain English.</p>
+        <p>${SITE.tagline} Hand-picked coffee gear and home essentials from Amazon, explained in plain English.</p>
       </div>
       <div>
         <h4>Shop</h4>
@@ -150,7 +151,7 @@ function postCard(post) {
 const pages = {
   home() {
     document.getElementById("catGrid").innerHTML = CATEGORIES.map(categoryCard).join("");
-    document.getElementById("guideGrid").innerHTML = POSTS.slice(0, 3).map(postCard).join("");
+    document.getElementById("guideGrid").innerHTML = POSTS.filter(p => p.cat === "coffee").slice(0, 3).map(postCard).join("");
 
     const grid = document.getElementById("picksGrid");
     const bar = document.getElementById("filterBar");
@@ -169,9 +170,10 @@ const pages = {
     });
     draw("all");
 
-    const star = productByAsin("B00FLYWNYQ");
-    document.getElementById("spotlightCta").href = amazonUrl(star.asin);
+    const star = productByAsin("B07CSKGLMM");
+    if (star) document.getElementById("spotlightCta").href = amazonUrl(star.asin);
     document.getElementById("statProducts").textContent = PRODUCTS.length;
+    document.getElementById("statGuides").textContent = POSTS.length;
   },
 
   category() {
@@ -226,6 +228,11 @@ function guideHtml(post) {
       if (b.p) return `<p>${esc(b.p)}</p>`;
       if (b.ul) return `<ul class="ticks">${b.ul.map(li => `<li>${icon("check")}<span>${esc(li)}</span></li>`).join("")}</ul>`;
       if (b.product) { const p = productByAsin(b.product); return p ? productInline(p) : ""; }
+      if (b.related) {
+        const links = b.related.map(s => POSTS.find(p => p.slug === s)).filter(Boolean)
+          .map(p => `<a href="${guideUrl(p.slug)}">${esc(p.title)}</a>`);
+        return links.length ? `<p class="read-next"><strong>Read next:</strong> ${links.join(" · ")}</p>` : "";
+      }
       return "";
     }).join("");
     // Same-niche guides first, then the rest.

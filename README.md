@@ -2,7 +2,7 @@
 
 > Best Deals. Best Prices. Every Day.
 
-Amazon affiliate site with hand-picked products and buying guides for Home & Kitchen, Coffee, Bedding, Cookware, Storage and Cleaning. Static HTML/CSS/JS, so it needs no build step.
+Amazon affiliate site focused on coffee gear (grinders, brewers, French presses, pour-over), with hand-picked products and buying guides. Home & Kitchen, Bedding, Cookware, Storage and Cleaning remain as secondary categories. Static HTML/CSS/JS, so it needs no build step.
 
 ## Live site
 https://arafattakey.github.io/primedealzon/
@@ -36,7 +36,7 @@ https://arafattakey.github.io/primedealzon/
 **Don't add prices or star ratings by hand.** The Amazon Associates Operating Agreement only allows showing prices and reviews pulled from the Product Advertising API and kept up to date. Cards link to Amazon with a "Check price on Amazon" button instead.
 
 ## Adding a guide
-1. Add an object to `POSTS` in `js/data.js`. A body is a list of blocks: `{ h }` heading, `{ p }` paragraph, `{ ul: [...] }` checklist, `{ product: "ASIN" }` inline product card. Optional `updated: "Month D, YYYY"` sets the modified date.
+1. Add an object to `POSTS` in `js/data.js`. A body is a list of blocks: `{ h }` heading, `{ p }` paragraph, `{ ul: [...] }` checklist, `{ product: "ASIN" }` inline product card, `{ related: ["slug", ...] }` "Read next" links to other guides. Optional `updated: "Month D, YYYY"` sets the modified date.
 2. Run `node tools/build.mjs`. It writes `guides/<slug>/index.html` and regenerates `sitemap.xml` and `robots.txt`.
 3. Commit the data change and the generated files together.
 
