@@ -13,7 +13,9 @@ https://arafattakey.github.io/primedealzon/
 | `index.html` | Homepage: hero, categories, filterable top picks, spotlight, guides |
 | `category.html` | All categories, or one category via `?cat=coffee` |
 | `blog.html` | Buying guide index |
-| `blog-post.html` | A single guide via `?slug=...` |
+| `guides/<slug>/index.html` | One static page per guide, **generated** by `tools/build.mjs` (don't edit by hand) |
+| `blog-post.html` | Old guide URL (`?slug=...`); redirects to `guides/<slug>/` |
+| `tools/build.mjs` | Builds guide pages, `sitemap.xml` and `robots.txt` from `js/data.js` |
 | `about.html` | How products are picked and how the site is funded |
 | `disclaimer.html` / `privacy.html` | Affiliate disclosure and privacy policy |
 | `404.html` | Not-found page |
@@ -34,9 +36,11 @@ https://arafattakey.github.io/primedealzon/
 **Don't add prices or star ratings by hand.** The Amazon Associates Operating Agreement only allows showing prices and reviews pulled from the Product Advertising API and kept up to date. Cards link to Amazon with a "Check price on Amazon" button instead.
 
 ## Adding a guide
-Add an object to `POSTS` in `js/data.js`. A body is a list of blocks: `{ h }` heading, `{ p }` paragraph, `{ ul: [...] }` checklist, `{ product: "ASIN" }` inline product card. Add the new URL to `sitemap.xml`.
+1. Add an object to `POSTS` in `js/data.js`. A body is a list of blocks: `{ h }` heading, `{ p }` paragraph, `{ ul: [...] }` checklist, `{ product: "ASIN" }` inline product card. Optional `updated: "Month D, YYYY"` sets the modified date.
+2. Run `node tools/build.mjs`. It writes `guides/<slug>/index.html` and regenerates `sitemap.xml` and `robots.txt`.
+3. Commit the data change and the generated files together.
 
 ## Custom domain (primedealzon.com)
 1. In the repo, go to Settings → Pages → Custom domain, enter `primedealzon.com`. This adds a `CNAME` file.
 2. At your DNS provider, add `A` records for `@` pointing to `185.199.108.153`, `185.199.109.153`, `185.199.110.153` and `185.199.111.153`, plus a `CNAME` record for `www` pointing to `arafattakey.github.io`.
-3. Enable "Enforce HTTPS", then update the URLs in `robots.txt` and `sitemap.xml`.
+3. Enable "Enforce HTTPS", then set `SITE.url` in `js/data.js` to `https://primedealzon.com/` and run `node tools/build.mjs`.
