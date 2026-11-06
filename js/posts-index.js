@@ -22,6 +22,22 @@ const POSTS = [
   ]
  },
  {
+  "slug": "how-to-make-french-press-coffee",
+  "type": "howto",
+  "cat": "coffee",
+  "title": "How to Make French Press Coffee: Ratio, Grind and Timing",
+  "excerpt": "How to make French press coffee step by step: a gram chart for 1 to 4 cups, the right grind and timing, and quick fixes for bitter or muddy coffee.",
+  "date": "2026-11-06",
+  "read": "7 min read",
+  "products": [
+   "B0FDQJFRYS",
+   "B00005LM0R",
+   "B07CSKGLMM",
+   "B09B4CB7C1",
+   "B01G2CCWGY"
+  ]
+ },
+ {
   "slug": "pour-over-coffee-starter-kit",
   "type": "guide",
   "cat": "coffee",
