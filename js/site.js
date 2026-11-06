@@ -47,7 +47,7 @@ function renderHeader() {
         ${link(`${ROOT}category.html?cat=coffee`, "Coffee", "")}
         ${link(`${ROOT}index.html#picks`, "Top Picks", "")}
         ${link(`${ROOT}category.html`, "Categories", "category")}
-        ${link(`${ROOT}blog.html`, "Guides", "blog")}
+        ${link(`${ROOT}blog.html`, "Blog", "blog")}
         <a class="nav-cta" href="${ROOT}index.html#picks">Shop deals</a>
       </nav>
     </div>`;
@@ -75,7 +75,7 @@ function renderFooter() {
       </div>
       <div>
         <h4>Site</h4>
-        <a href="${ROOT}blog.html">Buying guides</a>
+        <a href="${ROOT}blog.html">Blog</a>
         <a href="${ROOT}about.html">About us</a>
         <a href="${ROOT}disclaimer.html">Affiliate disclosure</a>
         <a href="${ROOT}privacy.html">Privacy policy</a>
@@ -132,16 +132,26 @@ function categoryCard(c) {
     </a>`;
 }
 
+const POST_TYPES = [
+  { id: "guide", label: "Buying guides", one: "Buying guide", cta: "Read the guide" },
+  { id: "review", label: "Reviews", one: "Review", cta: "Read the review" },
+  { id: "compare", label: "Comparisons", one: "Comparison", cta: "See the comparison" },
+  { id: "howto", label: "How-to", one: "How-to", cta: "Read the how-to" },
+];
+const postType = post => POST_TYPES.find(t => t.id === post.type) || POST_TYPES[0];
+const fmtDate = iso => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+
 function postCard(post) {
   const c = catById(post.cat);
+  const t = postType(post);
   return `
     <article class="card post-card">
       <a class="post-art art-${post.cat}" href="${guideUrl(post.slug)}" tabindex="-1" aria-hidden="true">${icon(c.icon, "art-ico")}</a>
       <div class="post-body">
-        <div class="post-meta">${c.name} · ${post.read}</div>
+        <div class="post-meta">${t.one} · ${c.name} · ${post.read}</div>
         <h3><a href="${guideUrl(post.slug)}">${esc(post.title)}</a></h3>
         <p>${esc(post.excerpt)}</p>
-        <a class="link-arrow" href="${guideUrl(post.slug)}">Read the guide ${icon("arrow")}</a>
+        <a class="link-arrow" href="${guideUrl(post.slug)}">${t.cta} ${icon("arrow")}</a>
       </div>
     </article>`;
 }
@@ -202,14 +212,31 @@ const pages = {
       <h1>The best ${c.name.toLowerCase()} on Amazon</h1>
       <p class="lede">${c.blurb}</p>`;
     grid.innerHTML = `<div class="grid grid-products">${PRODUCTS.filter(p => p.cat === c.id).map(productCard).join("")}</div>`;
-    const related = POSTS.filter(p => p.cat === c.id || p.body.some(b => b.product && productByAsin(b.product)?.cat === c.id));
+    const related = POSTS.filter(p => p.cat === c.id || (p.products || []).some(a => productByAsin(a)?.cat === c.id)).slice(0, 9);
     if (related.length) {
-      grid.innerHTML += `<section class="cat-section"><div class="section-head"><h2>Related guides</h2></div><div class="grid grid-posts">${related.map(postCard).join("")}</div></section>`;
+      grid.innerHTML += `<section class="cat-section"><div class="section-head"><h2>From the blog</h2><a class="link-arrow" href="${ROOT}blog.html">All posts ${icon("arrow")}</a></div><div class="grid grid-posts">${related.map(postCard).join("")}</div></section>`;
     }
   },
 
+  // Blog index: newest first (POSTS is already sorted by the build), filterable by post type.
   blog() {
-    document.getElementById("postGrid").innerHTML = POSTS.map(postCard).join("");
+    const grid = document.getElementById("postGrid");
+    const bar = document.getElementById("typeBar");
+    const types = [{ id: "all", label: "All posts" }, ...POST_TYPES.filter(t => POSTS.some(p => postType(p).id === t.id))];
+    let current = types.some(t => t.id === param("type")) ? param("type") : "all";
+    const draw = () => {
+      bar.innerHTML = types.map(t => `<button class="chip${t.id === current ? " active" : ""}" data-type="${t.id}" aria-pressed="${t.id === current}">${t.label}</button>`).join("");
+      const list = current === "all" ? POSTS : POSTS.filter(p => postType(p).id === current);
+      grid.innerHTML = list.map(postCard).join("");
+    };
+    bar.addEventListener("click", e => {
+      const b = e.target.closest(".chip");
+      if (!b) return;
+      current = b.dataset.type;
+      history.replaceState(null, "", current === "all" ? "blog.html" : `blog.html?type=${current}`);
+      draw();
+    });
+    draw();
   },
 
   // Old URL (blog-post.html?slug=...): send visitors and crawlers to the static guide page.
@@ -220,39 +247,59 @@ const pages = {
   },
 };
 
+/* Body blocks a post may use (validated by tools/build.mjs):
+ *   { h } heading · { p } paragraph · { ul: [] } checklist · { product: ASIN } product card
+ *   { pros: [] } / { cons: [] } owner-reported pros and cons · { table: { head: [], rows: [[]] } } comparison table
+ *   { faq: [{ q, a }] } questions (also emitted as FAQPage JSON-LD) · { tip } highlighted tip · { related: [slug] } Read next links */
+const BLOCKS = ["h", "p", "ul", "product", "pros", "cons", "table", "faq", "tip", "related"];
+
+function blockHtml(b) {
+  if (b.h) return `<h2>${esc(b.h)}</h2>`;
+  if (b.p) return `<p>${esc(b.p)}</p>`;
+  if (b.ul) return `<ul class="ticks">${b.ul.map(li => `<li>${icon("check")}<span>${esc(li)}</span></li>`).join("")}</ul>`;
+  if (b.product) { const p = productByAsin(b.product); return p ? productInline(p) : ""; }
+  if (b.pros || b.cons) {
+    const good = !!b.pros, items = b.pros || b.cons;
+    return `<div class="proscons ${good ? "pros" : "cons"}"><strong>${good ? "What owners like" : "Common complaints"}</strong><ul>${items.map(li => `<li>${esc(li)}</li>`).join("")}</ul></div>`;
+  }
+  if (b.table) {
+    return `<div class="table-wrap"><table><thead><tr>${b.table.head.map(h => `<th scope="col">${esc(h)}</th>`).join("")}</tr></thead><tbody>${
+      b.table.rows.map(r => `<tr>${r.map((c, i) => i === 0 ? `<th scope="row">${esc(c)}</th>` : `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  }
+  if (b.faq) return `<div class="faq">${b.faq.map(f => `<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("")}</div>`;
+  if (b.tip) return `<p class="tip"><strong>Tip:</strong> ${esc(b.tip)}</p>`;
+  if (b.related) {
+    const links = b.related.map(s => POSTS.find(p => p.slug === s)).filter(Boolean)
+      .map(p => `<a href="${guideUrl(p.slug)}">${esc(p.title)}</a>`);
+    return links.length ? `<p class="read-next"><strong>Read next:</strong> ${links.join(" · ")}</p>` : "";
+  }
+  return "";
+}
+
 /* Full guide markup. Used by tools/build.mjs to write guides/<slug>/index.html. */
 function guideHtml(post) {
     const c = catById(post.cat);
-    const body = post.body.map(b => {
-      if (b.h) return `<h2>${esc(b.h)}</h2>`;
-      if (b.p) return `<p>${esc(b.p)}</p>`;
-      if (b.ul) return `<ul class="ticks">${b.ul.map(li => `<li>${icon("check")}<span>${esc(li)}</span></li>`).join("")}</ul>`;
-      if (b.product) { const p = productByAsin(b.product); return p ? productInline(p) : ""; }
-      if (b.related) {
-        const links = b.related.map(s => POSTS.find(p => p.slug === s)).filter(Boolean)
-          .map(p => `<a href="${guideUrl(p.slug)}">${esc(p.title)}</a>`);
-        return links.length ? `<p class="read-next"><strong>Read next:</strong> ${links.join(" · ")}</p>` : "";
-      }
-      return "";
-    }).join("");
-    // Same-niche guides first, then the rest.
-    const more = [...POSTS.filter(p => p !== post && p.cat === post.cat), ...POSTS.filter(p => p.cat !== post.cat)].slice(0, 3);
+    const t = postType(post);
+    const body = post.body.map(blockHtml).join("");
+    const updated = post.updated && post.updated !== post.date ? ` · Updated ${fmtDate(post.updated)}` : "";
+    // Same-niche posts first, then the rest.
+    const more = [...POSTS.filter(p => p.slug !== post.slug && p.cat === post.cat), ...POSTS.filter(p => p.cat !== post.cat)].slice(0, 3);
     return `
       <header class="post-hero art-${post.cat}">
         <div class="container narrow">
-          <p class="eyebrow"><a href="${ROOT}blog.html">Guides</a> / <a href="${ROOT}category.html?cat=${c.id}">${c.name}</a></p>
+          <p class="eyebrow"><a href="${ROOT}blog.html">Blog</a> / <a href="${ROOT}blog.html?type=${t.id}">${t.label}</a> / <a href="${ROOT}category.html?cat=${c.id}">${c.name}</a></p>
           <h1>${esc(post.title)}</h1>
           <p class="lede">${esc(post.excerpt)}</p>
-          <p class="post-byline">By the ${SITE.name} team · ${post.date} · ${post.read}</p>
+          <p class="post-byline">By the ${SITE.name} team · ${fmtDate(post.date)}${updated} · ${post.read}</p>
         </div>
       </header>
       <div class="container narrow">
-        <p class="disclosure-inline">${SITE.name} is reader-supported. When you buy through links on this page we may earn a commission, at no extra cost to you.</p>
+        <p class="disclosure-inline">${SITE.name} is reader-supported. When you buy through links on this page we may earn a commission, at no extra cost to you.${t.id === "review" || t.id === "guide" || t.id === "compare" ? ` <a href="${ROOT}about.html#research">How we research</a>.` : ""}</p>
         <div class="prose">${body}</div>
       </div>
       <section class="section">
         <div class="container">
-          <div class="section-head"><h2>More guides</h2><a class="link-arrow" href="${ROOT}blog.html">All guides ${icon("arrow")}</a></div>
+          <div class="section-head"><h2>More from the blog</h2><a class="link-arrow" href="${ROOT}blog.html">All posts ${icon("arrow")}</a></div>
           <div class="grid grid-posts">${more.map(postCard).join("")}</div>
         </div>
       </section>`;

@@ -2,7 +2,7 @@
 
 > Best Deals. Best Prices. Every Day.
 
-Amazon affiliate site focused on coffee gear (grinders, brewers, French presses, pour-over), with hand-picked products and buying guides. Home & Kitchen, Bedding, Cookware, Storage and Cleaning remain as secondary categories. Static HTML/CSS/JS, so it needs no build step.
+Amazon affiliate site focused on coffee gear (grinders, brewers, French presses, pour-over), with hand-picked products and buying guides. Home & Kitchen, Bedding, Cookware, Storage and Cleaning remain as secondary categories. Static HTML/CSS/JS hosted on GitHub Pages. Post pages are pre-rendered by `node tools/build.mjs`, which has no dependencies.
 
 ## Live site
 https://arafattakey.github.io/primedealzon/
@@ -12,14 +12,16 @@ https://arafattakey.github.io/primedealzon/
 | --- | --- |
 | `index.html` | Homepage: hero, categories, filterable top picks, spotlight, guides |
 | `category.html` | All categories, or one category via `?cat=coffee` |
-| `blog.html` | Buying guide index |
-| `guides/<slug>/index.html` | One static page per guide, **generated** by `tools/build.mjs` (don't edit by hand) |
+| `blog.html` | Blog index, newest first, filterable by post type (`?type=review`) |
+| `content/posts/<slug>.json` | **One file per blog post** (the source of truth for posts) |
+| `guides/<slug>/index.html` | One static page per post, **generated** (don't edit by hand) |
+| `js/posts-index.js` | Lightweight post list for the browser, **generated** |
 | `blog-post.html` | Old guide URL (`?slug=...`); redirects to `guides/<slug>/` |
-| `tools/build.mjs` | Builds guide pages, `sitemap.xml` and `robots.txt` from `js/data.js` |
+| `tools/build.mjs` | Validates posts, builds post pages, `js/posts-index.js`, `sitemap.xml` and `robots.txt` |
 | `about.html` | How products are picked and how the site is funded |
 | `disclaimer.html` / `privacy.html` | Affiliate disclosure and privacy policy |
 | `404.html` | Not-found page |
-| `js/data.js` | **All content**: affiliate tag, categories, products (ASINs) and guides |
+| `js/data.js` | Affiliate tag, site URL, categories and products (ASINs) |
 | `js/site.js` | Shared header/footer and page rendering |
 | `css/style.css` | All styles |
 | `sitemap.xml`, `robots.txt`, `favicon.svg` | SEO and branding |
@@ -35,10 +37,29 @@ https://arafattakey.github.io/primedealzon/
 
 **Don't add prices or star ratings by hand.** The Amazon Associates Operating Agreement only allows showing prices and reviews pulled from the Product Advertising API and kept up to date. Cards link to Amazon with a "Check price on Amazon" button instead.
 
-## Adding a guide
-1. Add an object to `POSTS` in `js/data.js`. A body is a list of blocks: `{ h }` heading, `{ p }` paragraph, `{ ul: [...] }` checklist, `{ product: "ASIN" }` inline product card, `{ related: ["slug", ...] }` "Read next" links to other guides. Optional `updated: "Month D, YYYY"` sets the modified date.
-2. Run `node tools/build.mjs`. It writes `guides/<slug>/index.html` and regenerates `sitemap.xml` and `robots.txt`.
-3. Commit the data change and the generated files together.
+## Adding a blog post
+1. Create `content/posts/<slug>.json`:
+   ```json
+   {
+     "slug": "baratza-encore-review", "type": "review", "cat": "coffee",
+     "keyword": "baratza encore review",
+     "title": "Baratza Encore Review: What Owners Say After a Year",
+     "excerpt": "70–170 characters; this is the meta description.",
+     "date": "2026-11-06", "read": "8 min read",
+     "body": [ { "p": "..." }, { "product": "B007F183LK" } ]
+   }
+   ```
+   - `type`: `guide` (best-of roundups, gift guides), `review` (one product), `compare` (X vs Y), `howto`.
+   - `keyword`: the one search phrase the post targets. Each keyword can only be used by one post.
+   - Optional fields: `updated` (YYYY-MM-DD) and `priority` (a higher number pins the post to the top, e.g. seasonal guides).
+   - Body blocks: `{ h }`, `{ p }`, `{ ul: [] }`, `{ product: ASIN }`, `{ pros: [] }`, `{ cons: [] }`, `{ table: { head: [], rows: [[]] } }`, `{ faq: [{ q, a }] }` (also emitted as FAQPage JSON-LD), `{ tip }`, `{ related: [slug] }`.
+2. Run `node tools/build.mjs --check`, then `node tools/build.mjs`. The build **fails** on any of these:
+   - a missing field, or a title over 70 characters
+   - an unknown product or related slug
+   - a duplicate keyword
+   - fewer than 600 words (`legacy: true` exempts the original short posts until they're expanded)
+   - a price, star rating, review count or "bought" figure in the text (Amazon policy)
+3. Commit the JSON and the generated files together.
 
 ## Custom domain (primedealzon.com)
 1. In the repo, go to Settings → Pages → Custom domain, enter `primedealzon.com`. This adds a `CNAME` file.
