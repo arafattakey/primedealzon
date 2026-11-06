@@ -122,6 +122,7 @@ function page(post) {
       datePublished: post.date,
       dateModified: modified,
       mainEntityOfPage: url,
+      ...(existsSync(join(root, 'images/og', post.slug + '.png')) ? { image: [`${base}images/og/${post.slug}.png`, `${base}images/pins/${post.slug}.png`] } : {}),
       articleSection: postType(post).one,
       author: { '@type': 'Organization', name: `${SITE.name} team`, url: base + 'about.html' },
       publisher: { '@type': 'Organization', name: SITE.name, url: base },
@@ -158,7 +159,11 @@ function page(post) {
   <meta property="article:published_time" content="${post.date}" />
   <meta property="article:modified_time" content="${modified}" />
   <meta property="article:section" content="${esc(c.name)}" />
-  <meta name="twitter:card" content="summary" />
+${existsSync(join(root, 'images/og', post.slug + '.png')) ? `  <meta property="og:image" content="${base}images/og/${post.slug}.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="${base}images/og/${post.slug}.png" />` : '  <meta name="twitter:card" content="summary" />'}
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -193,6 +198,8 @@ if (existsSync(guidesDir)) {
   }
 }
 for (const post of POSTS) {
+  post.url = `${base}guides/${post.slug}/`;
+  if (existsSync(join(root, 'images/pins', post.slug + '.png'))) post.pin = `${base}images/pins/${post.slug}.png`;
   const dir = join(guidesDir, post.slug);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, 'index.html'), page(post));

@@ -232,6 +232,8 @@ p { margin: 0; }
 .faq summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 .faq details p { margin-top: 8px; }
 .tip { background: var(--surface); border: 1px dashed var(--accent); border-radius: var(--radius); padding: 12px 16px; font-size: 1rem; }
+.pin-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 8px 16px; border-radius: 999px; background: #e60023; color: #fff; font-weight: 700; font-size: .9rem; text-decoration: none; }
+.pin-btn:hover { background: #ad081b; }
 .read-next { background: var(--accent-soft); border-radius: var(--radius); padding: 14px 18px; font-size: 1rem; }
 .read-next a { color: var(--accent-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .disclosure-inline { font-size: .85rem; color: var(--ink-3); border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; margin-bottom: 28px; }

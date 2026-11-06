@@ -291,6 +291,7 @@ function guideHtml(post) {
           <h1>${esc(post.title)}</h1>
           <p class="lede">${esc(post.excerpt)}</p>
           <p class="post-byline">By the ${SITE.name} team · ${fmtDate(post.date)}${updated} · ${post.read}</p>
+          ${post.pin ? `<a class="pin-btn" target="_blank" rel="noopener" href="https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(post.url)}&media=${encodeURIComponent(post.pin)}&description=${encodeURIComponent(post.title)}">Save to Pinterest</a>` : ""}
         </div>
       </header>
       <div class="container narrow">
