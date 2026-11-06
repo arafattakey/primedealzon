@@ -14,6 +14,8 @@ const SITE = {
   name: "PrimeDealZon",
   tagline: "Best Deals. Best Prices. Every Day.",
   affiliateTag: "primedealzo02-20",
+  // Public base URL, used for canonical links and the sitemap. Change once primedealzon.com is live, then run `node tools/build.mjs`.
+  url: "https://arafattakey.github.io/primedealzon/",
   updated: "November 5, 2026",
 };
 

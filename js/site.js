@@ -21,6 +21,10 @@ const catById = id => CATEGORIES.find(c => c.id === id);
 const productByAsin = asin => PRODUCTS.find(p => p.asin === asin);
 const amazonUrl = asin => `https://www.amazon.com/dp/${asin}?tag=${SITE.affiliateTag}`;
 const param = k => new URLSearchParams(location.search).get(k);
+// Pages in subfolders (e.g. guides/<slug>/) set data-root="../../" so shared links still resolve.
+// The build script runs this file without a DOM; its output lives two folders deep.
+const ROOT = typeof document === "undefined" ? "../../" : (document.body.dataset.root || "");
+const guideUrl = slug => `${ROOT}guides/${slug}/`;
 
 /* ---------- Layout ---------- */
 
@@ -31,7 +35,7 @@ function renderHeader() {
   const link = (href, label, key) => `<a href="${href}"${page === key ? ' aria-current="page"' : ""}>${label}</a>`;
   el.innerHTML = `
     <div class="container header-inner">
-      <a class="logo" href="index.html" aria-label="${SITE.name} home">
+      <a class="logo" href="${ROOT}index.html" aria-label="${SITE.name} home">
         <span class="logo-mark">${icon("bolt")}</span>
         <span>Prime<b>Deal</b>Zon</span>
       </a>
@@ -39,11 +43,11 @@ function renderHeader() {
         <span></span><span></span><span></span>
       </button>
       <nav class="nav" id="siteNav" aria-label="Main">
-        ${link("index.html", "Home", "home")}
-        ${link("index.html#picks", "Top Picks", "")}
-        ${link("category.html", "Categories", "category")}
-        ${link("blog.html", "Guides", "blog")}
-        <a class="nav-cta" href="index.html#picks">Shop deals</a>
+        ${link(`${ROOT}index.html`, "Home", "home")}
+        ${link(`${ROOT}index.html#picks`, "Top Picks", "")}
+        ${link(`${ROOT}category.html`, "Categories", "category")}
+        ${link(`${ROOT}blog.html`, "Guides", "blog")}
+        <a class="nav-cta" href="${ROOT}index.html#picks">Shop deals</a>
       </nav>
     </div>`;
   const btn = document.getElementById("menuBtn");
@@ -61,19 +65,19 @@ function renderFooter() {
   el.innerHTML = `
     <div class="container footer-grid">
       <div class="footer-brand">
-        <a class="logo" href="index.html"><span class="logo-mark">${icon("bolt")}</span><span>Prime<b>Deal</b>Zon</span></a>
+        <a class="logo" href="${ROOT}index.html"><span class="logo-mark">${icon("bolt")}</span><span>Prime<b>Deal</b>Zon</span></a>
         <p>${SITE.tagline} Hand-picked Amazon finds for the home, explained in plain English.</p>
       </div>
       <div>
         <h4>Shop</h4>
-        ${CATEGORIES.map(c => `<a href="category.html?cat=${c.id}">${c.name}</a>`).join("")}
+        ${CATEGORIES.map(c => `<a href="${ROOT}category.html?cat=${c.id}">${c.name}</a>`).join("")}
       </div>
       <div>
         <h4>Site</h4>
-        <a href="blog.html">Buying guides</a>
-        <a href="about.html">About us</a>
-        <a href="disclaimer.html">Affiliate disclosure</a>
-        <a href="privacy.html">Privacy policy</a>
+        <a href="${ROOT}blog.html">Buying guides</a>
+        <a href="${ROOT}about.html">About us</a>
+        <a href="${ROOT}disclaimer.html">Affiliate disclosure</a>
+        <a href="${ROOT}privacy.html">Privacy policy</a>
       </div>
     </div>
     <div class="container footer-legal">
@@ -93,7 +97,7 @@ function productCard(p) {
         ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ""}
       </div>
       <div class="product-body">
-        <div class="product-meta"><span>${esc(p.brand)}</span><span>·</span><a href="category.html?cat=${c.id}">${c.name}</a></div>
+        <div class="product-meta"><span>${esc(p.brand)}</span><span>·</span><a href="${ROOT}category.html?cat=${c.id}">${c.name}</a></div>
         <h3 class="product-title">${esc(p.title)}</h3>
         <p class="product-blurb">${esc(p.blurb)}</p>
         <a class="btn btn-amazon" href="${amazonUrl(p.asin)}" target="_blank" rel="nofollow sponsored noopener">
@@ -119,7 +123,7 @@ function productInline(p) {
 function categoryCard(c) {
   const n = PRODUCTS.filter(p => p.cat === c.id).length;
   return `
-    <a class="card cat-card art-${c.id}" href="category.html?cat=${c.id}">
+    <a class="card cat-card art-${c.id}" href="${ROOT}category.html?cat=${c.id}">
       <span class="cat-ico">${icon(c.icon)}</span>
       <span class="cat-name">${c.name}</span>
       <span class="cat-blurb">${c.blurb}</span>
@@ -131,12 +135,12 @@ function postCard(post) {
   const c = catById(post.cat);
   return `
     <article class="card post-card">
-      <a class="post-art art-${post.cat}" href="blog-post.html?slug=${post.slug}" tabindex="-1" aria-hidden="true">${icon(c.icon, "art-ico")}</a>
+      <a class="post-art art-${post.cat}" href="${guideUrl(post.slug)}" tabindex="-1" aria-hidden="true">${icon(c.icon, "art-ico")}</a>
       <div class="post-body">
         <div class="post-meta">${c.name} · ${post.read}</div>
-        <h3><a href="blog-post.html?slug=${post.slug}">${esc(post.title)}</a></h3>
+        <h3><a href="${guideUrl(post.slug)}">${esc(post.title)}</a></h3>
         <p>${esc(post.excerpt)}</p>
-        <a class="link-arrow" href="blog-post.html?slug=${post.slug}">Read the guide ${icon("arrow")}</a>
+        <a class="link-arrow" href="${guideUrl(post.slug)}">Read the guide ${icon("arrow")}</a>
       </div>
     </article>`;
 }
@@ -176,14 +180,14 @@ const pages = {
     const head = document.getElementById("catHead");
     const grid = document.getElementById("catProducts");
     const nav = document.getElementById("catNav");
-    nav.innerHTML = CATEGORIES.map(x => `<a class="chip${c && x.id === c.id ? " active" : ""}" href="category.html?cat=${x.id}">${x.name}</a>`).join("");
+    nav.innerHTML = CATEGORIES.map(x => `<a class="chip${c && x.id === c.id ? " active" : ""}" href="${ROOT}category.html?cat=${x.id}">${x.name}</a>`).join("");
 
     if (!c) {
       document.title = `All Categories – ${SITE.name}`;
       head.innerHTML = `<p class="eyebrow">Browse</p><h1>All categories</h1><p class="lede">Every pick on ${SITE.name}, grouped by where it lives in your home.</p>`;
       grid.innerHTML = CATEGORIES.map(x => `
         <section class="cat-section">
-          <div class="section-head"><h2>${x.name}</h2><a class="link-arrow" href="category.html?cat=${x.id}">See all ${icon("arrow")}</a></div>
+          <div class="section-head"><h2>${x.name}</h2><a class="link-arrow" href="${ROOT}category.html?cat=${x.id}">See all ${icon("arrow")}</a></div>
           <div class="grid grid-products">${PRODUCTS.filter(p => p.cat === x.id).map(productCard).join("")}</div>
         </section>`).join("");
       return;
@@ -192,7 +196,7 @@ const pages = {
     document.title = `Best ${c.name} Picks on Amazon – ${SITE.name}`;
     document.querySelector('meta[name="description"]').setAttribute("content", `Hand-picked ${c.name.toLowerCase()} products on Amazon. ${c.blurb}`);
     head.innerHTML = `
-      <p class="eyebrow"><a href="category.html">Categories</a> / ${c.name}</p>
+      <p class="eyebrow"><a href="${ROOT}category.html">Categories</a> / ${c.name}</p>
       <h1>The best ${c.name.toLowerCase()} on Amazon</h1>
       <p class="lede">${c.blurb}</p>`;
     grid.innerHTML = `<div class="grid grid-products">${PRODUCTS.filter(p => p.cat === c.id).map(productCard).join("")}</div>`;
@@ -206,16 +210,17 @@ const pages = {
     document.getElementById("postGrid").innerHTML = POSTS.map(postCard).join("");
   },
 
+  // Old URL (blog-post.html?slug=...): send visitors and crawlers to the static guide page.
   post() {
-    const post = POSTS.find(p => p.slug === param("slug")) || null;
-    const root = document.getElementById("postRoot");
-    if (!post) {
-      root.innerHTML = `<div class="container narrow empty"><h1>Guide not found</h1><p>That guide may have moved.</p><a class="btn btn-primary" href="blog.html">See all guides</a></div>`;
-      return;
-    }
+    const post = POSTS.find(p => p.slug === param("slug"));
+    if (post) { location.replace(guideUrl(post.slug)); return; }
+    document.getElementById("postRoot").innerHTML = `<div class="container narrow empty"><h1>Guide not found</h1><p>That guide may have moved.</p><a class="btn btn-primary" href="${ROOT}blog.html">See all guides</a></div>`;
+  },
+};
+
+/* Full guide markup. Used by tools/build.mjs to write guides/<slug>/index.html. */
+function guideHtml(post) {
     const c = catById(post.cat);
-    document.title = `${post.title} – ${SITE.name}`;
-    document.querySelector('meta[name="description"]').setAttribute("content", post.excerpt);
     const body = post.body.map(b => {
       if (b.h) return `<h2>${esc(b.h)}</h2>`;
       if (b.p) return `<p>${esc(b.p)}</p>`;
@@ -223,11 +228,12 @@ const pages = {
       if (b.product) { const p = productByAsin(b.product); return p ? productInline(p) : ""; }
       return "";
     }).join("");
-    const more = POSTS.filter(p => p !== post).slice(0, 3);
-    root.innerHTML = `
+    // Same-niche guides first, then the rest.
+    const more = [...POSTS.filter(p => p !== post && p.cat === post.cat), ...POSTS.filter(p => p.cat !== post.cat)].slice(0, 3);
+    return `
       <header class="post-hero art-${post.cat}">
         <div class="container narrow">
-          <p class="eyebrow"><a href="blog.html">Guides</a> / <a href="category.html?cat=${c.id}">${c.name}</a></p>
+          <p class="eyebrow"><a href="${ROOT}blog.html">Guides</a> / <a href="${ROOT}category.html?cat=${c.id}">${c.name}</a></p>
           <h1>${esc(post.title)}</h1>
           <p class="lede">${esc(post.excerpt)}</p>
           <p class="post-byline">By the ${SITE.name} team · ${post.date} · ${post.read}</p>
@@ -239,14 +245,15 @@ const pages = {
       </div>
       <section class="section">
         <div class="container">
-          <div class="section-head"><h2>More guides</h2><a class="link-arrow" href="blog.html">All guides ${icon("arrow")}</a></div>
+          <div class="section-head"><h2>More guides</h2><a class="link-arrow" href="${ROOT}blog.html">All guides ${icon("arrow")}</a></div>
           <div class="grid grid-posts">${more.map(postCard).join("")}</div>
         </div>
       </section>`;
-  },
-};
+}
 
-renderHeader();
-renderFooter();
-const pageFn = pages[document.body.dataset.page];
-if (pageFn) pageFn();
+if (typeof document !== "undefined") {
+  renderHeader();
+  renderFooter();
+  const pageFn = pages[document.body.dataset.page];
+  if (pageFn) pageFn();
+}
