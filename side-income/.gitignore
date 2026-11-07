@@ -1,0 +1,4 @@
+# Real numbers, clients, leads and briefs never get committed.
+private/*
+!private/.gitkeep
+out/sites/

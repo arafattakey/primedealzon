@@ -1,0 +1,5 @@
+date,business,type,amount,description
+2026-11-08,studies,income,12.00,Example: Prolific study
+2026-11-09,flipping,cost,25.00,Example: bought cordless drill on FB Marketplace
+2026-11-14,flipping,income,85.00,Example: sold drill on eBay
+2026-11-14,flipping,cost,11.20,Example: eBay fees

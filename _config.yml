@@ -1,0 +1,3 @@
+# GitHub Pages (Jekyll) settings. Keeps the private side-income system off the public website.
+exclude:
+  - side-income
