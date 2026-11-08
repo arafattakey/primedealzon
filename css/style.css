@@ -6,7 +6,7 @@
   --surface-2: #f3eee6;
   --ink: #17181c;
   --ink-2: #4a4c55;
-  --ink-3: #7b7d86;
+  --ink-3: #686a73;
   --line: #e7e0d5;
   --accent: #e8890c;
   --accent-ink: #8a4b00;
@@ -111,7 +111,7 @@ p { margin: 0; }
 .hero-tile { aspect-ratio: 1; border-radius: 22px; display: grid; place-items: center; text-decoration: none; position: relative; transition: transform .25s; }
 .hero-tile:hover { transform: translateY(-4px) rotate(-1deg); }
 .hero-tile .ico { width: 42%; height: 42%; stroke-width: 1.4; }
-.hero-tile span { position: absolute; left: 14px; bottom: 12px; font-size: .78rem; font-weight: 600; opacity: .85; }
+.hero-tile span { position: absolute; left: 14px; bottom: 12px; font-size: .78rem; font-weight: 700; }
 .hero-tile:nth-child(2) { transform: translateY(28px); }
 .hero-tile:nth-child(2):hover { transform: translateY(24px) rotate(1deg); }
 .hero-tile:nth-child(4) { transform: translateY(28px); }
@@ -264,11 +264,51 @@ p { margin: 0; }
 .site-footer .logo { color: #fff; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }
 .footer-brand p { margin-top: 14px; max-width: 40ch; font-size: .92rem; }
-.footer-grid h4 { color: #fff; font-size: .82rem; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 14px; }
+.footer-grid .footer-h { color: #fff; font-size: .82rem; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 14px; }
 .footer-grid a:not(.logo) { display: block; text-decoration: none; font-size: .92rem; padding: 4px 0; }
 .footer-grid a:not(.logo):hover { color: #fff; }
 .footer-legal { border-top: 1px solid #2b2d34; padding-top: 24px; padding-bottom: 32px; font-size: .8rem; color: #8c8e97; display: grid; gap: 10px; }
 @media (max-width: 720px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer-brand { grid-column: 1 / -1; } }
+
+
+/* ---------- Coffee gear kinds: varied tints so cards aren't identical ---------- */
+.kind-grinder { background: #ebe3d9; color: #6b4426; }
+.kind-press { background: #f6e4cf; color: #8a4b12; }
+.kind-dripper { background: #f3e9dc; color: #7a5a2e; }
+.kind-kettle { background: #e3ece6; color: #2f6046; }
+.kind-moka { background: #efe0e0; color: #8a3434; }
+.kind-scale { background: #e5e9f1; color: #3a5079; }
+.kind-mug { background: #e2ecef; color: #2c5f6e; }
+.kind-frother { background: #f1e8f1; color: #6d3f6d; }
+.kind-coldbrew { background: #dfe9f3; color: #2f5b85; }
+.kind-maker { background: #ece7df; color: #5a4632; }
+.kind-aeropress { background: #e9e6f2; color: #4b3f80; }
+.kind-gift { background: #f7e3e1; color: #a03a2c; }
+
+/* ---------- Guide extras ---------- */
+.post-byline a { color: inherit; font-weight: 600; }
+.top-picks { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 18px 8px; margin-bottom: 24px; }
+.tp-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; margin-bottom: 6px; }
+.top-picks ol { list-style: none; margin: 0; padding: 0; }
+.top-picks li { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid var(--line); }
+.top-picks li:first-child { border-top: 0; }
+.tp-art { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+.tp-art .ico { width: 60%; height: 60%; }
+.tp-body { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; line-height: 1.3; }
+.tp-label { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-ink); }
+@media (max-width: 560px) { .top-picks li { flex-wrap: wrap; } .top-picks .btn { width: 100%; } }
+.toc { margin-bottom: 28px; }
+.toc details { background: var(--surface-2); border-radius: var(--radius); padding: 14px 18px; }
+.toc summary { cursor: pointer; font-weight: 700; }
+.toc ol { margin: 10px 0 0; padding-left: 1.3em; display: grid; gap: 6px; font-size: .97rem; }
+.toc a { color: var(--accent-ink); text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.prose h2 { scroll-margin-top: 84px; }
+.inline-blurb { font-size: .88rem; color: var(--ink-2); }
+.author-box { display: flex; gap: 14px; align-items: flex-start; margin-top: 40px; padding: 18px; border-radius: var(--radius); background: var(--surface-2); }
+.author-box .logo-mark { flex: none; }
+.author-box p { font-size: .92rem; color: var(--ink-2); margin-top: 4px; }
+.author-box a { color: var(--accent-ink); font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }

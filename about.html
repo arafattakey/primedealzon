@@ -6,20 +6,46 @@
   <title>About Us – PrimeDealZon</title>
   <meta name="description" content="How PrimeDealZon chooses products, and how the site is funded." />
   <meta name="theme-color" content="#15161a" />
-  <meta property="og:type" content="website" />
   <meta property="og:site_name" content="PrimeDealZon" />
   <meta property="og:title" content="About Us – PrimeDealZon" />
   <meta property="og:description" content="How PrimeDealZon chooses products, and how the site is funded." />
-  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://arafattakey.github.io/primedealzon/about.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://arafattakey.github.io/primedealzon/about.html" />
+  <meta property="og:image" content="https://arafattakey.github.io/primedealzon/images/og/site.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://arafattakey.github.io/primedealzon/images/og/site.png" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon.ico" sizes="32x32" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" /></noscript>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body data-page="about">
-  <div class="disclosure-bar">We earn a commission from qualifying Amazon purchases made through our links, at no extra cost to you. <a href="disclaimer.html">Learn more</a></div>
-  <header class="site-header" id="site-header"></header>
+  <div class="disclosure-bar">We earn a commission from qualifying Amazon purchases made through our links, at no extra cost to you. <a href="disclaimer.html">Read our affiliate disclosure</a></div>
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html" aria-label="PrimeDealZon home">
+        <span class="logo-mark"><svg class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></span>
+        <span>Prime<b>Deal</b>Zon</span>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="siteNav" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="category/coffee/">Coffee</a>
+        <a href="blog.html">Blog</a>
+        <a href="category.html">Categories</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a class="nav-cta" href="index.html#picks">Top picks</a>
+      </nav>
+    </div></header>
 
   <main>
     <section class="page-head">
@@ -50,7 +76,30 @@
     </section>
   </main>
 
-  <footer class="site-footer" id="site-footer"></footer>
+  <footer class="site-footer" id="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="logo" href="index.html"><span class="logo-mark"><svg class="ico " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></span><span>Prime<b>Deal</b>Zon</span></a>
+        <p>Hand-picked coffee gear from Amazon, explained in plain English. We summarize what verified owners report, so you can choose faster.</p>
+      </div>
+      <div>
+        <p class="footer-h">Shop</p>
+        <a href="category/coffee/">Coffee</a><a href="category/home-kitchen/">Home & Kitchen</a><a href="category/bedding/">Bedding</a><a href="category/cookware/">Cookware</a><a href="category/storage/">Storage</a><a href="category/cleaning/">Cleaning</a>
+      </div>
+      <div>
+        <p class="footer-h">Site</p>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About us</a>
+        <a href="about.html#research">How we research</a>
+        <a href="disclaimer.html">Affiliate disclosure</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="terms.html">Terms of use</a>
+      </div>
+    </div>
+    <div class="container footer-legal">
+      <p>PrimeDealZon is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. As an Amazon Associate we earn from qualifying purchases. Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.</p>
+      <p>&copy; 2026 PrimeDealZon. Product selections last reviewed November 5, 2026.</p>
+    </div></footer>
   <script src="js/data.js"></script>
   <script src="js/posts-index.js"></script>
   <script src="js/site.js"></script>

@@ -65,3 +65,9 @@ https://arafattakey.github.io/primedealzon/
 1. In the repo, go to Settings → Pages → Custom domain, enter `primedealzon.com`. This adds a `CNAME` file.
 2. At your DNS provider, add `A` records for `@` pointing to `185.199.108.153`, `185.199.109.153`, `185.199.110.153` and `185.199.111.153`, plus a `CNAME` record for `www` pointing to `arafattakey.github.io`.
 3. Enable "Enforce HTTPS", then set `SITE.url` in `js/data.js` to `https://primedealzon.com/` and run `node tools/build.mjs`.
+
+## Build-managed pages (2026-11-07)
+- `node tools/build.mjs` also writes `category/<id>/index.html` (static category hubs) and refreshes the root pages (`index.html`, `blog.html`, `category.html`, `about.html`, `disclaimer.html`, `privacy.html`, `terms.html`, `404.html`). It bakes in the header, footer, disclosure bar, fonts, icons, canonical and social tags from `SITE.url`. Edit the page body by hand; the build owns those parts.
+- Old `category.html?cat=<id>` links redirect to `category/<id>/`.
+- Guides get a "top picks" box (first 3 products), a table of contents (3+ headings) and an editors box automatically.
+- `node tools/images.mjs site` renders the site-wide social image and `favicon.ico` / `apple-touch-icon.png`.

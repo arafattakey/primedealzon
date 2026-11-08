@@ -64,7 +64,7 @@ h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:${size}px;line-h
 .foot span:last-child{font-weight:600;opacity:.75;margin-left:auto;font-size:${pin ? 30 : 22}px}
 </style></head><body>
 <div class="cup">${CUP}</div>
-<div class="tag">${esc(t.label)} · ${esc(cat)}</div>
+<div class="tag">${esc(post.label || `${t.label} · ${cat}`)}</div>
 <h1>${esc(post.title)}</h1>
 ${pin ? `<p class="sub">${esc(post.excerpt)}</p>` : ''}
 <div class="foot"><div class="dot">⚡</div><span>${esc(brand)}</span>${pin ? '<span>Read more →</span>' : ''}</div>
@@ -93,6 +93,31 @@ for (const post of posts) {
   if (only && post.slug !== only) continue;
   if (render(post, 'pins', 1000, 1500)) made++;
   if (render(post, 'og', 1200, 630)) made++;
+}
+// Site-wide social image (home, blog, category hubs) and app icons.
+if (!only || only === 'site') {
+  const site = { slug: 'site', type: 'guide', cat: 'coffee', label: 'Coffee gear, explained',
+    title: 'Better coffee at home, without the endless scrolling', excerpt: '' };
+  if (render(site, 'og', 1200, 630)) made++;
+  const touch = join(root, 'apple-touch-icon.png');
+  if (!existsSync(touch) || force) {
+    const tmp = join(tmpdir(), `pdz-img-${process.pid}`);
+    mkdirSync(tmp, { recursive: true });
+    const svg = readFileSync(join(root, 'favicon.svg'), 'utf8');
+    const src = join(tmp, 'icon.html');
+    writeFileSync(src, `<!doctype html><html><head><style>*{margin:0}html,body{width:180px;height:180px;overflow:hidden;background:#15161a}svg{width:180px;height:180px;display:block}</style></head><body>${svg}</body></html>`);
+    execFileSync(browser, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run',
+      `--user-data-dir=${join(tmp, 'profile')}`, '--window-size=180,180', `--screenshot=${touch}`, pathToFileURL(src).href],
+      { stdio: 'ignore', timeout: 60000 });
+    // favicon.ico holding the PNG (valid ICO with an embedded PNG image).
+    const png = readFileSync(touch);
+    const head = Buffer.alloc(22);
+    head.writeUInt16LE(0, 0); head.writeUInt16LE(1, 2); head.writeUInt16LE(1, 4);
+    head.writeUInt8(180, 6); head.writeUInt8(180, 7); head.writeUInt16LE(1, 10); head.writeUInt16LE(32, 12);
+    head.writeUInt32LE(png.length, 14); head.writeUInt32LE(22, 18);
+    writeFileSync(join(root, 'favicon.ico'), Buffer.concat([head, png]));
+    made++;
+  }
 }
 rmSync(join(tmpdir(), `pdz-img-${process.pid}`), { recursive: true, force: true });
 

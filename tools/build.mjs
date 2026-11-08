@@ -102,10 +102,70 @@ if (checkOnly) { console.log(`OK: ${POSTS.length} posts, ${PRODUCTS.length} prod
 // 3. Render with the same code the browser uses
 vm.runInContext(`var POSTS = ${JSON.stringify(POSTS)};`, ctx);
 vm.runInContext(readFileSync(join(root, 'js/site.js'), 'utf8'), ctx, { filename: 'js/site.js' });
-const { guideHtml, esc, catById, postType } = vm.runInContext('({ guideHtml, esc, catById, postType })', ctx);
+const { guideHtml, hubHtml, headerHtml, footerHtml, esc, catById, postType } =
+  vm.runInContext('({ guideHtml, hubHtml, headerHtml, footerHtml, esc, catById, postType })', ctx);
 
 const base = SITE.url.endsWith('/') ? SITE.url : SITE.url + '/';
 const json = (o) => JSON.stringify(o, null, 2).replace(/</g, '\\u003c');
+const ogFile = (name) => (existsSync(join(root, 'images/og', name + '.png')) ? `${base}images/og/${name}.png` : null);
+const DISCLOSURE = (r) => `<div class="disclosure-bar">We earn a commission from qualifying Amazon purchases made through our links, at no extra cost to you. <a href="${r}disclaimer.html">Read our affiliate disclosure</a></div>`;
+// Google Fonts without blocking the first paint.
+const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap';
+const FONTS = `  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="${FONTS_URL}" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="${FONTS_URL}" /></noscript>`;
+// Social/SEO tags shared by every page.
+const socialMeta = ({ url, image, type = 'website' }) => `  <link rel="canonical" href="${url}" />
+  <meta property="og:type" content="${type}" />
+  <meta property="og:url" content="${url}" />
+${image ? `  <meta property="og:image" content="${image}" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="${image}" />` : '  <meta name="twitter:card" content="summary" />'}`;
+const ICONS = (r) => `  <link rel="icon" href="${r}favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="${r}favicon.ico" sizes="32x32" />
+  <link rel="apple-touch-icon" href="${r}apple-touch-icon.png" />`;
+
+// A full page two folders deep (guides/<slug>/, category/<id>/).
+function shell({ title, desc, url, image, type, extraHead = '', ld, page, main, note }) {
+  const r = '../../';
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${esc(title)}</title>
+  <meta name="description" content="${esc(desc)}" />
+  <meta name="theme-color" content="#15161a" />
+  <meta property="og:site_name" content="${esc(SITE.name)}" />
+  <meta property="og:title" content="${esc(title)}" />
+  <meta property="og:description" content="${esc(desc)}" />
+${socialMeta({ url, image, type })}
+${extraHead}${ICONS(r)}
+${FONTS}
+  <link rel="stylesheet" href="${r}css/style.css" />
+${ld ? `  <script type="application/ld+json">
+${json(ld)}
+  </script>
+` : ''}</head>
+<body data-page="${page}" data-root="${r}">
+  <!-- ${note} -->
+  ${DISCLOSURE(r)}
+  <header class="site-header" id="site-header">${headerHtml(r, page)}</header>
+
+  <main${page === 'guide' ? ' id="postRoot"' : ''}>${main}
+  </main>
+
+  <footer class="site-footer" id="site-footer">${footerHtml(r)}</footer>
+  <script src="${r}js/data.js"></script>
+  <script src="${r}js/posts-index.js"></script>
+  <script src="${r}js/site.js"></script>
+</body>
+</html>
+`;
+}
 
 function page(post) {
   const url = `${base}guides/${post.slug}/`;
@@ -142,52 +202,61 @@ function page(post) {
       mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
     }] : []),
   ];
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${esc(title)}</title>
-  <meta name="description" content="${esc(post.excerpt)}" />
-  <link rel="canonical" href="${url}" />
-  <meta name="theme-color" content="#15161a" />
-  <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="${esc(SITE.name)}" />
-  <meta property="og:title" content="${esc(post.title)}" />
-  <meta property="og:description" content="${esc(post.excerpt)}" />
-  <meta property="og:url" content="${url}" />
-  <meta property="article:published_time" content="${post.date}" />
+  return shell({
+    title, desc: post.excerpt, url, image: ogFile(post.slug) || ogFile('site'), type: 'article', ld, page: 'guide',
+    extraHead: `  <meta property="article:published_time" content="${post.date}" />
   <meta property="article:modified_time" content="${modified}" />
   <meta property="article:section" content="${esc(c.name)}" />
-${existsSync(join(root, 'images/og', post.slug + '.png')) ? `  <meta property="og:image" content="${base}images/og/${post.slug}.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="${base}images/og/${post.slug}.png" />` : '  <meta name="twitter:card" content="summary" />'}
-  <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" />
-  <link rel="stylesheet" href="../../css/style.css" />
-  <script type="application/ld+json">
-${json(ld)}
-  </script>
-</head>
-<body data-page="guide" data-root="../../">
-  <!-- Generated by tools/build.mjs from content/posts/${post.slug}.json. Edit the JSON, not this file. -->
-  <div class="disclosure-bar">We earn a commission from qualifying Amazon purchases made through our links, at no extra cost to you. <a href="../../disclaimer.html">Learn more</a></div>
-  <header class="site-header" id="site-header"></header>
+`,
+    main: guideHtml(post),
+    note: `Generated by tools/build.mjs from content/posts/${post.slug}.json. Edit the JSON, not this file.`,
+  });
+}
 
-  <main id="postRoot">${guideHtml(post)}
-  </main>
+function hubPage(c) {
+  const url = `${base}category/${c.id}/`;
+  const title = c.id === 'coffee' ? `Coffee Gear Worth Buying: Guides and Picks – ${SITE.name}` : `Best ${c.name} Picks on Amazon – ${SITE.name}`;
+  const desc = `${c.id === 'coffee' ? 'Coffee buying guides, how-tos and hand-picked Amazon gear' : `Hand-picked ${c.name.toLowerCase()} products on Amazon`}. ${c.blurb}`;
+  const ld = [{
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: base },
+      { '@type': 'ListItem', position: 2, name: 'Categories', item: base + 'category.html' },
+      { '@type': 'ListItem', position: 3, name: c.name, item: url },
+    ],
+  }];
+  return shell({
+    title, desc, url, image: ogFile('site'), ld, page: c.id === 'coffee' ? 'coffee' : 'category',
+    main: hubHtml(c), note: 'Generated by tools/build.mjs (category hub). Edit js/data.js or js/site.js, not this file.',
+  });
+}
 
-  <footer class="site-footer" id="site-footer"></footer>
-  <script src="../../js/data.js"></script>
-  <script src="../../js/posts-index.js"></script>
-  <script src="../../js/site.js"></script>
-</body>
-</html>
-`;
+// Root pages are hand-written; the build refreshes their header, footer, disclosure, fonts and SEO tags.
+const ROOT_PAGES = { 'index.html': 'home', 'blog.html': 'blog', 'category.html': 'category', 'about.html': 'about',
+  'disclaimer.html': 'legal', 'privacy.html': 'legal', 'terms.html': 'legal', '404.html': '404' };
+function refreshRootPage(file, key) {
+  const p = join(root, file);
+  if (!existsSync(p)) return;
+  const is404 = file === '404.html';
+  // 404.html is served at any depth, so its links must be absolute.
+  const r = is404 ? base : '';
+  const url = file === 'index.html' ? base : base + file;
+  let h = readFileSync(p, 'utf8').replace(/\r\n/g, '\n');
+  h = h.replace(/^ {2}<link rel="canonical"[^\n]*\n/gm, '')
+    .replace(/^ {2}<meta property="og:(type|url|image[^"]*)"[^\n]*\n/gm, '')
+    .replace(/^ {2}<meta name="twitter:(card|image)"[^\n]*\n/gm, '')
+    .replace(/^ {2}<link rel="(icon|apple-touch-icon|preconnect)"[^\n]*\n/gm, '')
+    .replace(/^ {2}<link rel="stylesheet" href="https:\/\/fonts[^\n]*\n/gm, '')
+    .replace(/^ {2}<noscript><link rel="stylesheet" href="https:\/\/fonts[^\n]*\n/gm, '')
+    .replace(/^ {2}<base [^\n]*\n/gm, '')
+    .replace(/^ {2}<meta name="robots"[^\n]*\n/gm, '');
+  const head = `${is404 ? `  <base href="${base}" />\n  <meta name="robots" content="noindex" />\n` : socialMeta({ url, image: ogFile('site') }) + '\n'}${ICONS(r)}\n${FONTS}\n`;
+  h = h.replace(/^ {2}<link rel="stylesheet" href="css\/style\.css" \/>/m, (m) => head + m)
+    .replace(/<div class="disclosure-bar">[\s\S]*?<\/div>/, DISCLOSURE(r))
+    .replace(/<header class="site-header" id="site-header">[\s\S]*?<\/header>/, `<header class="site-header" id="site-header">${headerHtml(r, key)}</header>`)
+    .replace(/<footer class="site-footer" id="site-footer">[\s\S]*?<\/footer>/, `<footer class="site-footer" id="site-footer">${footerHtml(r)}</footer>`)
+    .replace(/(href|src)="category\.html\?cat=([a-z-]+)"/g, (m, a, id) => `${a}="category/${id}/"`);
+  writeFileSync(p, h);
 }
 
 // 4. Guide pages (remove folders for posts that no longer exist)
@@ -205,6 +274,14 @@ for (const post of POSTS) {
   writeFileSync(join(dir, 'index.html'), page(post));
 }
 
+// 4b. Category hubs and root pages
+for (const c of CATEGORIES) {
+  const dir = join(root, 'category', c.id);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, 'index.html'), hubPage(c));
+}
+for (const [file, key] of Object.entries(ROOT_PAGES)) refreshRootPage(file, key);
+
 // 5. Lightweight index for the browser (cards, blog list, category pages)
 const index = POSTS.map(({ slug, type, cat, title, excerpt, date, updated, read, products }) => ({ slug, type, cat, title, excerpt, date, ...(updated ? { updated } : {}), read, products }));
 writeFileSync(join(root, 'js/posts-index.js'), `/* Generated by tools/build.mjs from content/posts/*.json. Do not edit. */\nconst POSTS = ${JSON.stringify(index, null, 1)};\n`);
@@ -214,8 +291,8 @@ const siteDate = new Date(SITE.updated).toLocaleDateString('en-CA');
 const newest = POSTS.reduce((m, p) => ((p.updated || p.date) > m ? p.updated || p.date : m), siteDate);
 const urls = [
   ['', newest], ['blog.html', newest], ['category.html', siteDate], ['about.html', siteDate],
-  ['disclaimer.html', siteDate], ['privacy.html', siteDate],
-  ...CATEGORIES.map((c) => [`category.html?cat=${c.id}`, siteDate]),
+  ['disclaimer.html', siteDate], ['privacy.html', siteDate], ['terms.html', siteDate],
+  ...CATEGORIES.map((c) => [`category/${c.id}/`, c.id === 'coffee' ? newest : siteDate]),
   ...POSTS.map((p) => [`guides/${p.slug}/`, p.updated || p.date]),
 ];
 writeFileSync(join(root, 'sitemap.xml'),
