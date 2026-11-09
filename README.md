@@ -5,7 +5,7 @@
 Amazon affiliate site focused on coffee gear (grinders, brewers, French presses, pour-over), with hand-picked products and buying guides. Home & Kitchen, Bedding, Cookware, Storage and Cleaning remain as secondary categories. Static HTML/CSS/JS hosted on GitHub Pages. Post pages are pre-rendered by `node tools/build.mjs`, which has no dependencies.
 
 ## Live site
-https://arafattakey.github.io/primedealzon/
+https://primedealzon.com/ (GitHub Pages, custom domain since 2026-11-09)
 
 ## Structure
 | File | Purpose |

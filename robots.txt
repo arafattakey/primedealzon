@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://arafattakey.github.io/primedealzon/sitemap.xml
+Sitemap: https://primedealzon.com/sitemap.xml
