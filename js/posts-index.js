@@ -22,6 +22,20 @@ const POSTS = [
   ]
  },
  {
+  "slug": "how-to-clean-a-french-press",
+  "type": "howto",
+  "cat": "coffee",
+  "title": "How to Clean a French Press: Daily Rinse, Deep Clean and Fixes",
+  "excerpt": "How to clean a French press the right way: a 1-minute daily rinse, a weekly deep clean for glass and steel, drain-safe grounds disposal and stuck plunger fixes.",
+  "date": "2026-11-09",
+  "read": "7 min read",
+  "products": [
+   "B0FDQJFRYS",
+   "B01G2CCWGY",
+   "B00005LM0R"
+  ]
+ },
+ {
   "slug": "how-to-make-french-press-coffee",
   "type": "howto",
   "cat": "coffee",
