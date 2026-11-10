@@ -22,6 +22,61 @@ const POSTS = [
   ]
  },
  {
+  "slug": "coffee-stocking-stuffers",
+  "type": "guide",
+  "cat": "coffee",
+  "title": "Coffee Stocking Stuffers (2026): Small Gifts They'll Actually Use",
+  "excerpt": "Seven coffee stocking stuffers that are small, useful and easy to match to how someone brews, plus which ones really fit in a stocking and which don't.",
+  "date": "2026-11-09",
+  "read": "7 min read",
+  "products": [
+   "B0CLYV3B94",
+   "B000BPC5LG",
+   "B07SMMH8G7",
+   "B00076ZD0O",
+   "B001RBTSMM",
+   "B0014J7FUY",
+   "B0046JG8WA"
+  ]
+ },
+ {
+  "slug": "gifts-for-cold-brew-lovers",
+  "type": "guide",
+  "cat": "coffee",
+  "title": "Gifts for Cold Brew Lovers (2026): 8 Picks by Budget",
+  "excerpt": "Eight gifts for cold brew lovers, from a simple fridge pitcher to a full brewing system, with what owners like and the real drawbacks of each one.",
+  "date": "2026-11-09",
+  "read": "9 min read",
+  "products": [
+   "B07C36HVWK",
+   "B07VJJJ764",
+   "B00JVSVM36",
+   "B08KHQRL66",
+   "B07CSKGLMM",
+   "B09B4CB7C1",
+   "B08VPTBYM5",
+   "B01M0CLQ72"
+  ]
+ },
+ {
+  "slug": "gifts-for-espresso-lovers",
+  "type": "guide",
+  "cat": "coffee",
+  "title": "Gifts for Espresso Lovers (2026): 7 Picks From Small to Big",
+  "excerpt": "Seven gifts for espresso lovers, from double-wall glasses to a first real espresso machine, with what owners like and the honest drawbacks of each.",
+  "date": "2026-11-09",
+  "read": "8 min read",
+  "products": [
+   "B09B4CB7C1",
+   "B0016J76CE",
+   "B00076ZD0O",
+   "B0CLYV3B94",
+   "B0000AN3QI",
+   "B0797T2FYL",
+   "B0B1JPPG2L"
+  ]
+ },
+ {
   "slug": "how-to-clean-a-french-press",
   "type": "howto",
   "cat": "coffee",

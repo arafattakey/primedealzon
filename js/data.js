@@ -52,6 +52,25 @@ const PRODUCTS = [
   { asin: "B07T1CH2HH", cat: "coffee", brand: "Cosori", title: "Cosori Gooseneck Electric Kettle with Temperature Control", blurb: "Five temperature presets, a 60-minute keep-warm and a slow, steady gooseneck pour.", badge: "Best kettle" },
   { asin: "B0D4617CLP", cat: "coffee", brand: "Chefman", title: "Chefman Gooseneck Electric Kettle, 0.8 L", blurb: "A no-frills gooseneck: one switch, fast boil and boil-dry protection.", badge: "Budget kettle" },
 
+  // Coffee: small gifts (stocking stuffers)
+  { asin: "B000BPC5LG", cat: "coffee", brand: "Norpro", title: "Norpro Stainless Steel Coffee Scoop with Bag Clip", blurb: "A long-handled scoop with a spring clip in the handle that seals the bag after you measure.", badge: "Stocking stuffer" },
+  { asin: "B07SMMH8G7", cat: "coffee", brand: "Perfect Pod", title: "Perfect Pod Cafe Save Reusable Coffee Pod Filters, 4-Pack", blurb: "Refillable pods that let a Keurig brew any ground coffee. Check the machine model before buying.", badge: "For Keurig owners" },
+  { asin: "B00076ZD0O", cat: "coffee", brand: "Bodum", title: "Bodum Pavina Double-Wall Espresso Glasses, 2.5 oz, Set of 2", blurb: "Borosilicate double-wall glasses that keep espresso warm and stay cool to hold.", badge: "Espresso gift" },
+  { asin: "B0014J7FUY", cat: "coffee", brand: "Urnex", title: "Urnex Grindz Coffee Grinder Cleaning Tablets, 430 g", blurb: "Food-safe tablets that clean burr grinders without taking them apart.", badge: "Practical pick" },
+  { asin: "B0046JG8WA", cat: "coffee", brand: "Coffeevac", title: "Coffeevac Airtight Coffee Container, 1/2 lb", blurb: "A push-button canister that lets air out as it closes. Holds a standard small bag of beans.", badge: "For whole beans" },
+
+  // Coffee: cold brew and iced coffee
+  { asin: "B07VJJJ764", cat: "coffee", brand: "County Line Kitchen", title: "County Line Kitchen Cold Brew Coffee Maker, 64 oz Mason Jar", blurb: "A glass mason jar with a stainless mesh filter and a flip-cap pouring lid. Makes a big batch.", badge: "Big batch" },
+  { asin: "B00JVSVM36", cat: "coffee", brand: "OXO", title: "OXO Brew Cold Brew Coffee Maker", blurb: "Makes cold brew concentrate and drains it into a 32 oz glass carafe with one switch.", badge: "Concentrate pick" },
+  { asin: "B08KHQRL66", cat: "coffee", brand: "Toddy", title: "Toddy Cold Brew System, Staycation Edition", blurb: "The long-running big-batch cold brew system, with a glass decanter, felt filters and paper filter bags.", badge: "Enthusiast pick" },
+  { asin: "B08VPTBYM5", cat: "coffee", brand: "Stanley", title: "Stanley IceFlow Flip Straw Tumbler, 20 oz", blurb: "Vacuum-insulated stainless tumbler with a flip-up straw and a handle. Fits most cupholders.", badge: "Iced coffee to go" },
+  { asin: "B01M0CLQ72", cat: "coffee", brand: "Tovolo", title: "Tovolo King Cube Silicone Ice Cube Trays, Set of 2", blurb: "Two silicone trays that make 2-inch cubes. Freeze cold brew in them so iced coffee doesn't get watery.", badge: "Coffee ice cubes" },
+
+  // Coffee: espresso
+  { asin: "B0B1JPPG2L", cat: "coffee", brand: "Breville", title: "Breville Bambino Espresso Machine (BES450BSS)", blurb: "A compact espresso machine with fast heat-up, digital temperature control and an automatic steam wand. Needs a separate grinder.", badge: "First espresso machine" },
+  { asin: "B0797T2FYL", cat: "coffee", brand: "Wacaco", title: "Wacaco Nanopresso Portable Espresso Maker", blurb: "A hand-pumped espresso maker for travel and camping. No battery or power needed.", badge: "For travelers" },
+  { asin: "B0016J76CE", cat: "coffee", brand: "Dreamfarm", title: "Dreamfarm Grindenstein Espresso Knock Box", blurb: "A small knock box that sits on the drip tray, with a rubber-sleeved bar that protects the portafilter.", badge: "Tidy counter" },
+
   // Coffee: gifts and accessories
   { asin: "B0047BIWSK", cat: "coffee", brand: "AeroPress", title: "AeroPress Original Coffee Press", blurb: "A cult-favorite single-cup brewer: about 2 minutes to brew and clean, and tough enough to travel.", badge: "Top gift" },
   { asin: "B0000AN3QI", cat: "coffee", brand: "Bialetti", title: "Bialetti Moka Express Stovetop Espresso Maker, 3 Cup", blurb: "The original Italian moka pot, still made in Italy. Strong, espresso-style coffee on any stovetop.", badge: "Classic" },

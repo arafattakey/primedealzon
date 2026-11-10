@@ -71,11 +71,19 @@ ${pin ? `<p class="sub">${esc(post.excerpt)}</p>` : ''}
 </body></html>`;
 }
 
+// Edge can hand the job to a background process and return early, so wait for the file itself.
+function waitFor(file, ms = 45000) {
+  const end = Date.now() + ms;
+  while (!existsSync(file) && Date.now() < end) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 500);
+  if (!existsSync(file)) { console.error(`Image was not written: ${file}`); process.exit(1); }
+}
+
 function render(post, kind, w, h) {
   const dir = join(root, 'images', kind);
   mkdirSync(dir, { recursive: true });
   const out = join(dir, `${post.slug}.png`);
   if (existsSync(out) && !force && !only) return false;
+  rmSync(out, { force: true });
   const tmp = join(tmpdir(), `pdz-img-${process.pid}`);
   mkdirSync(tmp, { recursive: true });
   const src = join(tmp, `${post.slug}-${kind}.html`);
@@ -85,6 +93,7 @@ function render(post, kind, w, h) {
     `--user-data-dir=${join(tmp, 'profile')}`, `--window-size=${w},${h}`, '--virtual-time-budget=6000',
     `--screenshot=${out}`, pathToFileURL(src).href,
   ], { stdio: 'ignore', timeout: 60000 });
+  waitFor(out);
   return true;
 }
 
@@ -109,6 +118,7 @@ if (!only || only === 'site') {
     execFileSync(browser, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run',
       `--user-data-dir=${join(tmp, 'profile')}`, '--window-size=180,180', `--screenshot=${touch}`, pathToFileURL(src).href],
       { stdio: 'ignore', timeout: 60000 });
+    waitFor(touch);
     // favicon.ico holding the PNG (valid ICO with an embedded PNG image).
     const png = readFileSync(touch);
     const head = Buffer.alloc(22);
@@ -119,7 +129,7 @@ if (!only || only === 'site') {
     made++;
   }
 }
-rmSync(join(tmpdir(), `pdz-img-${process.pid}`), { recursive: true, force: true });
+try { rmSync(join(tmpdir(), `pdz-img-${process.pid}`), { recursive: true, force: true }); } catch { /* the browser may still hold its profile; the OS cleans temp */ }
 
 // Pinterest bulk-upload CSV (newest first). Board name must exist on the Pinterest account.
 const base = SITE.url.endsWith('/') ? SITE.url : SITE.url + '/';
