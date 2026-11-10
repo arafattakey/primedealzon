@@ -22,6 +22,21 @@ const POSTS = [
   ]
  },
  {
+  "slug": "why-is-my-coffee-bitter",
+  "type": "howto",
+  "cat": "coffee",
+  "title": "Why Is My Coffee Bitter? 9 Causes and the Fix for Each",
+  "excerpt": "Why is my coffee bitter? Usually over-extraction. Find the cause in two minutes, with the first fix to try for drip, French press, pour-over and espresso.",
+  "date": "2026-11-10",
+  "read": "7 min read",
+  "products": [
+   "B07CSKGLMM",
+   "B09B4CB7C1",
+   "B07T1CH2HH",
+   "B0014J7FUY"
+  ]
+ },
+ {
   "slug": "coffee-stocking-stuffers",
   "type": "guide",
   "cat": "coffee",
