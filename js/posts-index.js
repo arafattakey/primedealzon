@@ -22,6 +22,20 @@ const POSTS = [
   ]
  },
  {
+  "slug": "why-is-my-coffee-sour",
+  "type": "howto",
+  "cat": "coffee",
+  "title": "Why Does My Coffee Taste Sour? 8 Causes and How to Fix Each",
+  "excerpt": "Why does my coffee taste sour? Usually under-extraction. Learn to tell sour from bright, then fix it by method: drip, pour-over, French press and espresso.",
+  "date": "2026-11-11",
+  "read": "7 min read",
+  "products": [
+   "B07CSKGLMM",
+   "B09B4CB7C1",
+   "B07T1CH2HH"
+  ]
+ },
+ {
   "slug": "why-is-my-coffee-bitter",
   "type": "howto",
   "cat": "coffee",
