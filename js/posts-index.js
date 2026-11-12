@@ -22,6 +22,22 @@ const POSTS = [
   ]
  },
  {
+  "slug": "why-is-my-french-press-coffee-muddy",
+  "type": "howto",
+  "cat": "coffee",
+  "title": "French Press Coffee Muddy or Gritty? 7 Causes and Fixes",
+  "excerpt": "French press coffee muddy or gritty? Find where the sludge comes from (grind, stirring, pressing, filter or pour) and fix it, plus a 10-second paper filter trick.",
+  "date": "2026-11-12",
+  "read": "7 min read",
+  "products": [
+   "B073S4XTKJ",
+   "B07CSKGLMM",
+   "B007F183LK",
+   "B0FDQJFRYS",
+   "B01G2CCWGY"
+  ]
+ },
+ {
   "slug": "why-is-my-coffee-sour",
   "type": "howto",
   "cat": "coffee",
