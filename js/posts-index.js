@@ -22,6 +22,22 @@ const POSTS = [
   ]
  },
  {
+  "slug": "french-press-plunger-hard-to-push",
+  "type": "howto",
+  "cat": "coffee",
+  "title": "French Press Plunger Hard to Push? 6 Causes and Safe Fixes",
+  "excerpt": "French press plunger hard to push? Find out why (grind, clogged mesh, tilted filter, overfilling) and fix it without cracking the glass or burning your hand.",
+  "date": "2026-11-13",
+  "read": "7 min read",
+  "products": [
+   "B07CSKGLMM",
+   "B007F183LK",
+   "B0FDQJFRYS",
+   "B01G2CCWGY",
+   "B00005LM0R"
+  ]
+ },
+ {
   "slug": "why-is-my-french-press-coffee-muddy",
   "type": "howto",
   "cat": "coffee",
