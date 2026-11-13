@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resize Signature to 300×80 under 60 KB | স্বাক্ষর রিসাইজ – Sohoj Tools</title>
+<meta name="description" content="Make your signature 300×80 pixels under 60 KB for Teletalk govt job and BCS forms. Cleans the paper background to white. Free, no upload. স্বাক্ষর ৩০০×৮০, ৬০ KB।">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0a7d5a">
+<link rel="icon" href="../icon.svg">
+</head>
+<body data-root="../" data-tool="signature-resizer">
+<main><div class="wrap">
+  <p class="crumbs"><a href="../"><span lang="en">Home</span><span lang="bn">হোম</span></a> › <span lang="en">Image tools</span><span lang="bn">ছবির টুলস</span></p>
+  <h1><span lang="en">Signature Resizer (300×80, 60 KB)</span><span lang="bn">স্বাক্ষর রিসাইজ (৩০০×৮০, ৬০ KB)</span></h1>
+  <p class="lead"><span lang="en">Sign on white paper, take a photo, and get a clean signature at the exact size your form needs.</span><span lang="bn">সাদা কাগজে সই করে ছবি তুলুন, ফর্মের জন্য ঠিক সাইজের পরিষ্কার স্বাক্ষর পাবেন।</span></p>
+
+  <div class="card">
+    <label for="preset"><span lang="en">Size needed</span><span lang="bn">কোন সাইজ লাগবে</span></label>
+    <select id="preset"></select>
+    <div id="custom" hidden>
+      <div class="row3">
+        <div><label for="w"><span lang="en">Width px</span><span lang="bn">প্রস্থ px</span></label><input type="text" inputmode="numeric" id="w"></div>
+        <div><label for="h"><span lang="en">Height px</span><span lang="bn">উচ্চতা px</span></label><input type="text" inputmode="numeric" id="h"></div>
+        <div><label for="kb"><span lang="en">Max KB</span><span lang="bn">সর্বোচ্চ KB</span></label><input type="text" inputmode="numeric" id="kb"></div>
+      </div>
+    </div>
+    <label><span lang="en">If the shape is different</span><span lang="bn">ছবির আকার না মিললে</span></label>
+    <div class="seg">
+      <label><input type="radio" name="fit" value="crop"> <span lang="en">Crop to fill</span><span lang="bn">কেটে পূরণ করুন</span></label>
+      <label><input type="radio" name="fit" value="fit" checked> <span lang="en">Fit with white edges</span><span lang="bn">সাদা কিনারাসহ পুরোটা</span></label>
+    </div>
+    <div class="seg" style="margin-top:8px"><label><input type="checkbox" id="clean" checked> <span lang="en">Clean background (make paper white)</span><span lang="bn">ব্যাকগ্রাউন্ড পরিষ্কার (কাগজ সাদা করুন)</span></label></div>
+    <label class="drop" id="drop" style="margin-top:16px">
+      <input type="file" id="file" accept="image/*">
+      <span lang="en">✍️ Choose signature photo</span><span lang="bn">✍️ স্বাক্ষরের ছবি বাছুন</span>
+      <small><span lang="en">JPG or PNG from your gallery or camera</span><span lang="bn">গ্যালারি বা ক্যামেরা থেকে JPG বা PNG</span></small>
+    </label>
+    <p class="hint" id="orig"></p>
+    <p class="err" id="err" hidden></p>
+
+    <div class="result" id="res" hidden>
+      <div class="preview"><img id="preview" alt=""></div>
+      <div class="stats">
+        <div class="stat"><b id="size"></b><span><span lang="en">file size</span><span lang="bn">ফাইল সাইজ</span></span></div>
+        <div class="stat"><b id="dims"></b><span><span lang="en">pixels</span><span lang="bn">পিক্সেল</span></span></div>
+        <div class="stat"><b id="qual"></b><span><span lang="en">quality kept</span><span lang="bn">কোয়ালিটি</span></span></div>
+        <div class="stat"><b>JPG</b><span><span lang="en">format</span><span lang="bn">ফরম্যাট</span></span></div>
+      </div>
+      <button class="btn block" id="dl" type="button"><span lang="en">⬇ Download</span><span lang="bn">⬇ ডাউনলোড</span></button>
+    </div>
+    <p class="privacy">🔒 <span lang="en">Your photo stays on your phone. Nothing is uploaded.</span><span lang="bn">আপনার ছবি আপনার ফোনেই থাকে, কোথাও আপলোড হয় না।</span></p>
+  </div>
+
+  <section class="card howto">
+    <h2><span lang="en">How to use</span><span lang="bn">কীভাবে ব্যবহার করবেন</span></h2>
+    <ol lang="en"><li>Sign with a black or blue pen on plain white paper.</li><li>Take a photo in good light, close enough that the signature fills most of the picture. Crop it in your gallery if you can.</li><li>Pick the photo here. “Clean background” turns grey paper pure white.</li><li>Tap Download and upload the file to your form.</li></ol>
+    <ol lang="bn"><li>সাদা কাগজে কালো বা নীল কলমে সই করুন।</li><li>ভালো আলোতে কাছ থেকে ছবি তুলুন, যেন সই ছবির বেশিরভাগ জায়গা নেয়। পারলে গ্যালারিতে ক্রপ করে নিন।</li><li>এখানে ছবিটি বাছুন। “ব্যাকগ্রাউন্ড পরিষ্কার” কাগজের ধূসর রং সাদা করে দেয়।</li><li>ডাউনলোড চেপে ফাইলটি ফর্মে আপলোড করুন।</li></ol>
+    <p class="note"><span lang="en">Always check the size your form asks for: requirements can change between circulars.</span><span lang="bn">ফর্মে কী সাইজ চেয়েছে সবসময় মিলিয়ে নিন: বিজ্ঞপ্তি অনুযায়ী নিয়ম বদলাতে পারে।</span></p>
+  </section>
+</div></main>
+<script>window.RESIZER_PRESETS = [{"w":300,"h":80,"kb":60,"en":"Govt job / BCS (Teletalk): 300×80, max 60 KB","bn":"সরকারি চাকরি / বিসিএস (টেলিটক): ৩০০×৮০, সর্বোচ্চ ৬০ KB"}];</script>
+<script src="../js/common.js"></script>
+<script src="../js/resizer.js"></script>
+</body>
+</html>

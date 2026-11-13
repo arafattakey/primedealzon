@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loan EMI Calculator (Bangladesh, Taka) | লোন কিস্তি ক্যালকুলেটর – Sohoj Tools</title>
+<meta name="description" content="Calculate the monthly installment, total interest and full repayment schedule for a home, car, personal or NGO loan. Flat and reducing rates. লোনের মাসিক কিস্তি হিসাব করুন।">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0a7d5a">
+<link rel="icon" href="../icon.svg">
+</head>
+<body data-root="../" data-tool="emi-calculator">
+<main><div class="wrap">
+  <p class="crumbs"><a href="../"><span lang="en">Home</span><span lang="bn">হোম</span></a> › <span lang="en">Calculators</span><span lang="bn">ক্যালকুলেটর</span></p>
+  <h1><span lang="en">Loan EMI Calculator</span><span lang="bn">লোন কিস্তি (EMI) ক্যালকুলেটর</span></h1>
+  <p class="lead"><span lang="en">See your monthly installment and how much interest you really pay, before you sign.</span><span lang="bn">লোন নেওয়ার আগেই দেখুন মাসিক কিস্তি কত আর আসলে কত টাকা সুদ দিচ্ছেন।</span></p>
+
+  <div class="card">
+    <label for="amt"><span lang="en">Loan amount (৳)</span><span lang="bn">লোনের পরিমাণ (৳)</span></label>
+    <input type="text" inputmode="numeric" id="amt" value="500000">
+    <div class="row">
+      <div>
+        <label for="rate"><span lang="en">Interest % per year</span><span lang="bn">বার্ষিক সুদ %</span></label>
+        <input type="text" inputmode="decimal" id="rate" value="12">
+      </div>
+      <div>
+        <label for="term"><span lang="en">Time</span><span lang="bn">মেয়াদ</span></label>
+        <div class="row">
+          <input type="text" inputmode="numeric" id="term" value="5">
+          <select id="unit"><option value="y">বছর / yrs</option><option value="m">মাস / mo</option></select>
+        </div>
+      </div>
+    </div>
+    <label><span lang="en">Interest type</span><span lang="bn">সুদের ধরন</span></label>
+    <div class="seg">
+      <label><input type="radio" name="type" value="reducing" checked> <span lang="en">Reducing (banks)</span><span lang="bn">হ্রাসমান (ব্যাংক)</span></label>
+      <label><input type="radio" name="type" value="flat"> <span lang="en">Flat (many NGOs, shops)</span><span lang="bn">ফ্ল্যাট (অনেক এনজিও, দোকান)</span></label>
+    </div>
+
+    <div class="result" id="res">
+      <div><span lang="en">Monthly installment</span><span lang="bn">মাসিক কিস্তি</span></div>
+      <div class="big" id="emi"></div>
+      <div class="stats">
+        <div class="stat"><b id="int"></b><span lang="en">total interest</span><span lang="bn">মোট সুদ</span></div>
+        <div class="stat"><b id="tot"></b><span lang="en">total you pay</span><span lang="bn">মোট পরিশোধ</span></div>
+      </div>
+      <p class="note" id="flatnote" hidden></p>
+      <div class="table-wrap"><table id="sched"></table></div>
+    </div>
+  </div>
+
+  <section class="card howto">
+    <h2><span lang="en">Flat vs reducing interest</span><span lang="bn">ফ্ল্যাট বনাম হ্রাসমান সুদ</span></h2>
+    <p lang="en"><b>Reducing:</b> interest is charged only on what you still owe, so it falls every month. Banks use this. <b>Flat:</b> interest is charged on the full loan for the whole time, even after you've paid most of it back. A “12% flat” loan really costs about 20–22% a year in reducing terms. Always ask the lender which one they use.</p>
+    <p lang="bn"><b>হ্রাসমান:</b> শুধু বাকি থাকা টাকার উপর সুদ ধরা হয়, তাই প্রতি মাসে সুদ কমে। ব্যাংক এটি ব্যবহার করে। <b>ফ্ল্যাট:</b> পুরো মেয়াদ জুড়ে পুরো লোনের উপর সুদ ধরা হয়, অনেকটা শোধ করার পরেও। “১২% ফ্ল্যাট” লোন আসলে হ্রাসমান হিসেবে বছরে প্রায় ২০–২২%। লোন নেওয়ার আগে অবশ্যই জিজ্ঞেস করুন কোন পদ্ধতিতে সুদ ধরা হয়।</p>
+  </section>
+</div></main>
+<script src="../js/common.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function tk(n) { return '৳' + FT.num(Math.round(n)); }
+
+  // Effective reducing-balance annual rate that gives the same EMI as a flat loan
+  function effRate(P, emi, n) {
+    var lo = 0, hi = 5;
+    for (var i = 0; i < 80; i++) {
+      var r = (lo + hi) / 2 / 12, e = r === 0 ? P / n : P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+      if (e > emi) hi = (lo + hi) / 2; else lo = (lo + hi) / 2;
+    }
+    return lo * 100;
+  }
+
+  function calc() {
+    var P = FT.parse($('amt').value), R = FT.parse($('rate').value), T = FT.parse($('term').value);
+    var n = Math.round($('unit').value === 'y' ? T * 12 : T);
+    var flat = document.querySelector('input[name="type"]:checked').value === 'flat';
+    if (!(P > 0) || !(R >= 0) || !(n >= 1) || n > 600) { $('emi').textContent = '—'; $('sched').innerHTML = ''; return; }
+    var r = R / 100 / 12, emi, interest;
+    if (flat) { interest = P * R / 100 * (n / 12); emi = (P + interest) / n; }
+    else { emi = r === 0 ? P / n : P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1); interest = emi * n - P; }
+    $('emi').textContent = tk(emi);
+    $('int').textContent = tk(interest);
+    $('tot').textContent = tk(P + interest);
+
+    var fn = $('flatnote');
+    if (flat && R > 0) {
+      var e = effRate(P, emi, n);
+      fn.hidden = false;
+      fn.textContent = FT.t('This ' + R + '% flat loan equals about ' + e.toFixed(1) + '% per year on a reducing balance.',
+        'এই ' + FT.num(R, R % 1 ? 1 : 0) + '% ফ্ল্যাট লোন হ্রাসমান হিসাবে বছরে প্রায় ' + FT.num(e, 1) + '%।');
+    } else fn.hidden = true;
+
+    // Year-by-year schedule
+    var rows = [], bal = P, yInt = 0, yPrin = 0, flatInt = interest / n, flatPrin = P / n;
+    for (var k = 1; k <= n; k++) {
+      var i = flat ? flatInt : bal * r, pr = flat ? flatPrin : emi - i;
+      bal = Math.max(0, bal - pr); yInt += i; yPrin += pr;
+      if (k % 12 === 0 || k === n) {
+        rows.push('<tr><td>' + FT.t('Year ', 'বছর ') + FT.num(Math.ceil(k / 12)) + '</td><td>' + tk(yPrin) + '</td><td>' + tk(yInt) + '</td><td>' + tk(bal) + '</td></tr>');
+        yInt = yPrin = 0;
+      }
+    }
+    $('sched').innerHTML = '<thead><tr><th></th><th>' + FT.t('Principal', 'আসল') + '</th><th>' + FT.t('Interest', 'সুদ') + '</th><th>' +
+      FT.t('Still owed', 'বাকি') + '</th></tr></thead><tbody>' + rows.join('') + '</tbody>';
+  }
+  ['amt', 'rate', 'term', 'unit'].forEach(function (id) { $(id).addEventListener('input', calc); });
+  document.querySelectorAll('input[name="type"]').forEach(function (x) { x.addEventListener('change', calc); });
+  document.addEventListener('langchange', calc);
+  calc();
+})();
+</script>
+</body>
+</html>

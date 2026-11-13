@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YouTube Income Calculator in Taka (Bangladesh) | ইউটিউব আয় ক্যালকুলেটর – Sohoj Tools</title>
+<meta name="description" content="How much does YouTube pay in Bangladesh? Estimate monthly and yearly earnings in taka from your views, for long videos and Shorts. ইউটিউবে কত টাকা আয় হয় হিসাব করুন।">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0a7d5a">
+<link rel="icon" href="../icon.svg">
+</head>
+<body data-root="../" data-tool="youtube-income-calculator">
+<main><div class="wrap">
+  <p class="crumbs"><a href="../"><span lang="en">Home</span><span lang="bn">হোম</span></a> › <span lang="en">Content creator</span><span lang="bn">কনটেন্ট ক্রিয়েটর</span></p>
+  <h1><span lang="en">YouTube Income Calculator (Taka)</span><span lang="bn">ইউটিউব আয় ক্যালকুলেটর (টাকায়)</span></h1>
+  <p class="lead"><span lang="en">An honest estimate of what your views can earn, based on where your viewers live.</span><span lang="bn">আপনার দর্শক কোন দেশের, সেই অনুযায়ী ভিউ থেকে আয়ের বাস্তব হিসাব।</span></p>
+
+  <div class="card">
+    <label for="views"><span lang="en">Views per month</span><span lang="bn">মাসে ভিউ</span></label>
+    <input type="text" inputmode="numeric" id="views" value="100000">
+    <label for="aud"><span lang="en">Where most viewers are</span><span lang="bn">বেশিরভাগ দর্শক কোথায়</span></label>
+    <select id="aud"></select>
+    <div class="row">
+      <div>
+        <label for="rpm"><span lang="en">Your RPM ($)</span><span lang="bn">আপনার RPM ($)</span> <span class="hint"><span lang="en">(optional)</span><span lang="bn">(ঐচ্ছিক)</span></span></label>
+        <input type="text" inputmode="decimal" id="rpm" data-ph-en="From YouTube Studio" data-ph-bn="YouTube Studio থেকে">
+      </div>
+      <div>
+        <label for="rate"><span lang="en">1 USD in taka</span><span lang="bn">১ ডলার = কত টাকা</span></label>
+        <input type="text" inputmode="decimal" id="rate" value="122">
+      </div>
+    </div>
+
+    <div class="result" id="res">
+      <div><span lang="en">Estimated per month</span><span lang="bn">মাসে সম্ভাব্য আয়</span></div>
+      <div class="big" id="month"></div>
+      <div class="stats">
+        <div class="stat"><b id="year"></b><span lang="en">per year</span><span lang="bn">বছরে</span></div>
+        <div class="stat"><b id="usd"></b><span lang="en">per month in USD</span><span lang="bn">মাসে ডলারে</span></div>
+        <div class="stat"><b id="perK"></b><span lang="en">per 1,000 views</span><span lang="bn">প্রতি ১,০০০ ভিউতে</span></div>
+        <div class="stat"><b id="need"></b><span lang="en">views/month for ৳50,000</span><span lang="bn">৳৫০,০০০ আয়ের জন্য মাসিক ভিউ</span></div>
+      </div>
+      <p class="note"><span lang="en">Estimates only. RPM changes by topic, season (Nov–Dec pays most), video length and audience. Finance, tech and education pay more than comedy or gaming.</span><span lang="bn">এটি শুধু আনুমানিক হিসাব। বিষয়, মৌসুম (নভেম্বর–ডিসেম্বরে আয় বেশি), ভিডিওর দৈর্ঘ্য ও দর্শক অনুযায়ী RPM বদলায়। ফাইন্যান্স, টেক ও শিক্ষা বিষয়ে কমেডি বা গেমিংয়ের চেয়ে বেশি আয় হয়।</span></p>
+    </div>
+  </div>
+
+  <section class="card howto">
+    <h2><span lang="en">How YouTube pays in Bangladesh</span><span lang="bn">বাংলাদেশে ইউটিউব কীভাবে টাকা দেয়</span></h2>
+    <div lang="en">
+      <ul>
+        <li><b>To join the Partner Program</b> you need 1,000 subscribers plus either 4,000 public watch hours in 12 months or 10 million Shorts views in 90 days.</li>
+        <li><b>RPM</b> is what <i>you</i> earn per 1,000 views, after YouTube's share. Find it in YouTube Studio → Analytics → Revenue.</li>
+        <li>Viewers in Bangladesh earn you less than viewers abroad. Bangladeshis living in the Middle East, UK, USA and Europe raise your RPM a lot.</li>
+        <li>Videos of 8 minutes or more can show mid-roll ads and usually earn more.</li>
+        <li>Payment comes through Google AdSense once your balance reaches $100, by bank transfer to a Bangladeshi bank account.</li>
+        <li>Never use another creator's videos, music or clips: copyright claims send your earnings to them, and strikes can remove your channel.</li>
+      </ul>
+    </div>
+    <div lang="bn">
+      <ul>
+        <li><b>পার্টনার প্রোগ্রামে যোগ দিতে</b> লাগবে ১,০০০ সাবস্ক্রাইবার এবং ১২ মাসে ৪,০০০ ঘণ্টা ওয়াচ টাইম, অথবা ৯০ দিনে ১ কোটি শর্টস ভিউ।</li>
+        <li><b>RPM</b> হলো ইউটিউবের ভাগ বাদ দিয়ে প্রতি ১,০০০ ভিউতে <i>আপনার</i> আয়। YouTube Studio → Analytics → Revenue-এ পাবেন।</li>
+        <li>বাংলাদেশের দর্শক থেকে আয় বিদেশি দর্শকের চেয়ে কম। মধ্যপ্রাচ্য, যুক্তরাজ্য, আমেরিকা ও ইউরোপে থাকা প্রবাসী দর্শক RPM অনেক বাড়ায়।</li>
+        <li>৮ মিনিট বা বেশি লম্বা ভিডিওতে মাঝে বিজ্ঞাপন (mid-roll) দেওয়া যায়, তাই আয় বেশি হয়।</li>
+        <li>অ্যাডসেন্সে ১০০ ডলার জমলে বাংলাদেশি ব্যাংক অ্যাকাউন্টে টাকা আসে।</li>
+        <li>অন্যের ভিডিও, গান বা ক্লিপ ব্যবহার করবেন না: কপিরাইট ক্লেইম হলে আয় তার কাছে চলে যায়, স্ট্রাইক হলে চ্যানেল বন্ধ হতে পারে।</li>
+      </ul>
+    </div>
+  </section>
+</div></main>
+<script src="../js/common.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  // Typical creator RPM ranges (USD per 1,000 views, after YouTube's share). Rough, conservative.
+  var AUD = [
+    { id: 'bd',     lo: 0.20, hi: 0.70, en: 'Mostly Bangladesh (long videos)', bn: 'বেশিরভাগ বাংলাদেশ (লম্বা ভিডিও)' },
+    { id: 'mix',    lo: 0.50, hi: 1.50, en: 'Bangladesh + Bangladeshis abroad', bn: 'বাংলাদেশ + প্রবাসী বাংলাদেশি' },
+    { id: 'mideast',lo: 0.80, hi: 2.50, en: 'Mostly Middle East (Saudi, UAE, Qatar…)', bn: 'বেশিরভাগ মধ্যপ্রাচ্য (সৌদি, দুবাই, কাতার…)' },
+    { id: 'west',   lo: 2.00, hi: 6.00, en: 'Mostly USA / UK / Europe', bn: 'বেশিরভাগ আমেরিকা / যুক্তরাজ্য / ইউরোপ' },
+    { id: 'shorts', lo: 0.01, hi: 0.06, en: 'Shorts only', bn: 'শুধু শর্টস' }
+  ];
+  function fill() {
+    var v = $('aud').value || 'bd';
+    $('aud').innerHTML = AUD.map(function (a) {
+      return '<option value="' + a.id + '">' + FT.t(a.en, a.bn) + ' — $' + a.lo + '–' + a.hi + ' RPM</option>';
+    }).join('');
+    $('aud').value = v;
+  }
+  function tk(n) { return '৳' + FT.num(n); }
+  function range(lo, hi, f) { return Math.round(lo) === Math.round(hi) ? f(lo) : f(lo) + ' – ' + f(hi); }
+
+  function calc() {
+    var views = FT.parse($('views').value), rate = FT.parse($('rate').value), own = FT.parse($('rpm').value);
+    var a = AUD.filter(function (x) { return x.id === $('aud').value; })[0];
+    var lo = a.lo, hi = a.hi;
+    if (own > 0) { lo = hi = own; }
+    if (!(views >= 0) || !(rate > 0)) { $('month').textContent = '—'; return; }
+    var mLo = views / 1000 * lo, mHi = views / 1000 * hi;
+    $('month').textContent = range(mLo * rate, mHi * rate, tk);
+    $('year').textContent = range(mLo * rate * 12, mHi * rate * 12, tk);
+    $('usd').textContent = range(mLo, mHi, function (n) { return '$' + FT.num(n, n < 10 ? 2 : 0); });
+    $('perK').textContent = range(lo * rate, hi * rate, function (n) { return '৳' + FT.num(n, n < 10 ? 2 : 0); });
+    var mid = (lo + hi) / 2;
+    $('need').textContent = FT.num(Math.ceil(50000 / rate / mid * 1000 / 1000) * 1000);
+  }
+  ['views', 'rate', 'rpm', 'aud'].forEach(function (id) { $(id).addEventListener('input', calc); });
+  document.addEventListener('langchange', function () { fill(); calc(); });
+  fill(); calc();
+})();
+</script>
+</body>
+</html>
