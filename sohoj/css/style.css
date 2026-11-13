@@ -87,7 +87,7 @@ h2 { font-size: 20px; margin: 28px 0 10px; }
 /* Forms */
 label { display: block; font-weight: 600; margin: 12px 0 6px; font-size: 15px; }
 .hint { font-weight: 400; color: var(--muted); font-size: 14px; }
-input[type="number"], input[type="date"], input[type="time"], input[type="text"], input[type="tel"], input[type="url"], input[type="email"], input[type="search"], select {
+input[type="number"], input[type="date"], input[type="time"], input[type="text"], input[type="tel"], input[type="url"], input[type="email"], input[type="password"], input[type="search"], select {
   max-width: 100%; min-width: 0;
   width: 100%; min-height: 46px; padding: 10px 12px; font: inherit; color: var(--text);
   background: var(--bg); border: 1px solid var(--line); border-radius: 10px;

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scam Number Check & Report (bKash, Nagad, Rocket) | প্রতারক নম্বর যাচাই – Sohoj Tools</title>
+<meta name="description" content="Check if a phone number was reported for bKash, Nagad or Rocket fraud, and report a scammer's number with a screenshot to warn others. প্রতারকের নম্বর যাচাই ও রিপোর্ট করুন।">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0a7d5a">
+<link rel="icon" href="../icon.svg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Scammer number kivabe check korbo? (প্রতারকের নম্বর কীভাবে যাচাই করব?)","acceptedAnswer":{"@type":"Answer","text":"নম্বরটি লিখে যাচাই করুন। অন্তত ১০ জন আলাদা মানুষের রিপোর্ট আমাদের মডারেটর যাচাই করলে তবেই নম্বরটি প্রতারক হিসেবে দেখানো হয়। Type the number to check it. A number is only shown as a scam after reports from at least 10 different people have been checked by a moderator."}},
+ {"@type":"Question","name":"Scammer number report korle ki hobe? (রিপোর্ট করলে কী হয়?)","acceptedAnswer":{"@type":"Answer","text":"আপনার রিপোর্ট ও স্ক্রিনশট একজন মডারেটর যাচাই করেন। আপনার নাম বা আইপি ঠিকানা সংরক্ষণ করা হয় না। A moderator checks your report and screenshot. Your name and IP address are not stored."}}
+]}
+</script>
+<style>
+  .ft-hidden { display: none; }
+  .shot-preview img { max-height: 220px; border-radius: 8px; display: block; margin: 10px auto 0; }
+  #ts, #ts2 { margin-top: 14px; min-height: 0; }
+  details summary { cursor: pointer; font-weight: 700; color: var(--brand); min-height: 44px; display: flex; align-items: center; }
+  .verdict .cats { font-weight: 500; margin-top: 6px; }
+</style>
+</head>
+<body data-root="../" data-tool="scam-number-check">
+<main><div class="wrap">
+  <p class="crumbs"><a href="../"><span lang="en">Home</span><span lang="bn">হোম</span></a> › <span lang="en">Safety</span><span lang="bn">নিরাপত্তা</span></p>
+  <h1><span lang="en">Scam Number Check & Report</span><span lang="bn">প্রতারক নম্বর যাচাই ও রিপোর্ট</span></h1>
+  <p class="lead"><span lang="en">Check a number before you send money, and report a scammer with a screenshot so others don't lose money to the same number.</span><span lang="bn">টাকা পাঠানোর আগে নম্বর যাচাই করুন, আর স্ক্রিনশটসহ প্রতারকের নম্বর রিপোর্ট করুন যেন অন্যরা একই নম্বরে টাকা না হারান।</span></p>
+
+  <div class="note" id="soon" hidden><span lang="en">This feature is starting soon. Until then, report scams to your provider's helpline and the police.</span><span lang="bn">এই সুবিধাটি শীঘ্রই চালু হচ্ছে। ততদিন প্রতারণার কথা আপনার প্রোভাইডারের হেল্পলাইন ও পুলিশকে জানান।</span> <a href="../mfs-scam-help/"><span lang="en">Scam help →</span><span lang="bn">প্রতারণায় সহায়তা →</span></a></div>
+
+  <section class="card">
+    <h2 style="margin-top:0"><span lang="en">🔍 Check a number</span><span lang="bn">🔍 নম্বর যাচাই করুন</span></h2>
+    <label for="cn"><span lang="en">Mobile number</span><span lang="bn">মোবাইল নম্বর</span></label>
+    <input type="tel" id="cn" autocomplete="off" data-ph-en="01XXXXXXXXX" data-ph-bn="০১XXXXXXXXX">
+    <button class="btn block" type="button" id="checkBtn"><span lang="en">Check</span><span lang="bn">যাচাই করুন</span></button>
+    <div id="checkRes"></div>
+    <details id="disputeBox" hidden>
+      <summary><span lang="en">Is this your number? Ask for a review</span><span lang="bn">এটি আপনার নম্বর? পুনর্বিবেচনার অনুরোধ করুন</span></summary>
+      <label for="dContact"><span lang="en">How can we contact you?</span><span lang="bn">কীভাবে আপনার সাথে যোগাযোগ করব?</span> <span class="hint"><span lang="en">(email or phone)</span><span lang="bn">(ইমেইল বা ফোন)</span></span></label>
+      <input type="text" id="dContact" maxlength="120">
+      <label for="dMsg"><span lang="en">Why is the listing wrong?</span><span lang="bn">তালিকাটি কেন ভুল?</span></label>
+      <textarea class="field" id="dMsg" maxlength="1000"></textarea>
+      <div id="ts2"></div>
+      <button class="btn block" type="button" id="dSend"><span lang="en">Send review request</span><span lang="bn">অনুরোধ পাঠান</span></button>
+      <p id="dOut" class="hint"></p>
+    </details>
+  </section>
+
+  <section class="card">
+    <h2 style="margin-top:0"><span lang="en">🚩 Report a scam number</span><span lang="bn">🚩 প্রতারকের নম্বর রিপোর্ট করুন</span></h2>
+    <p class="hint"><span lang="en">Every report is checked by a person. A number is shown as a scam only after <b id="thr1">10</b> different people report it and the reports are verified.</span><span lang="bn">প্রতিটি রিপোর্ট একজন মানুষ যাচাই করেন। অন্তত <b id="thr2">১০</b> জন আলাদা মানুষ রিপোর্ট করলে এবং তা যাচাই হলে তবেই নম্বরটি প্রতারক হিসেবে দেখানো হয়।</span></p>
+    <form id="rf" onsubmit="return false" autocomplete="off">
+      <label for="rn"><span lang="en">Scammer's number</span><span lang="bn">প্রতারকের নম্বর</span></label>
+      <input type="tel" id="rn">
+      <div class="row">
+        <div><label for="rp"><span lang="en">Service</span><span lang="bn">সার্ভিস</span></label>
+          <select id="rp"><option value="bkash">bKash / বিকাশ</option><option value="nagad">Nagad / নগদ</option><option value="rocket">Rocket / রকেট</option><option value="upay">Upay / উপায়</option><option value="other">Other / অন্যান্য</option></select></div>
+        <div><label for="ra"><span lang="en">Amount lost ৳</span><span lang="bn">হারানো টাকা ৳</span> <span class="hint"><span lang="en">(optional)</span><span lang="bn">(ঐচ্ছিক)</span></span></label>
+          <input type="text" inputmode="numeric" id="ra"></div>
+      </div>
+      <label for="rc"><span lang="en">What happened</span><span lang="bn">কী ঘটেছে</span></label>
+      <select id="rc"></select>
+
+      <label><span lang="en">Screenshot (required)</span><span lang="bn">স্ক্রিনশট (আবশ্যক)</span></label>
+      <label class="drop" id="drop">
+        <input type="file" id="rs" accept="image/*">
+        <span lang="en">📷 Add screenshot</span><span lang="bn">📷 স্ক্রিনশট যোগ করুন</span>
+        <small><span lang="en">The transaction SMS, call log or chat that shows the scammer's number</span><span lang="bn">লেনদেনের এসএমএস, কল লিস্ট বা চ্যাট, যেখানে প্রতারকের নম্বর দেখা যায়</span></small>
+      </label>
+      <div class="shot-preview" id="shotPrev"></div>
+      <p class="note"><span lang="en">Only our moderators see the screenshot. You can crop out your balance, but keep the scammer's number, amount and TrxID visible.</span><span lang="bn">স্ক্রিনশট শুধু আমাদের মডারেটররা দেখেন। চাইলে আপনার ব্যালেন্স কেটে দিতে পারেন, তবে প্রতারকের নম্বর, টাকা ও TrxID যেন দেখা যায়।</span></p>
+
+      <label for="rnote"><span lang="en">Anything else for the moderator</span><span lang="bn">মডারেটরের জন্য অতিরিক্ত তথ্য</span> <span class="hint"><span lang="en">(optional, not shown publicly)</span><span lang="bn">(ঐচ্ছিক, প্রকাশ করা হয় না)</span></span></label>
+      <textarea class="field" id="rnote" maxlength="300"></textarea>
+
+      <label class="check" style="border:0;padding-top:14px"><input type="checkbox" id="rconf"><span><span lang="en">I confirm this number scammed me and this report is true. I understand false reports can harm innocent people.</span><span lang="bn">আমি নিশ্চিত করছি এই নম্বর থেকে আমার সাথে প্রতারণা হয়েছে এবং রিপোর্টটি সত্য। আমি জানি মিথ্যা রিপোর্ট নিরপরাধ মানুষের ক্ষতি করতে পারে।</span></span></label>
+      <div id="ts"></div>
+    </form>
+    <button class="btn block" type="button" id="rSend"><span lang="en">Send report</span><span lang="bn">রিপোর্ট পাঠান</span></button>
+    <div id="rOut"></div>
+    <p class="privacy">🔒 <span lang="en">We don't store your name or IP address. Your report is used only to warn others.</span><span lang="bn">আমরা আপনার নাম বা আইপি ঠিকানা সংরক্ষণ করি না। রিপোর্ট শুধু অন্যদের সতর্ক করতে ব্যবহার হয়।</span></p>
+  </section>
+</div></main>
+<script src="../js/common.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var API = '', SITE_KEY = '', THRESHOLD = 10, shot = null, widget = null, widget2 = null;
+  var CATS = [
+    ['officer', 'Fake officer call (asked for PIN/OTP)', 'ভুয়া অফিসারের কল (পিন/ওটিপি চেয়েছে)'],
+    ['sms', 'Fake SMS link (bonus, prize)', 'ভুয়া এসএমএস লিংক (বোনাস, পুরস্কার)'],
+    ['wrong', '“Sent by mistake” trick', '“ভুল করে টাকা পাঠিয়েছি” প্রতারণা'],
+    ['seller', 'Fake online seller', 'ভুয়া অনলাইন বিক্রেতা'],
+    ['other', 'Other', 'অন্যান্য']
+  ];
+  var PROV = { bkash: ['bKash', 'বিকাশ'], nagad: ['Nagad', 'নগদ'], rocket: ['Rocket', 'রকেট'], upay: ['Upay', 'উপায়'], other: ['Other', 'অন্যান্য'] };
+  var ERR = {
+    number: ['Enter a valid Bangladeshi mobile number (01XXXXXXXXX).', 'সঠিক বাংলাদেশি মোবাইল নম্বর দিন (০১XXXXXXXXX)।'],
+    screenshot: ['Please add a screenshot as proof.', 'প্রমাণ হিসেবে একটি স্ক্রিনশট দিন।'],
+    screenshot_size: ['The screenshot is too large. Try another one.', 'স্ক্রিনশটটি অনেক বড়। অন্য একটি চেষ্টা করুন।'],
+    confirm: ['Please tick the box to confirm your report is true.', 'রিপোর্ট সত্য তা নিশ্চিত করতে বক্সে টিক দিন।'],
+    captcha: ['Please complete the “I am human” check.', 'অনুগ্রহ করে “আমি মানুষ” যাচাইটি সম্পন্ন করুন।'],
+    rate: ['Too many reports from this connection today. Please try again tomorrow.', 'আজ এই সংযোগ থেকে অনেক রিপোর্ট হয়েছে। আগামীকাল আবার চেষ্টা করুন।'],
+    duplicate: ['You have already reported this number. Thank you!', 'আপনি এই নম্বরটি আগেই রিপোর্ট করেছেন। ধন্যবাদ!'],
+    dispute: ['Add a way to contact you and a short explanation.', 'যোগাযোগের উপায় ও সংক্ষিপ্ত ব্যাখ্যা দিন।'],
+    network: ['Could not connect. Check your internet and try again.', 'সংযোগ করা যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।']
+  };
+  function err(code, fallback) { var e = ERR[code]; return e ? FT.t(e[0], e[1]) : (fallback || FT.t(ERR.network[0], ERR.network[1])); }
+  function normalise(raw) {
+    var s = String(raw || '').replace(/[০-৯]/g, function (d) { return '০১২৩৪৫৬৭৮৯'.indexOf(d); }).replace(/[\s\-().]/g, '');
+    if (s.charAt(0) === '+') s = s.slice(1);
+    if (s.indexOf('880') === 0) s = s.slice(2); else if (s.indexOf('0088') === 0) s = s.slice(4);
+    return /^01[3-9]\d{8}$/.test(s) ? s : null;
+  }
+  function fillCats() {
+    var v = $('rc').value;
+    $('rc').innerHTML = CATS.map(function (c) { return '<option value="' + c[0] + '">' + FT.t(c[1], c[2]) + '</option>'; }).join('');
+    if (v) $('rc').value = v;
+    $('thr1').textContent = THRESHOLD; $('thr2').textContent = FT.digits(THRESHOLD);
+  }
+
+  function api(path, opts) {
+    return fetch(API + path, opts).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) { if (!r.ok) { var e = new Error(d.message || 'error'); e.code = d.error; throw e; } return d; });
+    });
+  }
+
+  /* ---- Turnstile (free bot check) ---- */
+  function loadTurnstile() {
+    if (!SITE_KEY || window.turnstile) return Promise.resolve();
+    return new Promise(function (res) {
+      var s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true; s.onload = res; s.onerror = res; document.head.appendChild(s);
+    });
+  }
+  function render(el) {
+    if (!SITE_KEY || !window.turnstile) return null;
+    return window.turnstile.render(el, { sitekey: SITE_KEY, language: FT.lang() === 'bn' ? 'bn' : 'en', theme: 'auto' });
+  }
+  function token(w) { return SITE_KEY && window.turnstile && w != null ? window.turnstile.getResponse(w) : ''; }
+  function resetW(w) { if (SITE_KEY && window.turnstile && w != null) window.turnstile.reset(w); }
+
+  /* ---- Check ---- */
+  function showCheck(html) { $('checkRes').innerHTML = html; }
+  function doCheck() {
+    var n = normalise($('cn').value);
+    $('disputeBox').hidden = true;
+    if (!n) return showCheck('<p class="err">' + err('number') + '</p>');
+    if (!API) return showCheck('<p class="note">' + FT.t('Checking is not available yet.', 'যাচাই সুবিধা এখনো চালু হয়নি।') + '</p>');
+    $('checkBtn').disabled = true;
+    api('/api/check?n=' + n).then(function (d) {
+      if (d.listed) {
+        var cats = Object.keys(d.categories || {}).map(function (k) { var c = CATS.filter(function (x) { return x[0] === k; })[0]; return c ? FT.t(c[1], c[2]) + ' (' + FT.num(d.categories[k]) + ')' : ''; }).filter(Boolean).join(', ');
+        var provs = Object.keys(d.providers || {}).map(function (k) { return PROV[k] ? FT.t(PROV[k][0], PROV[k][1]) : k; }).join(', ');
+        var last = d.last ? new Date(d.last) : null;
+        showCheck('<div class="verdict danger"><div class="big">' + FT.t('⛔ Reported as a scam', '⛔ প্রতারক হিসেবে রিপোর্ট করা') + '</div>' +
+          '<div>' + FT.t(d.reports + ' different people reported ' + n + ', and our moderators verified the reports.', FT.num(d.reports) + ' জন আলাদা মানুষ ' + FT.digits(n) + ' নম্বরটি রিপোর্ট করেছেন এবং মডারেটররা তা যাচাই করেছেন।') + '</div>' +
+          (cats ? '<div class="cats">' + FT.t('How: ', 'কীভাবে: ') + FT.esc(cats) + '</div>' : '') +
+          (provs ? '<div class="cats">' + FT.t('Using: ', 'মাধ্যম: ') + FT.esc(provs) + '</div>' : '') +
+          (last ? '<div class="cats">' + FT.t('Last report: ', 'সর্বশেষ রিপোর্ট: ') + FT.digits(last.toISOString().slice(0, 10)) + '</div>' : '') +
+          '<p style="margin:8px 0 0">' + FT.t('Do not send money to this number or share any PIN or OTP.', 'এই নম্বরে টাকা পাঠাবেন না, কোনো পিন বা ওটিপি দেবেন না।') + '</p></div>');
+        $('disputeBox').hidden = false;
+        loadTurnstile().then(function () { if (widget2 == null) widget2 = render($('ts2')); });
+      } else {
+        showCheck('<div class="verdict caution"><div class="big">' + FT.t('No confirmed reports', 'কোনো নিশ্চিত রিপোর্ট নেই') + '</div>' +
+          FT.t('This number is not on our verified scam list. That does not prove it is safe: never share your PIN or OTP, and be careful with advance payments.',
+            'নম্বরটি আমাদের যাচাইকৃত প্রতারক তালিকায় নেই। তার মানে এটি নিরাপদ, তা নয়: কখনো পিন বা ওটিপি দেবেন না, অগ্রিম টাকা পাঠাতে সতর্ক থাকুন।') + '</div>');
+      }
+    }).catch(function (e) { showCheck('<p class="err">' + err(e.code) + '</p>'); }).then(function () { $('checkBtn').disabled = false; });
+  }
+  $('checkBtn').addEventListener('click', doCheck);
+  $('cn').addEventListener('keydown', function (e) { if (e.key === 'Enter') doCheck(); });
+
+  $('dSend').addEventListener('click', function () {
+    var btn = this, n = normalise($('cn').value);
+    btn.disabled = true; $('dOut').textContent = '';
+    api('/api/dispute', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ number: n, contact: $('dContact').value, message: $('dMsg').value, token: token(widget2) }) })
+      .then(function () { $('dOut').textContent = FT.t('✓ Sent. A moderator will look at it.', '✓ পাঠানো হয়েছে। একজন মডারেটর দেখবেন।'); $('dContact').value = $('dMsg').value = ''; })
+      .catch(function (e) { $('dOut').textContent = err(e.code); })
+      .then(function () { btn.disabled = false; resetW(widget2); });
+  });
+
+  /* ---- Screenshot: shrink on the phone before upload (max side 1280px, ≤ 350 KB) ---- */
+  function compress(file) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image();
+      img.onload = function () {
+        var s = Math.min(1, 1280 / Math.max(img.naturalWidth, img.naturalHeight));
+        var c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * s); c.height = Math.round(img.naturalHeight * s);
+        var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
+        var q = 0.8, url;
+        do { url = c.toDataURL('image/jpeg', q); q -= 0.1; } while (url.length * 0.75 > 350 * 1024 && q > 0.25);
+        resolve(url);
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
+  }
+  function useShot(f) {
+    if (!f || !/^image\//.test(f.type)) return;
+    compress(f).then(function (url) {
+      shot = url;
+      $('shotPrev').innerHTML = '<img alt="">';
+      $('shotPrev').querySelector('img').src = url;
+    }).catch(function () { $('rOut').innerHTML = '<p class="err">' + FT.t('Could not read this image. Try a JPG or PNG screenshot.', 'ছবিটি পড়া যায়নি। JPG বা PNG স্ক্রিনশট দিন।') + '</p>'; });
+  }
+  $('rs').addEventListener('change', function (e) { useShot(e.target.files[0]); });
+  var drop = $('drop');
+  drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', function () { drop.classList.remove('over'); });
+  drop.addEventListener('drop', function (e) { e.preventDefault(); drop.classList.remove('over'); useShot(e.dataTransfer.files[0]); });
+
+  /* ---- Report ---- */
+  $('rSend').addEventListener('click', function () {
+    var btn = this, out = $('rOut');
+    var n = normalise($('rn').value);
+    if (!n) { out.innerHTML = '<p class="err">' + err('number') + '</p>'; return; }
+    if (!shot) { out.innerHTML = '<p class="err">' + err('screenshot') + '</p>'; return; }
+    if (!$('rconf').checked) { out.innerHTML = '<p class="err">' + err('confirm') + '</p>'; return; }
+    if (!API) { out.innerHTML = '<p class="note">' + FT.t('Reporting is not available yet.', 'রিপোর্ট সুবিধা এখনো চালু হয়নি।') + '</p>'; return; }
+    var amt = FT.parse($('ra').value);
+    btn.disabled = true; out.innerHTML = '<p class="hint">' + FT.t('Sending…', 'পাঠানো হচ্ছে…') + '</p>';
+    api('/api/report', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({
+      number: n, provider: $('rp').value, category: $('rc').value, amount: amt > 0 ? amt : null,
+      note: $('rnote').value, screenshot: shot, confirm: true, token: token(widget) }) })
+      .then(function () {
+        out.innerHTML = '<div class="verdict ok">' + FT.t('✓ Thank you. Your report was sent for review. You may have saved someone else\'s money today.',
+          '✓ ধন্যবাদ। আপনার রিপোর্ট যাচাইয়ের জন্য পাঠানো হয়েছে। হয়তো আজ আপনি অন্য কারো টাকা বাঁচালেন।') + '</div>';
+        $('rf').reset(); shot = null; $('shotPrev').innerHTML = ''; fillCats();
+      })
+      .catch(function (e) { out.innerHTML = '<p class="err">' + err(e.code) + '</p>'; })
+      .then(function () { btn.disabled = false; resetW(widget); });
+  });
+
+  // Prefill from the scam help page (?n=01XXXXXXXXX)
+  var pre = new URLSearchParams(location.search).get('n');
+  if (pre) { $('rn').value = pre; $('cn').value = pre; }
+
+  FT.data('config').then(function (c) {
+    API = String(c.scam_api || '').replace(/\/+$/, ''); SITE_KEY = c.turnstile_site_key || '';
+    if (c.min_reports) THRESHOLD = c.min_reports;
+    fillCats();
+    if (!API) { $('soon').hidden = false; return; }
+    loadTurnstile().then(function () { widget = render($('ts')); });
+  }).catch(function () { $('soon').hidden = false; });
+  document.addEventListener('langchange', fillCats);
+  fillCats();
+})();
+</script>
+</body>
+</html>

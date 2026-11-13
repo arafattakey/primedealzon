@@ -1,0 +1,20 @@
+name = "sohoj-scam-api"
+main = "src/index.js"
+compatibility_date = "2025-06-01"
+
+[vars]
+# Sites allowed to call the API (comma-separated, no trailing slash)
+ALLOWED_ORIGINS = "https://primedealzon.com"
+# Approved reports from this many different people before a number is shown as a scam
+MIN_REPORTS = "10"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sohoj-scams"
+# Paste the id printed by: npx wrangler d1 create sohoj-scams
+database_id = "REPLACE_WITH_YOUR_DATABASE_ID"
+
+# Secrets (never put these in this file):
+#   npx wrangler secret put SALT              # any long random text
+#   npx wrangler secret put ADMIN_TOKEN       # moderator password, 24+ characters
+#   npx wrangler secret put TURNSTILE_SECRET  # from Cloudflare dashboard → Turnstile

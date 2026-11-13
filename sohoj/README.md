@@ -22,6 +22,7 @@ and point a domain at it (GitHub Pages or Cloudflare Pages, both free). Nothing 
 | | BMI with South Asian cut-offs | `bmi-calculator/` |
 
 | Safety & citizen help | bKash/Nagad/Rocket scam help: tap-to-call helplines + police GD text (bn/en) | `mfs-scam-help/` |
+| | Scam number check & report (screenshot proof, moderator review, listed after 10 people) | `scam-number-check/`, moderators: `admin/`, server: `../sohoj-api/` |
 | | Fake link checker (never opens the link) | `link-checker/` |
 | | Official .gov.bd website directory | `govt-portals/` |
 | | Overseas job safety checklist (progress saved on the phone) | `overseas-job-check/` |
@@ -34,6 +35,7 @@ without touching code. **Only change them from an official source**, and update 
 - `data/helplines.json`: MFS and emergency numbers
 - `data/govt-portals.json`: official websites, plus the domains the link checker treats as official
 - `data/overseas-checklist.json`: the five checks and red flags
+- `data/config.json`: address of the scam-number API and Turnstile site key (see `sohoj-api/README.md`)
 
 Privacy rules: the scam form is never saved (it lives only in the open page). The COD calculator, post maker
 and overseas checklist save to `localStorage` on the user's phone, and each has a "Clear my data" button.

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Moderator Review – Sohoj Tools</title>
+<meta name="description" content="Moderator page for reviewing scam number reports.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="../icon.svg">
+<style>
+  .rep { display: grid; gap: 10px; }
+  .rep img { width: 100%; max-height: 520px; object-fit: contain; background: var(--bg); border-radius: 10px; cursor: zoom-in; }
+  .rep img.full { max-height: none; cursor: zoom-out; }
+  .meta { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 15px; }
+  .meta dt { color: var(--muted); }
+  .meta dd { margin: 0; font-weight: 600; word-break: break-word; }
+  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .actions .btn { margin-top: 0; }
+  .btn.reject { background: var(--bad); }
+  .count { font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body data-root="../" data-tool="">
+<main><div class="wrap">
+  <h1><span lang="en">Moderator review</span><span lang="bn">মডারেটর রিভিউ</span></h1>
+
+  <section class="card" id="login">
+    <label for="tok"><span lang="en">Admin password</span><span lang="bn">অ্যাডমিন পাসওয়ার্ড</span></label>
+    <input type="password" id="tok" autocomplete="current-password">
+    <button class="btn block" type="button" id="go"><span lang="en">Open review queue</span><span lang="bn">রিভিউ তালিকা খুলুন</span></button>
+    <p class="err" id="lerr" hidden></p>
+  </section>
+
+  <div id="app" hidden>
+    <section class="card">
+      <h2 style="margin-top:0"><span lang="en">How to review</span><span lang="bn">যেভাবে যাচাই করবেন</span></h2>
+      <ul lang="en"><li><b>Approve</b> only if the screenshot clearly shows money going to, or a scam message/call from, the reported number.</li><li><b>Reject</b> anything unclear, edited, unrelated, or that looks like a personal dispute.</li><li>Many reports from one connection on different numbers can be a sign of abuse.</li></ul>
+      <ul lang="bn"><li>স্ক্রিনশটে রিপোর্ট করা নম্বরে টাকা যাওয়া, বা সেই নম্বর থেকে প্রতারণার মেসেজ/কল স্পষ্ট দেখা গেলে তবেই <b>অনুমোদন</b> দিন।</li><li>অস্পষ্ট, এডিট করা, অপ্রাসঙ্গিক বা ব্যক্তিগত বিরোধ মনে হলে <b>বাতিল</b> করুন।</li><li>একই সংযোগ থেকে অনেক আলাদা নম্বরে রিপোর্ট অপব্যবহারের লক্ষণ হতে পারে।</li></ul>
+      <button class="btn ghost" type="button" id="refresh">↻ <span lang="en">Refresh</span><span lang="bn">রিফ্রেশ</span></button>
+      <button class="btn danger-ghost" type="button" id="logout"><span lang="en">Log out</span><span lang="bn">লগ আউট</span></button>
+    </section>
+
+    <h2><span lang="en">Pending reports</span><span lang="bn">অপেক্ষমাণ রিপোর্ট</span> <span class="count" id="pc"></span></h2>
+    <div id="pending"></div>
+
+    <h2><span lang="en">Review requests from number owners</span><span lang="bn">নম্বরের মালিকদের পুনর্বিবেচনার অনুরোধ</span></h2>
+    <div id="disputes"></div>
+
+    <section class="card">
+      <h2 style="margin-top:0"><span lang="en">Clear a number</span><span lang="bn">নম্বর তালিকা থেকে সরান</span></h2>
+      <p class="hint"><span lang="en">A cleared number is never shown as a scam again, whatever reports it gets.</span><span lang="bn">সরানো নম্বর আর কখনো প্রতারক হিসেবে দেখানো হবে না।</span></p>
+      <div class="row"><div><label for="cnum"><span lang="en">Number</span><span lang="bn">নম্বর</span></label><input type="tel" id="cnum"></div>
+        <div><label for="creason"><span lang="en">Reason</span><span lang="bn">কারণ</span></label><input type="text" id="creason"></div></div>
+      <button class="btn block" type="button" id="clearBtn"><span lang="en">Clear number</span><span lang="bn">নম্বর সরান</span></button>
+      <p class="hint" id="cout"></p>
+    </section>
+  </div>
+</div></main>
+<script src="../js/common.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var API = '', TOKEN = '', urls = [];
+  var PROV = { bkash: ['bKash', 'বিকাশ'], nagad: ['Nagad', 'নগদ'], rocket: ['Rocket', 'রকেট'], upay: ['Upay', 'উপায়'], other: ['Other', 'অন্যান্য'] };
+  var CAT = { officer: ['Fake officer call', 'ভুয়া অফিসারের কল'], sms: ['Fake SMS link', 'ভুয়া এসএমএস লিংক'], wrong: ['“Sent by mistake”', '“ভুল করে পাঠিয়েছি”'], seller: ['Fake seller', 'ভুয়া বিক্রেতা'], other: ['Other', 'অন্যান্য'] };
+  try { TOKEN = sessionStorage.getItem('sohoj-admin') || ''; } catch (e) {}
+
+  function call(path, opts) {
+    opts = opts || {};
+    opts.headers = Object.assign({ authorization: 'Bearer ' + TOKEN }, opts.body ? { 'content-type': 'application/json' } : {}, opts.headers || {});
+    return fetch(API + path, opts).then(function (r) {
+      if (r.status === 401) { logout(); throw new Error(FT.t('Wrong admin password', 'ভুল পাসওয়ার্ড')); }
+      if (!r.ok) return r.json().catch(function () { return {}; }).then(function (d) { throw new Error(d.message || 'Error ' + r.status); });
+      return r;
+    });
+  }
+  function logout() { TOKEN = ''; try { sessionStorage.removeItem('sohoj-admin'); } catch (e) {} $('app').hidden = true; $('login').hidden = false; }
+  function when(ms) { return FT.digits(new Date(ms).toISOString().replace('T', ' ').slice(0, 16)) + ' UTC'; }
+
+  function loadPending() {
+    urls.forEach(URL.revokeObjectURL); urls = [];
+    return call('/api/admin/pending').then(function (r) { return r.json(); }).then(function (d) {
+      $('pc').textContent = '(' + FT.num(d.pending.length) + ')';
+      if (!d.pending.length) { $('pending').innerHTML = '<p class="hint">' + FT.t('Nothing to review. 🎉', 'যাচাই করার মতো কিছু নেই। 🎉') + '</p>'; return; }
+      $('pending').innerHTML = '';
+      d.pending.forEach(function (r) {
+        var card = document.createElement('section');
+        card.className = 'card rep';
+        card.innerHTML = '<div class="big" style="font-size:22px">' + FT.esc(r.number) + '</div>' +
+          '<dl class="meta">' +
+          '<dt>' + FT.t('Service', 'সার্ভিস') + '</dt><dd>' + FT.esc(PROV[r.provider] ? FT.t(PROV[r.provider][0], PROV[r.provider][1]) : r.provider) + '</dd>' +
+          '<dt>' + FT.t('What happened', 'কী ঘটেছে') + '</dt><dd>' + FT.esc(CAT[r.category] ? FT.t(CAT[r.category][0], CAT[r.category][1]) : r.category) + '</dd>' +
+          '<dt>' + FT.t('Amount', 'টাকা') + '</dt><dd>' + (r.amount ? '৳' + FT.num(r.amount) : '—') + '</dd>' +
+          '<dt>' + FT.t('Note', 'নোট') + '</dt><dd>' + (r.note ? FT.esc(r.note) : '—') + '</dd>' +
+          '<dt>' + FT.t('Sent', 'পাঠানো') + '</dt><dd>' + when(r.created_at) + '</dd>' +
+          '<dt>' + FT.t('Approved so far', 'এ পর্যন্ত অনুমোদিত') + '</dt><dd>' + FT.num(r.approved_for_number) + ' / ' + FT.num(d.threshold) + '</dd>' +
+          '<dt>' + FT.t('Reports by this sender', 'এই প্রেরকের মোট রিপোর্ট') + '</dt><dd>' + FT.num(r.reports_by_this_reporter) + '</dd>' +
+          '</dl><div class="shot hint">' + FT.t('Loading screenshot…', 'স্ক্রিনশট লোড হচ্ছে…') + '</div>' +
+          '<div class="actions"><button class="btn" type="button" data-d="approve">✓ ' + FT.t('Approve', 'অনুমোদন') + '</button>' +
+          '<button class="btn reject" type="button" data-d="reject">✕ ' + FT.t('Reject', 'বাতিল') + '</button></div>';
+        $('pending').appendChild(card);
+        call('/api/admin/evidence/' + r.id).then(function (x) { return x.blob(); }).then(function (b) {
+          var u = URL.createObjectURL(b); urls.push(u);
+          var img = new Image(); img.src = u; img.alt = 'Screenshot';
+          img.addEventListener('click', function () { img.classList.toggle('full'); });
+          card.querySelector('.shot').replaceWith(img);
+        }).catch(function (e) { card.querySelector('.shot').textContent = e.message; });
+        card.querySelectorAll('[data-d]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            card.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+            call('/api/admin/review', { method: 'POST', body: JSON.stringify({ id: r.id, decision: btn.getAttribute('data-d') }) })
+              .then(function () { card.remove(); var left = document.querySelectorAll('#pending .rep').length; $('pc').textContent = '(' + FT.num(left) + ')'; if (!left) loadPending(); })
+              .catch(function (e) { alert(e.message); card.querySelectorAll('button').forEach(function (b) { b.disabled = false; }); });
+          });
+        });
+      });
+    });
+  }
+
+  function loadDisputes() {
+    return call('/api/admin/disputes').then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.disputes.length) { $('disputes').innerHTML = '<p class="hint">' + FT.t('No open requests.', 'কোনো খোলা অনুরোধ নেই।') + '</p>'; return; }
+      $('disputes').innerHTML = '';
+      d.disputes.forEach(function (x) {
+        var c = document.createElement('section'); c.className = 'card';
+        c.innerHTML = '<b>' + FT.esc(x.number) + '</b> · <span class="hint">' + when(x.created_at) + '</span><p>' + FT.esc(x.message) + '</p><p class="hint">' +
+          FT.t('Contact: ', 'যোগাযোগ: ') + FT.esc(x.contact) + '</p><div class="actions">' +
+          '<button class="btn" type="button" data-a="clear">' + FT.t('Clear this number', 'নম্বরটি সরান') + '</button>' +
+          '<button class="btn ghost" type="button" data-a="close">' + FT.t('Keep listing', 'তালিকায় রাখুন') + '</button></div>';
+        c.querySelector('[data-a=clear]').addEventListener('click', function () {
+          call('/api/admin/clear', { method: 'POST', body: JSON.stringify({ number: x.number, reason: 'Dispute #' + x.id }) }).then(function () { c.remove(); });
+        });
+        c.querySelector('[data-a=close]').addEventListener('click', function () {
+          call('/api/admin/dispute-close', { method: 'POST', body: JSON.stringify({ id: x.id }) }).then(function () { c.remove(); });
+        });
+        $('disputes').appendChild(c);
+      });
+    });
+  }
+
+  function open() {
+    $('lerr').hidden = true;
+    Promise.all([loadPending(), loadDisputes()]).then(function () {
+      $('login').hidden = true; $('app').hidden = false;
+      try { sessionStorage.setItem('sohoj-admin', TOKEN); } catch (e) {}
+    }).catch(function (e) { $('lerr').textContent = e.message; $('lerr').hidden = false; });
+  }
+  $('go').addEventListener('click', function () { TOKEN = $('tok').value.trim(); open(); });
+  $('tok').addEventListener('keydown', function (e) { if (e.key === 'Enter') { TOKEN = $('tok').value.trim(); open(); } });
+  $('refresh').addEventListener('click', function () { loadPending(); loadDisputes(); });
+  $('logout').addEventListener('click', logout);
+  $('clearBtn').addEventListener('click', function () {
+    call('/api/admin/clear', { method: 'POST', body: JSON.stringify({ number: $('cnum').value, reason: $('creason').value }) })
+      .then(function () { $('cout').textContent = FT.t('✓ Cleared', '✓ সরানো হয়েছে'); $('cnum').value = $('creason').value = ''; })
+      .catch(function (e) { $('cout').textContent = e.message; });
+  });
+
+  FT.data('config').then(function (c) {
+    API = String(c.scam_api || '').replace(/\/+$/, '');
+    if (!API) { $('lerr').textContent = FT.t('The API address is not set in data/config.json yet.', 'data/config.json-এ এখনো API ঠিকানা দেওয়া হয়নি।'); $('lerr').hidden = false; return; }
+    if (TOKEN) open();
+  });
+})();
+</script>
+</body>
+</html>

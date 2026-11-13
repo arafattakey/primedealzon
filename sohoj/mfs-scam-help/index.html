@@ -80,6 +80,7 @@
       </div>
       <div class="output" id="out"></div>
       <button class="btn block" type="button" id="copy"><span lang="en">📋 Copy text</span><span lang="bn">📋 লেখা কপি করুন</span></button>
+      <a class="btn block" id="reportLink" href="../scam-number-check/" style="background:var(--bad)"><span lang="en">🚩 Report this number to warn others</span><span lang="bn">🚩 অন্যদের সতর্ক করতে নম্বরটি রিপোর্ট করুন</span></a>
       <a class="btn ghost block" href="https://gd.police.gov.bd/" target="_blank" rel="noopener noreferrer"><span lang="en">Open the official online GD site ↗</span><span lang="bn">সরকারি অনলাইন জিডি সাইট খুলুন ↗</span></a>
       <p class="note"><span lang="en">For fraud, the police station may ask for a written complaint (FIR) instead of a GD. Take this text, a copy of your NID and the transaction screenshot with you.</span><span lang="bn">প্রতারণার ক্ষেত্রে থানা জিডির বদলে লিখিত অভিযোগ (এজাহার) চাইতে পারে। এই লেখা, এনআইডির কপি ও লেনদেনের স্ক্রিনশট সাথে নিয়ে যান।</span></p>
     </div>
@@ -191,7 +192,11 @@
       'Yours faithfully,\n' + v('name', B) + '\nMobile: ' + v('mine', B) + '\nDate: ' + today;
   }
 
-  function show() { $('out').textContent = build(lang); }
+  function show() {
+    $('out').textContent = build(lang);
+    var n = $('scam').value.trim();
+    $('reportLink').href = '../scam-number-check/' + (n ? '?n=' + encodeURIComponent(n) : '');
+  }
   $('make').addEventListener('click', function () {
     lang = FT.lang(); selectTab(lang); $('outWrap').hidden = false; show();
     $('outWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });

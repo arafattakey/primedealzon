@@ -1,7 +1,7 @@
 /* Offline support: cache pages as they are visited; serve from cache when there is no network. */
-const CACHE = 'sohoj-v2';
+const CACHE = 'sohoj-v3';
 const CORE = ['./', 'css/style.css', 'js/common.js', 'js/resizer.js', 'icon.svg', 'manifest.webmanifest',
-  'data/helplines.json', 'data/govt-portals.json', 'data/overseas-checklist.json'];
+  'data/helplines.json', 'data/govt-portals.json', 'data/overseas-checklist.json', 'data/config.json'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
