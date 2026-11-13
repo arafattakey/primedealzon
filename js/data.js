@@ -17,6 +17,8 @@ const SITE = {
   // Public base URL, used for canonical links and the sitemap. Change once primedealzon.com is live, then run `node tools/build.mjs`.
   url: "https://primedealzon.com/",
   updated: "November 5, 2026",
+  // The "Gifts" header link shows on pages built up to this date (the /gifts/ page itself stays live).
+  giftNavUntil: "2026-12-31",
 };
 
 const CATEGORIES = [

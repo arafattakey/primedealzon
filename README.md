@@ -69,5 +69,6 @@ https://primedealzon.com/ (GitHub Pages, custom domain since 2026-11-09)
 ## Build-managed pages (2026-11-07)
 - `node tools/build.mjs` also writes `category/<id>/index.html` (static category hubs) and refreshes the root pages (`index.html`, `blog.html`, `category.html`, `about.html`, `disclaimer.html`, `privacy.html`, `terms.html`, `404.html`). It bakes in the header, footer, disclosure bar, fonts, icons, canonical and social tags from `SITE.url`. Edit the page body by hand; the build owns those parts.
 - Old `category.html?cat=<id>` links redirect to `category/<id>/`.
+- `gifts/index.html` (2026-11-13) is the gift hub: every post whose slug contains `gift` or `stocking-stuffer` (`isGiftPost` in `js/site.js`). The "Gifts" header link shows on pages built up to `SITE.giftNavUntil` in `js/data.js`.
 - Guides get a "top picks" box (first 3 products), a table of contents (3+ headings) and an editors box automatically.
 - `node tools/images.mjs site` renders the site-wide social image and `favicon.ico` / `apple-touch-icon.png`.

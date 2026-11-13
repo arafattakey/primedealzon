@@ -47,7 +47,9 @@ const param = k => new URLSearchParams(location.search).get(k);
 // Pages in subfolders (e.g. guides/<slug>/) set data-root="../../" so shared links still resolve.
 // The build script runs this file without a DOM; its output lives two folders deep.
 const ROOT = typeof document === "undefined" ? "../../" : (document.body.dataset.root || "");
-const guideUrl = slug => `${ROOT}guides/${slug}/`;
+const guideUrl = (slug, r = ROOT) => `${r}guides/${slug}/`;
+// Gift guides, listed together on the /gifts/ hub.
+const isGiftPost = p => /gift|stocking-stuffer/.test(p.slug);
 // Category hubs are static pages at category/<id>/ (built by tools/build.mjs).
 const catUrl = (id, r = ROOT) => `${r}category/${id}/`;
 
@@ -69,6 +71,7 @@ function headerHtml(r = ROOT, page = "") {
       <nav class="nav" id="siteNav" aria-label="Main">
         ${link(`${r}index.html`, "Home", "home")}
         ${link(catUrl("coffee", r), "Coffee", "coffee")}
+        ${new Date().toISOString().slice(0, 10) <= SITE.giftNavUntil ? link(`${r}gifts/`, "Gifts", "gifts") : ""}
         ${link(`${r}blog.html`, "Blog", "blog")}
         ${link(`${r}category.html`, "Categories", "category")}
         ${link(`${r}about.html`, "About", "about")}
@@ -177,17 +180,17 @@ const POST_TYPES = [
 const postType = post => POST_TYPES.find(t => t.id === post.type) || POST_TYPES[0];
 const fmtDate = iso => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 
-function postCard(post) {
+function postCard(post, r = ROOT) {
   const c = catById(post.cat);
   const t = postType(post);
   return `
     <article class="card post-card">
-      <a class="post-art art-${post.cat} kind-${kindOf(post.title + " " + post.slug) || "none"}" href="${guideUrl(post.slug)}" tabindex="-1" aria-hidden="true">${icon(artIcon(post.title + " " + post.slug, post.cat), "art-ico")}</a>
+      <a class="post-art art-${post.cat} kind-${kindOf(post.title + " " + post.slug) || "none"}" href="${guideUrl(post.slug, r)}" tabindex="-1" aria-hidden="true">${icon(artIcon(post.title + " " + post.slug, post.cat), "art-ico")}</a>
       <div class="post-body">
         <div class="post-meta">${t.one} · ${c.name} · ${post.read}</div>
-        <h3><a href="${guideUrl(post.slug)}">${esc(post.title)}</a></h3>
+        <h3><a href="${guideUrl(post.slug, r)}">${esc(post.title)}</a></h3>
         <p>${esc(post.excerpt)}</p>
-        <a class="link-arrow" href="${guideUrl(post.slug)}">${t.cta} ${icon("arrow")}</a>
+        <a class="link-arrow" href="${guideUrl(post.slug, r)}">${t.cta} ${icon("arrow")}</a>
       </div>
     </article>`;
 }
@@ -197,7 +200,7 @@ function postCard(post) {
 const pages = {
   home() {
     document.getElementById("catGrid").innerHTML = CATEGORIES.map(categoryCard).join("");
-    document.getElementById("guideGrid").innerHTML = POSTS.filter(p => p.cat === "coffee").slice(0, 3).map(postCard).join("");
+    document.getElementById("guideGrid").innerHTML = POSTS.filter(p => p.cat === "coffee").slice(0, 3).map(p => postCard(p)).join("");
 
     const grid = document.getElementById("picksGrid");
     const bar = document.getElementById("filterBar");
@@ -243,7 +246,7 @@ const pages = {
     const draw = () => {
       bar.innerHTML = types.map(t => `<button class="chip${t.id === current ? " active" : ""}" data-type="${t.id}" aria-pressed="${t.id === current}">${t.label}</button>`).join("");
       const list = current === "all" ? POSTS : POSTS.filter(p => postType(p).id === current);
-      grid.innerHTML = list.map(postCard).join("");
+      grid.innerHTML = list.map(p => postCard(p)).join("");
     };
     bar.addEventListener("click", e => {
       const b = e.target.closest(".chip");
@@ -278,11 +281,29 @@ function hubHtml(c) {
     <section class="container" style="padding-bottom:72px">
       <nav class="chips" aria-label="Categories">${CATEGORIES.map(x => `<a class="chip${x.id === c.id ? " active" : ""}" href="${catUrl(x.id)}"${x.id === c.id ? ' aria-current="page"' : ""}>${x.name}</a>`).join("")}</nav>
       ${posts.length ? `<div class="section-head"><h2>${esc(c.name)} guides</h2><a class="link-arrow" href="${ROOT}blog.html">All posts ${icon("arrow")}</a></div>
-      <div class="grid grid-posts">${posts.map(postCard).join("")}</div>` : ""}
+      <div class="grid grid-posts">${posts.map(p => postCard(p)).join("")}</div>` : ""}
       <section class="cat-section">
         <div class="section-head"><div><h2>Our ${esc(c.name.toLowerCase())} picks</h2><p>Each one links to Amazon, where you see the live price and reviews.</p></div></div>
         <div class="grid grid-products">${products.map(productCard).join("")}</div>
       </section>
+    </section>`;
+}
+
+/* Gift hub (gifts/index.html, one folder deep), rendered by tools/build.mjs. */
+function giftHubHtml(r) {
+  const gifts = POSTS.filter(isGiftPost);
+  return `
+    <section class="page-head">
+      <div class="container">
+        <p class="eyebrow"><a href="${r}blog.html">Blog</a> / Gift guides</p>
+        <h1>Coffee gift guides</h1>
+        <p class="lede">Shopping for someone who loves coffee? Each guide below is a short list of gifts picked for one kind of coffee drinker or budget, with what owners like and what to watch for. Every pick links to Amazon, where you see the live price.</p>
+      </div>
+    </section>
+    <section class="container" style="padding-bottom:72px">
+      <div class="section-head"><h2>All gift guides</h2><a class="link-arrow" href="${r}blog.html">All posts ${icon("arrow")}</a></div>
+      <div class="grid grid-posts">${gifts.map(p => postCard(p, r)).join("")}</div>
+      <p class="lede" style="margin-top:32px">Not sure what they brew with? Start with our <a href="${catUrl("coffee", r)}">coffee gear guides</a>.</p>
     </section>`;
 }
 
@@ -379,7 +400,7 @@ ${topPicks}${toc}
       <section class="section">
         <div class="container">
           <div class="section-head"><h2>More from the blog</h2><a class="link-arrow" href="${ROOT}blog.html">All posts ${icon("arrow")}</a></div>
-          <div class="grid grid-posts">${more.map(postCard).join("")}</div>
+          <div class="grid grid-posts">${more.map(p => postCard(p)).join("")}</div>
         </div>
       </section>`;
 }
