@@ -36,7 +36,25 @@
       bn: ['জমির মাপ রূপান্তর', 'শতক, কাঠা, বিঘা, একর, বর্গফুট'] },
     { id: 'bmi-calculator', icon: '⚖️', group: 'calc',
       en: ['BMI Calculator', 'Healthy weight check with Asian cut-offs'],
-      bn: ['BMI ক্যালকুলেটর', 'এশিয়ান মানদণ্ডে সঠিক ওজন যাচাই'] }
+      bn: ['BMI ক্যালকুলেটর', 'এশিয়ান মানদণ্ডে সঠিক ওজন যাচাই'] },
+    { id: 'mfs-scam-help', icon: '🚨', group: 'citizen',
+      en: ['bKash/Nagad Scam Help & GD', 'Who to call now, and a ready police GD in Bangla'],
+      bn: ['বিকাশ/নগদ প্রতারণা ও জিডি', 'এখনই কোথায় ফোন করবেন, আর তৈরি থানার জিডি'] },
+    { id: 'link-checker', icon: '🔍', group: 'citizen',
+      en: ['Fake Link Checker', 'Is this bKash, NID or passport link real or a scam?'],
+      bn: ['ভুয়া লিংক যাচাই', 'বিকাশ, এনআইডি বা পাসপোর্টের লিংক আসল নাকি প্রতারণা?'] },
+    { id: 'govt-portals', icon: '🏛️', group: 'citizen',
+      en: ['Official Govt Websites', 'The real .gov.bd sites for NID, passport, BRTA, tax and more'],
+      bn: ['সরকারি ওয়েবসাইটের তালিকা', 'এনআইডি, পাসপোর্ট, বিআরটিএ, ট্যাক্সের আসল .gov.bd সাইট'] },
+    { id: 'overseas-job-check', icon: '✈️', group: 'citizen',
+      en: ['Overseas Job Safety Check', '5 checks before you pay an agency or hand over your passport'],
+      bn: ['বিদেশে চাকরি: নিরাপত্তা যাচাই', 'এজেন্সিকে টাকা বা পাসপোর্ট দেওয়ার আগে ৫টি যাচাই'] },
+    { id: 'cod-profit-calculator', icon: '📦', group: 'seller',
+      en: ['COD Profit Calculator', 'See how returns and ad cost eat your profit'],
+      bn: ['COD লাভ ক্যালকুলেটর', 'রিটার্ন আর বিজ্ঞাপন খরচে লাভ কতটা কমে দেখুন'] },
+    { id: 'product-post-maker', icon: '🛍️', group: 'seller',
+      en: ['Product Post Maker', 'Ready Facebook sales post in Bangla, Banglish or English'],
+      bn: ['প্রোডাক্ট পোস্ট মেকার', 'বাংলা, বাংলিশ বা ইংরেজিতে তৈরি ফেসবুক সেল পোস্ট'] }
   ];
 
   var BN_DIGITS = '০১২৩৪৫৬৭৮৯';
@@ -79,6 +97,33 @@
       return v === '' ? NaN : Number(v);
     },
     kb: function (bytes) { return FT.num(bytes / 1024, 1) + ' KB'; },
+    /* Reference data lives in data/*.json so it can be updated without touching code */
+    data: function (name) {
+      return fetch(root + 'data/' + name + '.json').then(function (r) {
+        if (!r.ok) throw new Error('data ' + name);
+        return r.json();
+      });
+    },
+    /* Small localStorage wrapper that never throws (private mode, blocked storage) */
+    store: {
+      get: function (k, d) { try { var v = localStorage.getItem('sohoj-' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+      set: function (k, v) { try { localStorage.setItem('sohoj-' + k, JSON.stringify(v)); } catch (e) {} },
+      del: function (k) { try { localStorage.removeItem('sohoj-' + k); } catch (e) {} }
+    },
+    copy: function (text, btn) {
+      var done = function () {
+        if (!btn) return;
+        var o = btn.innerHTML; btn.textContent = FT.t('✓ Copied', '✓ কপি হয়েছে');
+        setTimeout(function () { btn.innerHTML = o; }, 1500);
+      };
+      if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(done, done); return; }
+      var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {} ta.remove();
+    },
+    esc: function (s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+    },
     download: function (blob, name) {
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);

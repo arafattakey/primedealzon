@@ -21,6 +21,29 @@ and point a domain at it (GitHub Pages or Cloudflare Pages, both free). Nothing 
 | | Land units: shotok, katha, bigha, acre… | `land-converter/` |
 | | BMI with South Asian cut-offs | `bmi-calculator/` |
 
+| Safety & citizen help | bKash/Nagad/Rocket scam help: tap-to-call helplines + police GD text (bn/en) | `mfs-scam-help/` |
+| | Fake link checker (never opens the link) | `link-checker/` |
+| | Official .gov.bd website directory | `govt-portals/` |
+| | Overseas job safety checklist (progress saved on the phone) | `overseas-job-check/` |
+| Online sellers | COD profit & break-even return rate | `cod-profit-calculator/` |
+| | Facebook product post maker (Bangla / Banglish / English) | `product-post-maker/` |
+
+## Reference data (`data/`)
+Phone numbers, official websites and checklist text live in JSON so anyone can update them on GitHub
+without touching code. **Only change them from an official source**, and update `last_checked`.
+- `data/helplines.json`: MFS and emergency numbers
+- `data/govt-portals.json`: official websites, plus the domains the link checker treats as official
+- `data/overseas-checklist.json`: the five checks and red flags
+
+Privacy rules: the scam form is never saved (it lives only in the open page). The COD calculator, post maker
+and overseas checklist save to `localStorage` on the user's phone, and each has a "Clear my data" button.
+
+### Not built yet (needs verified data first)
+- **Prepaid meter keypad codes** (DESCO, DPDC, NESCO, WZPDCL, BREB). Codes differ by meter brand; the source
+  blueprint listed identical codes for every company, which needs checking with each company.
+- **NID / e-passport / BRTA mismatch troubleshooter**. The correction order and current fees must be taken
+  from Election Commission and DIP notices.
+
 ## How it fits together
 - `js/common.js` holds the **tool list** (`TOOLS`). Add a tool there and it appears on the homepage,
   in the footer and in "More free tools" on every page.

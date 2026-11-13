@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Facebook Product Post Maker (Bangla, Banglish, English) | প্রোডাক্ট পোস্ট মেকার – Sohoj Tools</title>
+<meta name="description" content="Make a clean Facebook or Instagram sales post with price, sizes, colours and delivery charges, in Bangla, Banglish or English. Free for F-commerce sellers. ফেসবুক সেল পোস্ট তৈরি করুন।">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0a7d5a">
+<link rel="icon" href="../icon.svg">
+</head>
+<body data-root="../" data-tool="product-post-maker">
+<main><div class="wrap">
+  <p class="crumbs"><a href="../"><span lang="en">Home</span><span lang="bn">হোম</span></a> › <span lang="en">Online sellers</span><span lang="bn">অনলাইন বিক্রেতা</span></p>
+  <h1><span lang="en">Product Post Maker</span><span lang="bn">প্রোডাক্ট পোস্ট মেকার</span></h1>
+  <p class="lead"><span lang="en">Fill in your product once and get a tidy sales post, ready to paste on Facebook or Instagram.</span><span lang="bn">একবার পণ্যের তথ্য দিন, ফেসবুক বা ইনস্টাগ্রামে পেস্ট করার মতো গোছানো সেল পোস্ট পান।</span></p>
+
+  <div class="card" id="form">
+    <label for="name"><span lang="en">Product name</span><span lang="bn">পণ্যের নাম</span></label>
+    <input type="text" id="name" value="Premium Cotton Panjabi">
+    <div class="row">
+      <div><label for="price"><span lang="en">Regular price ৳</span><span lang="bn">নিয়মিত দাম ৳</span></label><input type="text" inputmode="numeric" id="price" value="1800"></div>
+      <div><label for="offer"><span lang="en">Offer price ৳</span><span lang="bn">অফার দাম ৳</span> <span class="hint"><span lang="en">(optional)</span><span lang="bn">(ঐচ্ছিক)</span></span></label><input type="text" inputmode="numeric" id="offer" value="1450"></div>
+    </div>
+    <div class="row">
+      <div><label for="sizes"><span lang="en">Sizes</span><span lang="bn">সাইজ</span></label><input type="text" id="sizes" value="M, L, XL, XXL"></div>
+      <div><label for="colors"><span lang="en">Colours</span><span lang="bn">রং</span></label><input type="text" id="colors" value="White, Navy, Maroon"></div>
+    </div>
+    <label for="feat"><span lang="en">Features</span><span lang="bn">বৈশিষ্ট্য</span> <span class="hint"><span lang="en">(one per line)</span><span lang="bn">(প্রতি লাইনে একটি)</span></span></label>
+    <textarea class="field" id="feat">100% cotton fabric
+Comfortable for summer
+Fine embroidery on the neck</textarea>
+    <div class="row">
+      <div><label for="dIn"><span lang="en">Delivery inside Dhaka ৳</span><span lang="bn">ঢাকার ভেতরে ডেলিভারি ৳</span></label><input type="text" inputmode="numeric" id="dIn" value="70"></div>
+      <div><label for="dOut"><span lang="en">Delivery outside Dhaka ৳</span><span lang="bn">ঢাকার বাইরে ডেলিভারি ৳</span></label><input type="text" inputmode="numeric" id="dOut" value="130"></div>
+    </div>
+    <div class="row">
+      <div><label for="days"><span lang="en">Delivery time</span><span lang="bn">ডেলিভারির সময়</span></label><input type="text" id="days" value="2-3"></div>
+      <div><label for="phone"><span lang="en">Order phone / WhatsApp</span><span lang="bn">অর্ডারের ফোন / হোয়াটসঅ্যাপ</span></label><input type="tel" id="phone" value="01XXXXXXXXX"></div>
+    </div>
+    <div class="seg" style="margin-top:12px">
+      <label><input type="checkbox" id="cod" checked> <span lang="en">Cash on delivery</span><span lang="bn">ক্যাশ অন ডেলিভারি</span></label>
+      <label><input type="checkbox" id="adv"> <span lang="en">Delivery charge in advance outside Dhaka</span><span lang="bn">ঢাকার বাইরে ডেলিভারি চার্জ অগ্রিম</span></label>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button type="button" data-s="bn" aria-selected="true">বাংলা</button>
+      <button type="button" data-s="banglish" aria-selected="false">Banglish</button>
+      <button type="button" data-s="en" aria-selected="false">English</button>
+    </div>
+    <div class="output" id="out"></div>
+    <button class="btn block" type="button" id="copy"><span lang="en">📋 Copy post</span><span lang="bn">📋 পোস্ট কপি করুন</span></button>
+    <button class="btn danger-ghost block" type="button" id="clear"><span lang="en">🗑 Clear my data</span><span lang="bn">🗑 সব তথ্য মুছুন</span></button>
+  </div>
+</div></main>
+<script src="../js/common.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var IDS = ['name', 'price', 'offer', 'sizes', 'colors', 'feat', 'dIn', 'dOut', 'days', 'phone'];
+  var CHECKS = ['cod', 'adv'];
+  var style = 'bn';
+  var saved = FT.store.get('post', null);
+  if (saved) {
+    IDS.forEach(function (id) { if (saved[id] != null) $(id).value = saved[id]; });
+    CHECKS.forEach(function (id) { if (saved[id] != null) $(id).checked = saved[id]; });
+    if (saved.style) style = saved.style;
+  }
+  var BN_D = '০১২৩৪৫৬৭৮৯';
+  function bnd(s) { return String(s).replace(/[0-9]/g, function (d) { return BN_D[d]; }); }
+
+  var L = {
+    bn: { off: '🔥 অফার মূল্য', reg: 'নিয়মিত মূল্য', price: '💰 মূল্য', save: 'সাশ্রয়', size: '📏 সাইজ', color: '🎨 রং', feat: '✨ বৈশিষ্ট্য',
+          dIn: '🚚 ঢাকার ভেতরে ডেলিভারি চার্জ', dOut: '🚚 ঢাকার বাইরে ডেলিভারি চার্জ', days: '⏱ ডেলিভারি', daysU: 'দিনের মধ্যে',
+          cod: '✅ ক্যাশ অন ডেলিভারি: পণ্য হাতে পেয়ে টাকা দিন', adv: '⚠️ ঢাকার বাইরে ডেলিভারি চার্জ অগ্রিম দিতে হবে',
+          order: '📩 অর্ডার করতে পেজে মেসেজ দিন অথবা কল/হোয়াটসঅ্যাপ করুন', tk: '৳', n: bnd },
+    banglish: { off: '🔥 Offer Price', reg: 'Regular Price', price: '💰 Price', save: 'Save', size: '📏 Size', color: '🎨 Color', feat: '✨ Features',
+          dIn: '🚚 Dhakar vitore delivery charge', dOut: '🚚 Dhakar baire delivery charge', days: '⏱ Delivery', daysU: 'diner moddhe',
+          cod: '✅ Cash on Delivery: product hate peye taka din', adv: '⚠️ Dhakar baire delivery charge advance dite hobe',
+          order: '📩 Order korte page e inbox korun ba call/WhatsApp korun', tk: '৳', n: String },
+    en: { off: '🔥 Offer Price', reg: 'Regular Price', price: '💰 Price', save: 'Save', size: '📏 Sizes', color: '🎨 Colours', feat: '✨ Features',
+          dIn: '🚚 Delivery inside Dhaka', dOut: '🚚 Delivery outside Dhaka', days: '⏱ Delivery in', daysU: 'days',
+          cod: '✅ Cash on delivery: pay when you receive it', adv: '⚠️ Delivery charge must be paid in advance outside Dhaka',
+          order: '📩 To order, message our page or call/WhatsApp', tk: 'Tk ', n: String }
+  };
+
+  function money(t, x) { return t.tk + t.n(x.toLocaleString('en-IN')); }
+  function build() {
+    var t = L[style], v = {}; IDS.forEach(function (id) { v[id] = $(id).value.trim(); });
+    var price = FT.parse(v.price), offer = FT.parse(v.offer), lines = [];
+    if (v.name) lines.push('🛍️ ' + v.name, '');
+    if (offer > 0 && price > offer) {
+      lines.push(t.off + ': ' + money(t, offer));
+      lines.push('❌ ' + t.reg + ': ' + money(t, price) + '  (' + t.save + ' ' + money(t, price - offer) + ')');
+    } else if (price > 0 || offer > 0) lines.push(t.price + ': ' + money(t, offer > 0 ? offer : price));
+    lines.push('');
+    if (v.sizes) lines.push(t.size + ': ' + v.sizes);
+    if (v.colors) lines.push(t.color + ': ' + v.colors);
+    var feats = v.feat.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+    if (feats.length) { lines.push('', t.feat + ':'); feats.forEach(function (f) { lines.push('▪️ ' + f); }); }
+    lines.push('');
+    var dIn = FT.parse(v.dIn), dOut = FT.parse(v.dOut);
+    if (dIn >= 0) lines.push(t.dIn + ': ' + money(t, dIn));
+    if (dOut >= 0) lines.push(t.dOut + ': ' + money(t, dOut));
+    if (v.days) lines.push(t.days + ': ' + (style === 'bn' ? bnd(v.days) : v.days) + ' ' + t.daysU);
+    if ($('cod').checked) lines.push(t.cod);
+    if ($('adv').checked) lines.push(t.adv);
+    lines.push('', t.order + (v.phone ? ': ' + v.phone : ''));
+    var tag = v.name.replace(/[^\p{L}\p{N}]+/gu, '');
+    lines.push('', (tag ? '#' + tag + ' ' : '') + '#OnlineShopBD #FCommerce #BangladeshShopping' + (style === 'bn' ? ' #অনলাইন_শপ' : ''));
+    return lines.join('\n').replace(/\n{3,}/g, '\n\n');
+  }
+  function render() {
+    $('out').textContent = build();
+    document.querySelectorAll('.tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.getAttribute('data-s') === style); });
+    var s = { style: style }; IDS.forEach(function (id) { s[id] = $(id).value; }); CHECKS.forEach(function (id) { s[id] = $(id).checked; });
+    FT.store.set('post', s);
+  }
+  document.querySelectorAll('.tabs button').forEach(function (b) { b.addEventListener('click', function () { style = b.getAttribute('data-s'); render(); }); });
+  $('form').addEventListener('input', render);
+  $('form').addEventListener('change', render);
+  $('copy').addEventListener('click', function () { FT.copy($('out').textContent, this); });
+  $('clear').addEventListener('click', function () {
+    IDS.forEach(function (id) { $(id).value = ''; }); $('cod').checked = true; $('adv').checked = false; style = 'bn';
+    render(); FT.store.del('post');
+  });
+  render();
+})();
+</script>
+</body>
+</html>

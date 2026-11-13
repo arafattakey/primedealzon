@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fake Link Checker: Is This bKash or Govt Link Real? | ভুয়া লিংক যাচাই – Sohoj Tools</title>
+<meta name="description" content="Paste a link from an SMS, Facebook or WhatsApp to see the warning signs of a bKash, Nagad, NID or passport scam site. The link is never opened. লিংক আসল নাকি ভুয়া যাচাই করুন।">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0a7d5a">
+<link rel="icon" href="../icon.svg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Link asol na nokol kivabe bujhbo? (লিংক আসল না নকল কীভাবে বুঝব?)","acceptedAnswer":{"@type":"Answer","text":"লিংকের ডোমেইনের শেষ অংশ দেখুন। সরকারি সাইট .gov.bd দিয়ে শেষ হয়, বিকাশের সাইট bkash.com। Look at the end of the domain: government sites end in .gov.bd, and bKash's site is bkash.com."}},
+ {"@type":"Question","name":"bKash bonus link ki asol? (বিকাশ বোনাস লিংক কি আসল?)","acceptedAnswer":{"@type":"Answer","text":"এসএমএসে আসা বোনাস বা পুরস্কারের লিংক প্রায় সবসময় প্রতারণা। Bonus or prize links in SMS are almost always scams."}},
+ {"@type":"Question","name":"Ei tool ki link khule? (এই টুল কি লিংক খোলে?)","acceptedAnswer":{"@type":"Answer","text":"না। শুধু লিংকের লেখা পরীক্ষা করা হয়, সাইটটি খোলা হয় না। No. Only the text of the link is checked; the site is never opened."}}
+]}
+</script>
+</head>
+<body data-root="../" data-tool="link-checker">
+<main><div class="wrap">
+  <p class="crumbs"><a href="../"><span lang="en">Home</span><span lang="bn">হোম</span></a> › <span lang="en">Safety</span><span lang="bn">নিরাপত্তা</span></p>
+  <h1><span lang="en">Fake Link Checker</span><span lang="bn">ভুয়া লিংক যাচাই</span></h1>
+  <p class="lead"><span lang="en">Got a link in an SMS, Facebook or WhatsApp about bKash, NID, passport or a prize? Paste it here before you open it.</span><span lang="bn">এসএমএস, ফেসবুক বা হোয়াটসঅ্যাপে বিকাশ, এনআইডি, পাসপোর্ট বা পুরস্কারের লিংক এসেছে? খোলার আগে এখানে পেস্ট করুন।</span></p>
+
+  <div class="card">
+    <label for="url"><span lang="en">Link</span><span lang="bn">লিংক</span></label>
+    <input type="text" id="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" data-ph-en="Paste the link here" data-ph-bn="এখানে লিংক পেস্ট করুন">
+    <button class="btn block" type="button" id="go"><span lang="en">Check link</span><span lang="bn">লিংক যাচাই করুন</span></button>
+    <div id="res"></div>
+    <p class="privacy">🔒 <span lang="en">The link is never opened or sent anywhere. Only its text is checked on your phone.</span><span lang="bn">লিংকটি খোলা বা কোথাও পাঠানো হয় না। শুধু লেখাটি আপনার ফোনেই পরীক্ষা করা হয়।</span></p>
+  </div>
+
+  <section class="card howto">
+    <h2><span lang="en">How to spot a fake link yourself</span><span lang="bn">নিজেই ভুয়া লিংক চিনবেন যেভাবে</span></h2>
+    <ul lang="en">
+      <li>Read the part just before the first single “/”. That is the real website. In <code>bkash.com.bonus-bd.xyz/</code> the real site is <b>bonus-bd.xyz</b>, not bKash.</li>
+      <li>Government sites always end in <b>.gov.bd</b>.</li>
+      <li>Short links (bit.ly, tinyurl) hide the real address. Don't open them for money matters.</li>
+      <li>No real company asks for your PIN or OTP on a website.</li>
+      <li>Government fees are never paid to a personal bKash or Nagad number.</li>
+    </ul>
+    <ul lang="bn">
+      <li>প্রথম একক “/”-এর ঠিক আগের অংশটি পড়ুন। ওটাই আসল ওয়েবসাইট। <code>bkash.com.bonus-bd.xyz/</code> লিংকে আসল সাইট <b>bonus-bd.xyz</b>, বিকাশ নয়।</li>
+      <li>সরকারি সাইট সবসময় <b>.gov.bd</b> দিয়ে শেষ হয়।</li>
+      <li>ছোট লিংক (bit.ly, tinyurl) আসল ঠিকানা লুকিয়ে রাখে। টাকার ব্যাপারে এগুলো খুলবেন না।</li>
+      <li>কোনো আসল প্রতিষ্ঠান ওয়েবসাইটে পিন বা ওটিপি চায় না।</li>
+      <li>সরকারি ফি কখনো ব্যক্তিগত বিকাশ বা নগদ নম্বরে দেওয়া হয় না।</li>
+    </ul>
+  </section>
+</div></main>
+<script src="../js/common.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var OFFICIAL = ['gov.bd', 'bkash.com', 'nagad.com.bd', 'dutchbanglabank.com', 'teletalk.com.bd', 'bb.org.bd'];
+  FT.data('govt-portals').then(function (d) { if (d.official_domains) OFFICIAL = d.official_domains; }).catch(function () {});
+
+  // Names scammers copy. Each maps to the domain it should really be on.
+  var BRANDS = [
+    ['bkash', 'bkash.com'], ['nagad', 'nagad.com.bd'], ['rocket', 'dutchbanglabank.com'], ['dbbl', 'dutchbanglabank.com'],
+    ['dutchbangla', 'dutchbanglabank.com'], ['epassport', 'gov.bd'], ['passport', 'gov.bd'], ['nidw', 'gov.bd'], ['nid', 'gov.bd'],
+    ['brta', 'gov.bd'], ['bmet', 'gov.bd'], ['police', 'gov.bd'], ['govt', 'gov.bd'], ['gov', 'gov.bd'], ['bangladesh-bank', 'bb.org.bd'],
+    ['bdris', 'gov.bd'], ['teletalk', 'teletalk.com.bd'], ['nbr', 'gov.bd'], ['incometax', 'gov.bd']
+  ];
+  var RISKY_TLD = ['xyz', 'top', 'click', 'info', 'buzz', 'live', 'icu', 'online', 'site', 'shop', 'fun', 'cyou', 'rest', 'work', 'loan', 'win', 'vip', 'monster', 'sbs', 'cfd', 'tk', 'ml', 'ga', 'cf', 'gq'];
+  var SHORTENERS = ['bit.ly', 'tinyurl.com', 't.ly', 'cutt.ly', 'rb.gy', 'is.gd', 'shorturl.at', 's.id', 'ow.ly', 'tiny.cc', 'goo.gl', 'rebrand.ly', 'shorte.st'];
+
+  function isUnder(host, dom) { return host === dom || host.slice(-(dom.length + 1)) === '.' + dom; }
+  function bi(en, bn) { return FT.t(en, bn); }
+
+  function check(raw) {
+    raw = raw.trim().replace(/^[\s"'<(]+|[\s"'>).,]+$/g, '');
+    if (!raw) return null;
+    var u;
+    try { u = new URL(/^[a-z][a-z0-9+.-]*:/i.test(raw) ? raw : 'http://' + raw); } catch (e) { return { bad: true }; }
+    if (!/^https?:$/.test(u.protocol)) return { level: 'danger', host: u.protocol, reasons: [bi('This is not a normal web link.', 'এটি সাধারণ ওয়েব লিংক নয়।')] };
+    var host = u.hostname.toLowerCase().replace(/\.$/, '');
+    var reasons = [], level = 'ok', official = OFFICIAL.some(function (d) { return isUnder(host, d); });
+    function flag(l, en, bn) { reasons.push(bi(en, bn)); if (l === 'danger' || (l === 'caution' && level === 'ok')) level = l; }
+
+    if (/^\d{1,3}(\.\d{1,3}){3}$/.test(host) || host.indexOf(':') >= 0 || /^\[/.test(host))
+      flag('danger', 'It uses a number (IP address) instead of a website name. Real companies don\'t do this.', 'ওয়েবসাইটের নামের বদলে নম্বর (আইপি) ব্যবহার করা হয়েছে। আসল প্রতিষ্ঠান এমন করে না।');
+    if (u.username || u.password)
+      flag('danger', 'It has an “@” trick that hides the real website.', 'এতে “@” কৌশল আছে যা আসল ওয়েবসাইট লুকায়।');
+    if (host.split('.').some(function (p) { return p.indexOf('xn--') === 0; }))
+      flag('danger', 'It uses look-alike letters from another alphabet to copy a real name.', 'অন্য বর্ণমালার দেখতে-একই অক্ষর দিয়ে আসল নাম নকল করা হয়েছে।');
+
+    if (!official) {
+      // Long brand names match anywhere ("bkashbonus.com"); short ones only as a whole word ("nid-correction.net"),
+      // so real sites like govee.com or rocketreach.co are not flagged.
+      var flat = host.replace(/[^a-z0-9]/g, ''), tokens = host.split(/[.\-_]/);
+      BRANDS.some(function (b) {
+        var name = b[0].replace(/-/g, '');
+        var hit = b[0].length >= 5 && ['rocket', 'police'].indexOf(b[0]) < 0 ? flat.indexOf(name) >= 0 : tokens.indexOf(b[0]) >= 0;
+        if (hit && !/gov\.bd/.test(host)) {
+          flag('danger', 'It uses the name “' + b[0] + '” but is NOT on the official site (' + b[1] + '). This is a classic scam trick.',
+            '“' + b[0] + '” নাম ব্যবহার করেছে, কিন্তু এটি আসল সাইটে (' + b[1] + ') নয়। এটি প্রতারণার পরিচিত কৌশল।');
+          return true;
+        }
+      });
+      if (/gov\.bd/.test(host)) flag('danger', 'It has “gov.bd” in the middle, but the real website is ' + host.split('.').slice(-2).join('.') + '.', 'মাঝখানে “gov.bd” আছে, কিন্তু আসল ওয়েবসাইট ' + host.split('.').slice(-2).join('.') + '।');
+    }
+    var tld = host.split('.').pop();
+    if (RISKY_TLD.indexOf(tld) >= 0) flag('caution', 'It ends in “.' + tld + '”, a cheap ending used by many scam sites.', '“.' + tld + '” দিয়ে শেষ, যা অনেক ভুয়া সাইট ব্যবহার করে।');
+    if (SHORTENERS.some(function (s) { return isUnder(host, s); })) flag('caution', 'It is a short link that hides where it really goes. Don\'t use it for money or ID matters.', 'এটি ছোট লিংক, আসলে কোথায় যায় তা লুকানো। টাকা বা পরিচয়পত্রের কাজে ব্যবহার করবেন না।');
+    if (!official && (host.match(/-/g) || []).length >= 2) flag('caution', 'The name has many hyphens, common in fake sites.', 'নামে অনেকগুলো হাইফেন (-), যা ভুয়া সাইটে বেশি দেখা যায়।');
+    if (!official && host.split('.').length >= 5) flag('caution', 'The address has an unusually long chain of parts.', 'ঠিকানায় অস্বাভাবিক অনেকগুলো অংশ।');
+    if (u.protocol === 'http:' && /^https?:/i.test(raw)) flag('caution', 'It is not secure (http, not https). Never enter a PIN, OTP or password.', 'এটি নিরাপদ নয় (https নয়)। কোনো পিন, ওটিপি বা পাসওয়ার্ড দেবেন না।');
+    if (/(pin|otp|password|login|verify|bonus|cashback|prize|offer|gift|claim|reward)/i.test(u.pathname + u.search) && !official)
+      flag('caution', 'The link talks about a bonus, prize, login or verification. That is how most scams start.', 'লিংকে বোনাস, পুরস্কার, লগইন বা ভেরিফাই কথা আছে। বেশিরভাগ প্রতারণা এভাবে শুরু হয়।');
+
+    if (official && level === 'ok') reasons.unshift(bi('The website is ' + host + ', which is an official address.', 'ওয়েবসাইটটি ' + host + ', যা একটি সরকারি/আসল ঠিকানা।'));
+    if (!official && level === 'ok') { level = 'caution'; reasons.push(bi('We found no obvious warning signs, but this is not an official bank, MFS or government site we know. Be careful with money or personal details.', 'কোনো স্পষ্ট বিপদের চিহ্ন পাওয়া যায়নি, তবে এটি আমাদের জানা কোনো ব্যাংক, এমএফএস বা সরকারি সাইট নয়। টাকা বা ব্যক্তিগত তথ্য দিতে সতর্ক থাকুন।')); }
+    return { level: level, host: host, reasons: reasons };
+  }
+
+  function run() {
+    var r = check($('url').value), box = $('res');
+    if (!r) { box.innerHTML = ''; return; }
+    if (r.bad) { box.innerHTML = '<p class="err">' + bi('That does not look like a link.', 'এটি লিংক মনে হচ্ছে না।') + '</p>'; return; }
+    var title = { danger: bi('⛔ Very likely a scam. Don\'t open it.', '⛔ প্রায় নিশ্চিত প্রতারণা। খুলবেন না।'),
+      caution: bi('⚠️ Be careful', '⚠️ সতর্ক থাকুন'), ok: bi('✅ Official website', '✅ সরকারি/আসল ওয়েবসাইট') }[r.level];
+    box.innerHTML = '<div class="verdict ' + r.level + '"><div class="big">' + title + '</div>' +
+      '<div>' + bi('Real website: ', 'আসল ওয়েবসাইট: ') + '<b>' + FT.esc(r.host) + '</b></div><ul>' +
+      r.reasons.map(function (x) { return '<li>' + FT.esc(x) + '</li>'; }).join('') + '</ul>' +
+      (r.level === 'ok' ? '<p style="font-weight:500;margin:8px 0 0">' + bi('Even on a real site, never share your PIN or OTP with anyone.', 'আসল সাইটেও কাউকে পিন বা ওটিপি বলবেন না।') + '</p>' : '') + '</div>';
+  }
+  $('go').addEventListener('click', run);
+  $('url').addEventListener('keydown', function (e) { if (e.key === 'Enter') run(); });
+  $('url').addEventListener('paste', function () { setTimeout(run, 30); });
+  document.addEventListener('langchange', function () { if ($('url').value.trim()) run(); });
+})();
+</script>
+</body>
+</html>

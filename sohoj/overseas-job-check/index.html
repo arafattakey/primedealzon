@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Overseas Job Safety Checklist: Check Before You Pay | বিদেশে চাকরি যাচাই – Sohoj Tools</title>
+<meta name="description" content="Going abroad for work? Five checks before you pay a recruiting agency or hand over your passport: BMET licence, visa, contract, cost and receipt. বিদেশে যাওয়ার আগে দালাল ও প্রতারণা থেকে বাঁচার ৫টি যাচাই।">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0a7d5a">
+<link rel="icon" href="../icon.svg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Agency asol kina kivabe bujhbo? (এজেন্সি আসল কিনা কীভাবে বুঝব?)","acceptedAnswer":{"@type":"Answer","text":"এজেন্সির আরএল নম্বর নিয়ে bmet.gov.bd-তে লাইসেন্সধারী এজেন্সির তালিকায় মিলিয়ে দেখুন। Get the agency's RL number and check it in the licensed agency list on bmet.gov.bd."}},
+ {"@type":"Question","name":"BMET smart card chara bidesh jawa jay? (বিএমইটি স্মার্ট কার্ড ছাড়া বিদেশ যাওয়া যায়?)","acceptedAnswer":{"@type":"Answer","text":"কাজের জন্য যেতে হলে বিএমইটির বহির্গমন ছাড়পত্র লাগে; এটি ছাড়া গেলে সুরক্ষা পাবেন না। Going abroad for work requires BMET emigration clearance; without it you are unprotected."}},
+ {"@type":"Question","name":"Free visa ki asol? (ফ্রি ভিসা কি আসল?)","acceptedAnswer":{"@type":"Answer","text":"“ফ্রি ভিসা” সাধারণত প্রতারণা বা অবৈধ কাজের ফাঁদ। “Free visa” offers are usually a scam or lead to illegal work."}}
+]}
+</script>
+</head>
+<body data-root="../" data-tool="overseas-job-check">
+<main><div class="wrap">
+  <p class="crumbs"><a href="../"><span lang="en">Home</span><span lang="bn">হোম</span></a> › <span lang="en">Citizen help</span><span lang="bn">নাগরিক সহায়তা</span></p>
+  <h1><span lang="en">Overseas Job Safety Check</span><span lang="bn">বিদেশে চাকরি: নিরাপত্তা যাচাই</span></h1>
+  <p class="lead"><span lang="en">Tick each check before you pay anyone or hand over your passport. Your progress is saved on this phone, so you can finish over several days.</span><span lang="bn">কাউকে টাকা বা পাসপোর্ট দেওয়ার আগে প্রতিটি যাচাই শেষ করে টিক দিন। অগ্রগতি এই ফোনে সেভ থাকে, কয়েক দিন ধরে শেষ করতে পারবেন।</span></p>
+
+  <div class="card">
+    <div id="prog" style="font-weight:700"></div>
+    <div class="progress"><i id="bar"></i></div>
+    <div id="gates" style="margin-top:6px"></div>
+    <div id="done" class="verdict ok" hidden></div>
+    <a class="btn ghost block" href="https://www.bmet.gov.bd/" target="_blank" rel="noopener noreferrer"><span lang="en">Open BMET's official website ↗</span><span lang="bn">বিএমইটির সরকারি ওয়েবসাইট খুলুন ↗</span></a>
+    <button class="btn danger-ghost block" type="button" id="clear"><span lang="en">🗑 Clear my data</span><span lang="bn">🗑 সব তথ্য মুছুন</span></button>
+  </div>
+
+  <section class="card">
+    <h2 style="margin-top:0"><span lang="en">🚩 Walk away if they…</span><span lang="bn">🚩 এগুলো দেখলে সরে আসুন</span></h2>
+    <ul id="flags"></ul>
+  </section>
+</div></main>
+<script src="../js/common.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var D = null, state = FT.store.get('overseas', {});
+  function render() {
+    if (!D) return;
+    var l = FT.lang();
+    $('gates').innerHTML = D.gates.map(function (g, i) {
+      var t = g[l];
+      return '<label class="check"><input type="checkbox" data-id="' + g.id + '"' + (state[g.id] ? ' checked' : '') + '><span><b>' +
+        FT.digits(i + 1) + '. ' + FT.esc(t[0]) + '</b><p>' + FT.esc(t[1]) + '</p></span></label>';
+    }).join('');
+    $('flags').innerHTML = D.red_flags[l].map(function (f) { return '<li>' + FT.esc(f) + '</li>'; }).join('');
+    progress();
+  }
+  function progress() {
+    var n = D.gates.filter(function (g) { return state[g.id]; }).length, total = D.gates.length;
+    $('prog').textContent = FT.num(n) + ' / ' + FT.num(total) + FT.t(' checks done', 'টি যাচাই শেষ');
+    $('bar').style.width = (n / total * 100) + '%';
+    var d = $('done');
+    d.hidden = n !== total;
+    d.textContent = FT.t('All five checks done. Keep every receipt and a copy of your contract and passport with your family at home.',
+      'পাঁচটি যাচাই শেষ। সব রসিদ, চুক্তিপত্র ও পাসপোর্টের কপি বাড়িতে পরিবারের কাছে রেখে যান।');
+  }
+  $('gates').addEventListener('change', function (e) {
+    var id = e.target.getAttribute('data-id'); if (!id) return;
+    state[id] = e.target.checked; FT.store.set('overseas', state); progress();
+  });
+  $('clear').addEventListener('click', function () { state = {}; FT.store.del('overseas'); render(); });
+  FT.data('overseas-checklist').then(function (d) { D = d; render(); }).catch(function () {
+    $('gates').innerHTML = '<p class="err">' + FT.t('Could not load the checklist. Check your connection and reload.', 'চেকলিস্ট লোড হয়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।') + '</p>';
+  });
+  document.addEventListener('langchange', render);
+})();
+</script>
+</body>
+</html>

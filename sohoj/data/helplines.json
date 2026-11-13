@@ -1,0 +1,15 @@
+{
+  "_note": "Phone numbers shown on the scam help page. Edit here only, and only from an official source. Set last_checked when you confirm a number.",
+  "last_checked": "2026-11-13",
+  "mfs": [
+    { "id": "bkash", "name_en": "bKash", "name_bn": "বিকাশ", "dial": "16247" },
+    { "id": "nagad", "name_en": "Nagad", "name_bn": "নগদ", "dial": "16167" },
+    { "id": "rocket", "name_en": "Rocket (DBBL)", "name_bn": "রকেট (ডাচ্-বাংলা)", "dial": "16216" }
+  ],
+  "emergency": [
+    { "id": "999", "name_en": "National Emergency (police)", "name_bn": "জাতীয় জরুরি সেবা (পুলিশ)", "dial": "999" },
+    { "id": "333", "name_en": "Govt info & help line", "name_bn": "সরকারি তথ্য ও সেবা", "dial": "333" },
+    { "id": "109", "name_en": "Violence against women & children", "name_bn": "নারী ও শিশু নির্যাতন প্রতিরোধ", "dial": "109" },
+    { "id": "bb", "name_en": "Bangladesh Bank complaints", "name_bn": "বাংলাদেশ ব্যাংক অভিযোগ", "dial": "16236" }
+  ]
+}

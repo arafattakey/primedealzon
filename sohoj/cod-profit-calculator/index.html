@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COD Profit Calculator for Facebook Sellers (Return Rate) | COD লাভ ক্যালকুলেটর – Sohoj Tools</title>
+<meta name="description" content="For F-commerce sellers: see your real profit after courier return charges and ad cost, and the highest return rate you can survive. ক্যাশ অন ডেলিভারিতে রিটার্ন ও বিজ্ঞাপন খরচ বাদে আসল লাভ।">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0a7d5a">
+<link rel="icon" href="../icon.svg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"COD return hole koto loss hoy? (সিওডি রিটার্ন হলে কত লস হয়?)","acceptedAnswer":{"@type":"Answer","text":"প্রতিটি রিটার্নে কুরিয়ারের রিটার্ন চার্জ আর ওই অর্ডারের বিজ্ঞাপন খরচ দুটোই লস হয়। Each return loses the courier's return charge plus the ad money spent to get that order."}},
+ {"@type":"Question","name":"Koto % return hole loss hobe? (কত % রিটার্ন হলে লস হবে?)","acceptedAnswer":{"@type":"Answer","text":"ব্রেক-ইভেন রিটার্ন রেট = প্রতি ডেলিভারিতে লাভ ÷ (প্রতি ডেলিভারিতে লাভ + প্রতি রিটার্নে লস)। Break-even return rate = profit per delivery ÷ (profit per delivery + loss per return)."}}
+]}
+</script>
+</head>
+<body data-root="../" data-tool="cod-profit-calculator">
+<main><div class="wrap">
+  <p class="crumbs"><a href="../"><span lang="en">Home</span><span lang="bn">হোম</span></a> › <span lang="en">Online sellers</span><span lang="bn">অনলাইন বিক্রেতা</span></p>
+  <h1><span lang="en">COD Profit Calculator</span><span lang="bn">COD লাভ ক্যালকুলেটর</span></h1>
+  <p class="lead"><span lang="en">Cash on delivery looks profitable until parcels come back. See your real profit and how many returns you can survive.</span><span lang="bn">পার্সেল ফেরত আসার আগ পর্যন্ত ক্যাশ অন ডেলিভারিতে লাভ মনে হয়। আসল লাভ আর কতগুলো রিটার্ন সামলাতে পারবেন দেখুন।</span></p>
+
+  <div class="card" id="form">
+    <div class="row">
+      <div><label for="sell"><span lang="en">Selling price ৳</span><span lang="bn">বিক্রয় মূল্য ৳</span></label><input type="text" inputmode="numeric" id="sell" value="1200"></div>
+      <div><label for="cost"><span lang="en">Product cost ৳</span><span lang="bn">পণ্যের ক্রয়মূল্য ৳</span></label><input type="text" inputmode="numeric" id="cost" value="650"></div>
+    </div>
+    <div class="row">
+      <div><label for="fwd"><span lang="en">Delivery cost you pay ৳</span><span lang="bn">আপনি যে ডেলিভারি খরচ দেন ৳</span> <span class="hint"><span lang="en">(0 if buyer pays)</span><span lang="bn">(ক্রেতা দিলে ০)</span></span></label><input type="text" inputmode="numeric" id="fwd" value="0"></div>
+      <div><label for="ret"><span lang="en">Return charge per parcel ৳</span><span lang="bn">প্রতি রিটার্নে চার্জ ৳</span> <span class="hint"><span lang="en">(all you pay the courier)</span><span lang="bn">(কুরিয়ারকে মোট যা দেন)</span></span></label><input type="text" inputmode="numeric" id="ret" value="130"></div>
+    </div>
+    <div class="row">
+      <div><label for="ad"><span lang="en">Ad cost per order ৳</span><span lang="bn">প্রতি অর্ডারে বিজ্ঞাপন খরচ ৳</span></label><input type="text" inputmode="numeric" id="ad" value="120"></div>
+      <div><label for="n"><span lang="en">Orders per month</span><span lang="bn">মাসে অর্ডার</span></label><input type="text" inputmode="numeric" id="n" value="300"></div>
+    </div>
+    <label for="r"><span lang="en">Return rate</span><span lang="bn">রিটার্নের হার</span>: <b id="rv"></b></label>
+    <input type="range" id="r" min="0" max="80" value="20" style="width:100%;accent-color:var(--brand)">
+
+    <div class="result">
+      <div><span lang="en">Net profit per month</span><span lang="bn">মাসে নিট লাভ</span></div>
+      <div class="big" id="net"></div>
+      <div class="stats">
+        <div class="stat"><b id="perDel"></b><span lang="en">profit per delivered order</span><span lang="bn">প্রতি ডেলিভারিতে লাভ</span></div>
+        <div class="stat"><b id="perRet"></b><span lang="en">loss per returned order</span><span lang="bn">প্রতি রিটার্নে লস</span></div>
+        <div class="stat"><b id="retLoss"></b><span lang="en">lost to returns this month</span><span lang="bn">এই মাসে রিটার্নে লস</span></div>
+        <div class="stat"><b id="be"></b><span lang="en">highest return rate before loss</span><span lang="bn">লস শুরুর আগে সর্বোচ্চ রিটার্ন</span></div>
+      </div>
+      <p class="note" id="risk"></p>
+      <div class="table-wrap"><table id="tbl"></table></div>
+    </div>
+    <button class="btn danger-ghost block" type="button" id="clear"><span lang="en">🗑 Clear my data</span><span lang="bn">🗑 সব তথ্য মুছুন</span></button>
+  </div>
+
+  <section class="card howto">
+    <h2><span lang="en">Ways to cut returns</span><span lang="bn">রিটার্ন কমানোর উপায়</span></h2>
+    <ul lang="en">
+      <li>Call or message every buyer to confirm the order before shipping.</li>
+      <li>Ask for the delivery charge in advance (bKash/Nagad) from new customers outside Dhaka. Serious buyers pay it.</li>
+      <li>Show real photos and exact sizes, so the product matches what people expect.</li>
+      <li>Keep a list of numbers that refused parcels before.</li>
+    </ul>
+    <ul lang="bn">
+      <li>পাঠানোর আগে প্রত্যেক ক্রেতাকে ফোন বা মেসেজ করে অর্ডার নিশ্চিত করুন।</li>
+      <li>ঢাকার বাইরের নতুন ক্রেতার কাছ থেকে ডেলিভারি চার্জ অগ্রিম (বিকাশ/নগদ) নিন। আসল ক্রেতা দেন।</li>
+      <li>আসল ছবি আর সঠিক মাপ দিন, যেন পণ্য প্রত্যাশামতো হয়।</li>
+      <li>যারা আগে পার্সেল ফেরত দিয়েছে, তাদের নম্বরের তালিকা রাখুন।</li>
+    </ul>
+  </section>
+</div></main>
+<script src="../js/common.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var IDS = ['sell', 'cost', 'fwd', 'ret', 'ad', 'n', 'r'];
+  var DEFAULTS = {}; IDS.forEach(function (id) { DEFAULTS[id] = $(id).value; });
+  var saved = FT.store.get('cod', null);
+  if (saved) IDS.forEach(function (id) { if (saved[id] != null) $(id).value = saved[id]; });
+
+  function tk(n) { return (n < 0 ? '−৳' : '৳') + FT.num(Math.abs(Math.round(n))); }
+  function pct(x) { return FT.num(x * 100, 0) + '%'; }
+
+  // Formulas from the blueprint (codMath):
+  //   M_del = P_sell − C_product − C_fwd − C_ad          profit per delivered order
+  //   L_ret = C_ret + C_ad                              loss per returned order
+  //   Net   = N × [(1 − r)·M_del − r·L_ret]
+  //   r_be  = M_del / (M_del + L_ret)                   break-even return rate
+  function net(M, L, N, r) { return N * ((1 - r) * M - r * L); }
+
+  function calc() {
+    var v = {}; IDS.forEach(function (id) { v[id] = FT.parse($(id).value) || 0; });
+    var r = v.r / 100, M = v.sell - v.cost - v.fwd - v.ad, L = v.ret + v.ad, N = v.n;
+    $('rv').textContent = pct(r);
+    var total = net(M, L, N, r);
+    $('net').textContent = tk(total);
+    $('net').className = 'big ' + (total < 0 ? 'risk-bad' : '');
+    $('perDel').textContent = tk(M);
+    $('perRet').textContent = tk(L);
+    $('retLoss').textContent = tk(N * r * L);
+    var be = M > 0 ? M / (M + L) : 0;
+    $('be').textContent = M > 0 ? pct(be) : '—';
+
+    var risk = $('risk');
+    if (M <= 0) { risk.className = 'note'; risk.textContent = FT.t('You lose money even on delivered orders. Raise the price or cut product/ad cost.', 'ডেলিভারি হওয়া অর্ডারেও লস হচ্ছে। দাম বাড়ান বা পণ্য/বিজ্ঞাপন খরচ কমান।'); }
+    else if (r >= be) { risk.className = 'note'; risk.textContent = FT.t('⛔ At this return rate you are losing money.', '⛔ এই রিটার্ন হারে আপনি লসে আছেন।'); }
+    else if (r >= be * 0.7) { risk.className = 'note'; risk.textContent = FT.t('⚠️ Close to the danger line. A few more returns and you lose money.', '⚠️ বিপদসীমার কাছাকাছি। আর কয়েকটি রিটার্নেই লস।'); }
+    else { risk.className = 'result'; risk.style.margin = '12px 0 0'; risk.textContent = FT.t('✓ Healthy. You can survive up to ' + pct(be) + ' returns.', '✓ ভালো অবস্থা। ' + pct(be) + ' পর্যন্ত রিটার্ন সামলাতে পারবেন।'); }
+
+    var rows = [0, 10, 20, 30, 40, 50].map(function (p) {
+      var x = net(M, L, N, p / 100);
+      return '<tr' + (Math.abs(p - v.r) < 5 ? ' style="font-weight:700"' : '') + '><td>' + FT.num(p) + '%</td><td class="' + (x < 0 ? 'risk-bad' : '') + '">' + tk(x) + '</td></tr>';
+    });
+    $('tbl').innerHTML = '<thead><tr><th>' + FT.t('Return rate', 'রিটার্ন হার') + '</th><th>' + FT.t('Net profit / month', 'মাসিক নিট লাভ') + '</th></tr></thead><tbody>' + rows.join('') + '</tbody>';
+
+    var s = {}; IDS.forEach(function (id) { s[id] = $(id).value; }); FT.store.set('cod', s);
+  }
+  $('form').addEventListener('input', calc);
+  $('clear').addEventListener('click', function () { FT.store.del('cod'); IDS.forEach(function (id) { $(id).value = DEFAULTS[id]; }); calc(); FT.store.del('cod'); });
+  document.addEventListener('langchange', calc);
+  calc();
+})();
+</script>
+</body>
+</html>
