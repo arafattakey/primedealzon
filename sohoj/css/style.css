@@ -87,13 +87,16 @@ h2 { font-size: 20px; margin: 28px 0 10px; }
 /* Forms */
 label { display: block; font-weight: 600; margin: 12px 0 6px; font-size: 15px; }
 .hint { font-weight: 400; color: var(--muted); font-size: 14px; }
-input[type="number"], input[type="date"], input[type="text"], input[type="search"], select {
+input[type="number"], input[type="date"], input[type="time"], input[type="text"], input[type="tel"], input[type="url"], input[type="email"], input[type="search"], select {
+  max-width: 100%; min-width: 0;
   width: 100%; min-height: 46px; padding: 10px 12px; font: inherit; color: var(--text);
   background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
 }
 input:focus, select:focus { outline: 2px solid var(--brand); outline-offset: 1px; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.row > *, .row3 > * { min-width: 0; }
+input[type="date"], input[type="time"] { -webkit-appearance: none; appearance: none; }
 .seg { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
 .seg label { margin: 0; font-weight: 500; display: flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; background: var(--bg); }
 .seg input { accent-color: var(--brand); }
@@ -151,7 +154,9 @@ th { background: var(--bg); font-weight: 700; }
 
 /* ---- Citizen & seller tools ---- */
 textarea.field { width: 100%; min-height: 90px; padding: 10px 12px; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; resize: vertical; }
-.dialbar { position: sticky; top: 56px; z-index: 8; background: var(--bg); padding: 8px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.dialbar { position: sticky; top: 56px; z-index: 8; background: var(--bg); padding: 8px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (min-width: 700px) { .dialbar { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 400px) { .row.stack-sm { grid-template-columns: 1fr; } .dial { min-height: 50px; padding: 6px 10px; } .dial b { font-size: 18px; } }
 .dial { display: flex; flex-direction: column; justify-content: center; min-height: 56px; padding: 8px 12px; border-radius: 10px; background: var(--bad); color: #fff; text-decoration: none; font-weight: 700; line-height: 1.25; }
 .dial b { font-size: 20px; }
 .dial small { font-weight: 500; opacity: .95; font-size: 13px; }

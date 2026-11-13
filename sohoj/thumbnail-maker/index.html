@@ -125,7 +125,7 @@
   var themesEl = $('themes');
   THEMES.forEach(function (t) {
     var b = document.createElement('button');
-    b.type = 'button'; b.className = 'swatch'; b.textContent = 'অক্ষর Aa';
+    b.type = 'button'; b.className = 'swatch'; b.textContent = 'অক্ষর Aa'; b.setAttribute('aria-label', 'Style ' + t.name);
     b.style.background = t.useBox ? t.box : 'linear-gradient(135deg,' + t.g[0] + ',' + t.g[1] + ')';
     b.style.color = t.text;
     b.style.textShadow = '0 0 2px ' + t.stroke + ',0 0 2px ' + t.stroke;
