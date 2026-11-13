@@ -1,6 +1,0 @@
-{
-  "name": "sohoj-scam-api",
-  "private": true,
-  "type": "module",
-  "scripts": { "test": "node --test test/api.test.mjs", "deploy": "wrangler deploy" }
-}
