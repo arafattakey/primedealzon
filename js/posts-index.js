@@ -22,6 +22,22 @@ const POSTS = [
   ]
  },
  {
+  "slug": "how-much-coffee-for-french-press",
+  "type": "howto",
+  "cat": "coffee",
+  "title": "How Much Coffee for French Press: Grams and Scoops by Press Size",
+  "excerpt": "How much coffee for French press, by press size: grams, tablespoons and scoops for 12, 17, 34 and 51 oz presses, plus mild, standard and strong ratios.",
+  "date": "2026-11-14",
+  "read": "7 min read",
+  "products": [
+   "B09B4CB7C1",
+   "B000BPC5LG",
+   "B07CSKGLMM",
+   "B0FDQJFRYS",
+   "B00005LM0R"
+  ]
+ },
+ {
   "slug": "french-press-plunger-hard-to-push",
   "type": "howto",
   "cat": "coffee",
