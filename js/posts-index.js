@@ -184,6 +184,24 @@ const POSTS = [
   ]
  },
  {
+  "slug": "best-burr-coffee-grinders",
+  "type": "guide",
+  "cat": "coffee",
+  "title": "Best Burr Coffee Grinder (2026): 5 Picks and What Wears Out First",
+  "excerpt": "The best burr coffee grinder for most homes is the OXO Brew. Five picks by budget and brew method, plus what owners say wears out first and how to avoid it.",
+  "date": "2026-11-05",
+  "updated": "2026-11-15",
+  "read": "9 min read",
+  "products": [
+   "B07CSKGLMM",
+   "B007F183LK",
+   "B0BW272XCV",
+   "B00018RRRK",
+   "B0CC4ZNBKL",
+   "B0014J7FUY"
+  ]
+ },
+ {
   "slug": "pour-over-coffee-starter-kit",
   "type": "guide",
   "cat": "coffee",
@@ -197,20 +215,6 @@ const POSTS = [
    "B073S4XTKJ",
    "B07T1CH2HH",
    "B0D4617CLP"
-  ]
- },
- {
-  "slug": "best-burr-coffee-grinders",
-  "type": "guide",
-  "cat": "coffee",
-  "title": "The Best Burr Coffee Grinders for Home (2026)",
-  "excerpt": "Fresh, even grounds are the cheapest upgrade in coffee. Three burr grinders for three budgets, and how to choose.",
-  "date": "2026-11-05",
-  "read": "6 min read",
-  "products": [
-   "B07CSKGLMM",
-   "B007F183LK",
-   "B00018RRRK"
   ]
  },
  {

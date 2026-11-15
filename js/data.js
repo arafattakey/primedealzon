@@ -41,6 +41,8 @@ const PRODUCTS = [
   { asin: "B07CSKGLMM", cat: "coffee", brand: "OXO", title: "OXO Brew Conical Burr Coffee Grinder", blurb: "40 mm stainless conical burrs, 15 settings plus micro-steps, and one-touch grinding that remembers your last setting.", badge: "Editor's pick", featured: true },
   { asin: "B007F183LK", cat: "coffee", brand: "Baratza", title: "Baratza Encore Conical Burr Coffee Grinder", blurb: "Award-winning entry-level grinder from a brand coffee pros trust: 40 settings, 40 mm conical burrs and replaceable parts.", badge: "Coffee nerd pick" },
   { asin: "B00018RRRK", cat: "coffee", brand: "Cuisinart", title: "Cuisinart Supreme Grind Burr Grinder (DBM-8)", blurb: "Flat burrs and 18 grind levels for much less money. Grinds enough for up to 32 cups at once.", badge: "Budget pick" },
+  { asin: "B0BW272XCV", cat: "coffee", brand: "Baratza", title: "Baratza Encore ESP Coffee Grinder", blurb: "The Encore's body with burrs and a dial built for espresso, plus a wide range for drip and French press.", badge: "Best for espresso" },
+  { asin: "B0CC4ZNBKL", cat: "coffee", brand: "TIMEMORE", title: "TIMEMORE Chestnut C3S Manual Coffee Grinder", blurb: "A metal-bodied hand grinder with stainless conical burrs. Quiet, portable and needs no outlet.", badge: "Best hand grinder" },
 
   // Coffee: French press
   { asin: "B0FDQJFRYS", cat: "coffee", brand: "Veken", title: "Veken 34 oz French Press", blurb: "Thick borosilicate glass, a 4-layer steel filter and no plastic touching the coffee.", badge: "Best overall" },
