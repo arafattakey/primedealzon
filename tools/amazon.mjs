@@ -84,6 +84,12 @@ async function getItems(token, itemIds) {
   const body = await res.json().catch(() => ({}));
   if (!res.ok) {
     const msg = body.message || body.errors?.[0]?.message || JSON.stringify(body).slice(0, 300);
+    // Login worked but Amazon pauses data access until the account has enough recent sales.
+    // Not an error on our side: keep the current data and try again on the next scheduled run.
+    if (res.status === 403 && /eligib/i.test(msg)) {
+      console.log(`::warning title=Amazon API not available yet::${msg} Credentials are valid; the site keeps working without live data and this job will retry automatically.`);
+      process.exit(0);
+    }
     die(`getItems failed (HTTP ${res.status}): ${msg}` +
       (res.status === 403 ? '\nThis usually means API access is paused until the account has enough recent qualifying sales.' : ''));
   }
