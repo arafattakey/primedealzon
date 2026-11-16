@@ -81,6 +81,7 @@ const PRODUCTS = [
   { asin: "B07C36HVWK", cat: "coffee", brand: "Takeya", title: "Takeya Cold Brew Coffee Maker, 2 Quart", blurb: "Airtight Tritan pitcher with a fine-mesh filter that fits in most fridge doors.", badge: "Iced coffee pick" },
   { asin: "B09B4CB7C1", cat: "coffee", brand: "Greater Goods", title: "Greater Goods Coffee Scale with Timer", blurb: "0.1 g precision, a built-in brew timer and a removable silicone cover.", badge: "Upgrade pick" },
   { asin: "B0CYRDDQX7", cat: "coffee", brand: "Contigo", title: "Contigo West Loop 3.0 Insulated Travel Mug, 16 oz", blurb: "Autoseal lid that locks between sips. Keeps coffee hot for hours and fits most cupholders.", badge: "Commuter pick" },
+  { asin: "B07NQRM6ML", cat: "coffee", brand: "Ember", title: "Ember Temperature Control Smart Mug 2, 10 oz", blurb: "A heated ceramic-coated mug that holds coffee at a set temperature, with about 80 minutes off its charging coaster.", badge: "Splurge gift" },
   { asin: "B0CLYV3B94", cat: "coffee", brand: "Zulay Kitchen", title: "Zulay Kitchen Handheld Milk Frother", blurb: "Battery-powered wand for foamy lattes, matcha and hot chocolate in seconds.", badge: "Stocking stuffer" },
 
   // Home & Kitchen

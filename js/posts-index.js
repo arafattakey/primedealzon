@@ -22,6 +22,24 @@ const POSTS = [
   ]
  },
  {
+  "slug": "best-coffee-gifts-for-coffee-lovers",
+  "type": "guide",
+  "cat": "coffee",
+  "title": "Gifts for Coffee Lovers (2026): 7 Picks Matched to How They Brew",
+  "excerpt": "Gifts for coffee lovers sorted by how they brew: grinders, a gooseneck kettle, a heated mug and an espresso machine, with what owners say wears out first.",
+  "date": "2026-11-16",
+  "read": "9 min read",
+  "products": [
+   "B07CSKGLMM",
+   "B07T1CH2HH",
+   "B0CC4ZNBKL",
+   "B07NQRM6ML",
+   "B0047BIWSK",
+   "B0BW272XCV",
+   "B0B1JPPG2L"
+  ]
+ },
+ {
   "slug": "how-much-coffee-for-french-press",
   "type": "howto",
   "cat": "coffee",
