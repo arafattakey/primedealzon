@@ -1,0 +1,67 @@
+# Daily refresh of product photos, prices and ratings from the Amazon Creators API.
+# Needs repository secrets AMAZON_CREDENTIAL_ID and AMAZON_CREDENTIAL_SECRET
+# (Settings > Secrets and variables > Actions). Optional secret AMAZON_CREDENTIAL_VERSION (default 3.1).
+# Run it by hand from the Actions tab: choose "test" to only check the credentials.
+name: Refresh Amazon product data
+
+on:
+  schedule:
+    - cron: "17 */12 * * *" # twice a day, so prices never get near the 24-hour limit
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "test = check credentials only, update = fetch and publish"
+        type: choice
+        options: [test, update]
+        default: test
+
+permissions:
+  contents: write
+
+concurrency:
+  group: amazon-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      AMAZON_CREDENTIAL_ID: ${{ secrets.AMAZON_CREDENTIAL_ID }}
+      AMAZON_CREDENTIAL_SECRET: ${{ secrets.AMAZON_CREDENTIAL_SECRET }}
+      AMAZON_CREDENTIAL_VERSION: ${{ secrets.AMAZON_CREDENTIAL_VERSION }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check credentials only
+        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'test'
+        run: node tools/amazon.mjs --test
+
+      - name: Fetch product data and rebuild pages
+        if: github.event_name == 'schedule' || inputs.mode == 'update'
+        run: |
+          node tools/amazon.mjs
+          node tools/build.mjs
+
+      - name: Publish
+        if: github.event_name == 'schedule' || inputs.mode == 'update'
+        run: |
+          git config user.name "primedealzon-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          git commit -m "Refresh Amazon product data"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            # Another commit landed first: rebuild on top of it and try again.
+            git rebase --abort 2>/dev/null || true
+            git reset --hard origin/main
+            node tools/amazon.mjs && node tools/build.mjs && git add -A && git commit -m "Refresh Amazon product data" || exit 0
+            sleep $((i * 5))
+          done
+          exit 1

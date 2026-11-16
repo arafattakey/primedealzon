@@ -313,3 +313,18 @@ p { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* ---------- Live Amazon data (photos, price, rating) ---------- */
+.has-photo { background: #fff; }
+.product-art.has-photo { padding: 18px; border-bottom: 1px solid var(--line); }
+.amz-img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+.inline-art.has-photo, .tp-art.has-photo { padding: 6px; border: 1px solid var(--line); }
+.amz-live { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: .95rem; }
+.amz-price { font-weight: 800; font-size: 1.2rem; color: var(--ink); letter-spacing: -.01em; }
+.amz-was { color: var(--ink-3); font-size: .9rem; }
+.amz-save { background: #e7f6ec; color: #17692f; font-weight: 700; font-size: .75rem; padding: 2px 7px; border-radius: 999px; }
+.amz-rating { color: #b45309; font-weight: 700; font-size: .9rem; }
+.amz-rating span { color: var(--ink-3); font-weight: 500; }
+.amz-asof { flex-basis: 100%; color: var(--ink-3); font-size: .72rem; }
+.amz-asof a { color: inherit; }
+.inline-body .amz-live { margin-top: 4px; }

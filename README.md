@@ -72,3 +72,11 @@ https://primedealzon.com/ (GitHub Pages, custom domain since 2026-11-09)
 - `gifts/index.html` (2026-11-13) is the gift hub: every post whose slug contains `gift` or `stocking-stuffer` (`isGiftPost` in `js/site.js`). The "Gifts" header link shows on pages built up to `SITE.giftNavUntil` in `js/data.js`.
 - Guides get a "top picks" box (first 3 products), a table of contents (3+ headings) and an editors box automatically.
 - `node tools/images.mjs site` renders the site-wide social image and `favicon.ico` / `apple-touch-icon.png`.
+
+## Live Amazon data (photos, prices, ratings)
+`tools/amazon.mjs` pulls each product's photo, price, rating and availability from the **Amazon Creators API** into `js/amazon-data.js`. Product cards show them automatically and fall back to the category drawings when there's no data.
+
+- **Runs automatically** twice a day via `.github/workflows/amazon-refresh.yml`, which rebuilds the pages and publishes them.
+- **Credentials** are GitHub repository secrets (Settings → Secrets and variables → Actions): `AMAZON_CREDENTIAL_ID`, `AMAZON_CREDENTIAL_SECRET`, and optionally `AMAZON_CREDENTIAL_VERSION` (default `3.1`). Never commit them.
+- **Test the credentials** in Actions → "Refresh Amazon product data" → Run workflow → mode `test`.
+- **Amazon rules:** prices and ratings are shown with an "as of" time and hidden automatically if the data is more than 24 hours old. Image URLs are used as Amazon returns them, never downloaded.

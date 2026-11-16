@@ -44,6 +44,31 @@ const catById = id => CATEGORIES.find(c => c.id === id);
 const productByAsin = asin => PRODUCTS.find(p => p.asin === asin);
 const amazonUrl = asin => `https://www.amazon.com/dp/${asin}?tag=${SITE.affiliateTag}`;
 const param = k => new URLSearchParams(location.search).get(k);
+
+/* ---------- Live Amazon data ----------
+ * js/amazon-data.js is refreshed daily from the Amazon Creators API (tools/amazon.mjs).
+ * Amazon's rules: prices and ratings must come from the API and be under 24 hours old,
+ * with the time shown. Older data hides prices/ratings (also re-checked in the browser). */
+const AMZ = typeof AMAZON !== "undefined" && AMAZON && AMAZON.items ? AMAZON : { items: {} };
+const amzFresh = () => !!AMZ.fetchedAt && Date.now() - Date.parse(AMZ.fetchedAt) < 24 * 3600e3;
+const amz = asin => AMZ.items[asin] || {};
+const asOf = () => new Date(AMZ.fetchedAt).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "UTC", timeZoneName: "short" });
+// Product photo from Amazon if we have one, else our category drawing.
+const artInner = (p, cls = "art-ico") => {
+  const d = amz(p.asin);
+  return d.image
+    ? `<img class="amz-img" src="${esc(d.image)}" alt="${esc(p.title)}" loading="lazy" decoding="async"${d.w ? ` width="${d.w}" height="${d.h}"` : ""} />`
+    : icon(artIcon(p.title, p.cat), cls);
+};
+const hasPhoto = p => !!amz(p.asin).image;
+// Live price + rating row, with the "as of" time Amazon requires.
+function priceHtml(p) {
+  const d = amz(p.asin);
+  if (!amzFresh() || !(d.price || d.rating)) return "";
+  const rating = d.rating ? `<span class="amz-rating" title="Amazon customer rating">★ ${Number(d.rating).toFixed(1)}${d.reviews ? ` <span>(${Number(d.reviews).toLocaleString("en-US")})</span>` : ""}</span>` : "";
+  const price = d.price ? `<span class="amz-price">${esc(d.price)}</span>${d.was ? `<s class="amz-was">${esc(d.was)}</s><span class="amz-save">−${Math.round(d.save)}%</span>` : ""}` : "";
+  return `<div class="amz-live">${price}${rating}<small class="amz-asof">${d.price ? "Price" : "Rating"} as of ${asOf()} · <a href="${ROOT}disclaimer.html#prices">Details</a></small></div>`;
+}
 // Pages in subfolders (e.g. guides/<slug>/) set data-root="../../" so shared links still resolve.
 // The build script runs this file without a DOM; its output lives two folders deep.
 const ROOT = typeof document === "undefined" ? "../../" : (document.body.dataset.root || "");
@@ -131,14 +156,15 @@ function productCard(p) {
   const c = catById(p.cat);
   return `
     <article class="card product" data-cat="${p.cat}">
-      <div class="product-art art-${p.cat} kind-${kindOf(p.title) || "none"}">
-        ${icon(artIcon(p.title, p.cat), "art-ico")}
+      <div class="product-art art-${p.cat} kind-${kindOf(p.title) || "none"}${hasPhoto(p) ? " has-photo" : ""}">
+        ${artInner(p)}
         ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ""}
       </div>
       <div class="product-body">
         <div class="product-meta"><span>${esc(p.brand)}</span><span>·</span><a href="${catUrl(c.id)}">${c.name}</a></div>
         <h3 class="product-title">${esc(p.title)}</h3>
         <p class="product-blurb">${esc(p.blurb)}</p>
+        ${priceHtml(p)}
         <a class="btn btn-amazon" href="${amazonUrl(p.asin)}" target="_blank" rel="nofollow sponsored noopener">
           Check price on Amazon ${icon("arrow")}
         </a>
@@ -150,11 +176,12 @@ function productInline(p) {
   const c = catById(p.cat);
   return `
     <aside class="inline-product">
-      <div class="inline-art art-${c.id} kind-${kindOf(p.title) || "none"}">${icon(artIcon(p.title, p.cat), "art-ico")}</div>
+      <div class="inline-art art-${c.id} kind-${kindOf(p.title) || "none"}${hasPhoto(p) ? " has-photo" : ""}">${artInner(p)}</div>
       <div class="inline-body">
         <span class="inline-brand">${esc(p.brand)}${p.badge ? ` · ${esc(p.badge)}` : ""}</span>
         <strong>${esc(p.title)}</strong>
         <span class="inline-blurb">${esc(p.blurb)}</span>
+        ${priceHtml(p)}
       </div>
       <a class="btn btn-amazon btn-sm" href="${amazonUrl(p.asin)}" target="_blank" rel="nofollow sponsored noopener">Check price on Amazon</a>
     </aside>`;
@@ -366,7 +393,7 @@ function guideHtml(post) {
           <p class="tp-title">${t.id === "compare" ? "The contenders" : "Our top picks"}</p>
           <ol>${picks.map((p, i) => `
             <li>
-              <span class="tp-art art-${p.cat} kind-${kindOf(p.title) || "none"}">${icon(artIcon(p.title, p.cat))}</span>
+              <span class="tp-art art-${p.cat} kind-${kindOf(p.title) || "none"}${hasPhoto(p) ? " has-photo" : ""}">${artInner(p, "")}</span>
               <span class="tp-body"><span class="tp-label">${esc(p.badge || (i === 0 ? "Top pick" : "Also great"))}</span><strong>${esc(p.title)}</strong></span>
               <a class="btn btn-amazon btn-sm" href="${amazonUrl(p.asin)}" target="_blank" rel="nofollow sponsored noopener">Check price</a>
             </li>`).join("")}
@@ -406,6 +433,8 @@ ${topPicks}${toc}
 }
 
 if (typeof document !== "undefined") {
+  // Pages are pre-built; if the daily refresh has not run for 24h, drop prices/ratings rather than show stale ones.
+  if (!amzFresh()) document.querySelectorAll(".amz-live").forEach(el => el.remove());
   renderHeader();
   renderFooter();
   const pageFn = pages[document.body.dataset.page];

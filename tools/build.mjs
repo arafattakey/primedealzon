@@ -100,6 +100,8 @@ POSTS.sort((a, b) => (b.priority || 0) - (a.priority || 0) || b.date.localeCompa
 if (checkOnly) { console.log(`OK: ${POSTS.length} posts, ${PRODUCTS.length} products valid.`); process.exit(0); }
 
 // 3. Render with the same code the browser uses
+const amazonData = join(root, 'js/amazon-data.js');
+if (existsSync(amazonData)) vm.runInContext(readFileSync(amazonData, 'utf8'), ctx, { filename: 'js/amazon-data.js' });
 vm.runInContext(`var POSTS = ${JSON.stringify(POSTS)};`, ctx);
 vm.runInContext(readFileSync(join(root, 'js/site.js'), 'utf8'), ctx, { filename: 'js/site.js' });
 const { guideHtml, hubHtml, giftHubHtml, isGiftPost, headerHtml, footerHtml, esc, catById, postType } =
@@ -160,6 +162,7 @@ ${json(ld)}
   <footer class="site-footer" id="site-footer">${footerHtml(r)}</footer>
   <script src="${r}js/data.js"></script>
   <script src="${r}js/posts-index.js"></script>
+  <script src="${r}js/amazon-data.js"></script>
   <script src="${r}js/site.js"></script>
 </body>
 </html>
