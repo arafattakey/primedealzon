@@ -22,6 +22,24 @@ const POSTS = [
   ]
  },
  {
+  "slug": "coffee-gifts-for-dad",
+  "type": "guide",
+  "cat": "coffee",
+  "title": "Coffee Gifts for Dad (2026): 7 Picks Matched to His Morning Routine",
+  "excerpt": "Coffee gifts for dad matched to how his mornings actually go: a better drip machine, a spill-proof travel mug, a moka pot and more, plus what wears out first.",
+  "date": "2026-11-17",
+  "read": "9 min read",
+  "products": [
+   "B07S98411N",
+   "B0CYRDDQX7",
+   "B0000AN3QI",
+   "B0047BIWSK",
+   "B07CSKGLMM",
+   "B07NQRM6ML",
+   "B07C36HVWK"
+  ]
+ },
+ {
   "slug": "best-coffee-gifts-for-coffee-lovers",
   "type": "guide",
   "cat": "coffee",
